@@ -9,75 +9,89 @@ import {
 	useEdgesState,
 	useNodesState,
 } from '@xyflow/react';
+// eslint-disable-next-line import/no-extraneous-dependencies, import/no-named-as-default
+import uuid4 from 'uuid4';
 
 import type { Edge, Node, OnConnect } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 
-import { edgeTypes, initialEdges } from './edges';
-import { initialNodes, nodeTypes } from './nodes';
-
-import type { AppNode } from './nodes/types';
-
-// Define a custom type for node data.
-interface CustomNodeData extends Record<string, unknown> {
-	label: string;
+export interface AvantosNodeData extends Record<string, unknown> {
+	approval_required: boolean;
+	approval_roles: string[];
+	component_id: string;
+	component_key: string;
+	component_type: AvantosNodeType;
+	id: string;
+	input_mapping: Record<string, object>;
+	name: string;
+	permitted_roles: string[] | null;
+	prerequisites: string[] | null;
+	sla_duration?: {
+		number: number;
+		unit: 'minutes' | 'hours' | 'days';
+	};
 }
 
-// Extend React Flow types for strict typing.
-export interface CustomNode extends Node<CustomNodeData> {}
-export interface CustomEdge extends Edge {}
+export type AvantosNodeType = 'form' | 'branch' | 'trigger' | 'configuration';
+
+export type AvantosNode = Node<AvantosNodeData, AvantosNodeType>;
+
+export interface AvantosEdge extends Edge {
+	source: string;
+	target: string;
+}
 
 export default function App() {
-	const [nodes, _, onNodesChange] = useNodesState(initialNodes);
-	const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-	const onConnect: OnConnect = useCallback(
-		connection => setEdges(edgesValue => addEdge(connection, edgesValue)),
-		[setEdges],
-	);
+	// const [nodes, _, onNodesChange] = useNodesState(initialNodes);
+	// const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-	const fetchFlowData = useCallback(
-		async () => {
-			try {
-				const response = await fetch(
-					'http://localhost:3000/api/v1/1/actions/blueprints/bp_01jk766tckfwx84xjcxazggzyc/graph',
-				);
-				if (!response.ok) {
-					throw new Error(`HTTP error: ${response.status}`);
-				}
-				const data = await response.json();
+	const [nodesB, setNodesB, onNodesBChange] = useNodesState<AvantosNode>([]);
+	const [edgesB, setEdgesB, onEdgesBChange] = useEdgesState<AvantosEdge>([]);
 
-				// Validate and transform API response into React Flow format.
-				const transformedNodes: AppNode[] = data.nodes.map(
-					(node: any) => ({
-						id: node.id,
-						data: { label: node.label },
-						position: { x: node.x, y: node.y },
-						type: node.type || 'default',
-					}),
-				);
+	// const onConnect: OnConnect = useCallback(
+	// 	connection => setEdges(edgesValue => addEdge(connection, edgesValue)),
+	// 	[setEdges],
+	// );
 
-				const transformedEdges: CustomEdge[] = data.edges.map(
-					(edge: any) => ({
-						id: edge.id,
-						source: edge.source,
-						target: edge.target,
-						type: edge.type || 'default',
-					}),
-				);
-
-				// Update state with the transformed data.
-				// setNodesB(transformedNodes);
-				// setEdgesB(transformedEdges);
-			} catch (error) {
-				console.error('Error fetching flow data:', error);
+	const fetchFlowData = useCallback(async () => {
+		try {
+			const response = await fetch(
+				'http://localhost:3000/api/v1/1/actions/blueprints/bp_01jk766tckfwx84xjcxazggzyc/graph',
+			);
+			if (!response.ok) {
+				throw new Error(`HTTP error: ${response.status}`);
 			}
-		},
-		[
-			// setNodesB,
-			//  setEdgesB
-		],
-	);
+			const data: {
+				nodes: AvantosNode[];
+				edges: AvantosEdge[];
+			} = await response.json();
+
+			// Validate and transform API response into React Flow format.
+			const transformedNodes = data.nodes.map<AvantosNode>(
+				(node: AvantosNode) => ({
+					id: node.id,
+					data: node.data,
+					position: node.position,
+					type: node.type,
+				}),
+			);
+
+			const transformedEdges = data.edges.map<AvantosEdge>(
+				(edge: AvantosEdge) => ({
+					id: uuid4(),
+					source: edge.source,
+					target: edge.target,
+				}),
+			);
+
+			// Update state with the transformed data.
+			setNodesB(transformedNodes);
+			setEdgesB(transformedEdges);
+		} catch (error) {
+			console.error('Error fetching flow data:', error);
+		}
+	}, [setNodesB, setEdgesB]);
 
 	// Trigger data fetching on component mount.
 	useEffect(() => {
@@ -90,15 +104,20 @@ export default function App() {
 		});
 	}, [fetchFlowData]);
 
+	const onConnectB: OnConnect = useCallback(
+		connection => setEdgesB(edgesValue => addEdge(connection, edgesValue)),
+		[setEdgesB],
+	);
+
 	return (
 		<ReactFlow
-			nodes={nodes}
-			nodeTypes={nodeTypes}
-			onNodesChange={onNodesChange}
-			edges={edges}
-			edgeTypes={edgeTypes}
-			onEdgesChange={onEdgesChange}
-			onConnect={onConnect}
+			nodes={nodesB}
+			// nodeTypes={nodeTypes}
+			onNodesChange={onNodesBChange}
+			edges={edgesB}
+			// edgeTypes={edgeTypes}
+			onEdgesChange={onEdgesBChange}
+			onConnect={onConnectB}
 			fitView
 		>
 			<Background />
@@ -106,9 +125,6 @@ export default function App() {
 			<Controls />
 		</ReactFlow>
 	);
-
-	// const [nodesB, setNodesB, onNodesBChange] = useNodesState<AppNode>([]);
-	// const [edgesB, setEdgesB, onEdgesBChange] = useEdgesState<CustomEdge>([]);
 
 	// const onConnect: OnConnect = useCallback(
 	// 	connection => setEdgesB(edgesValue => addEdge(connection, edgesValue)),

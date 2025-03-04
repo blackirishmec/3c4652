@@ -9,7 +9,7 @@
 			"request": "attach",
 			"name": "Launch Chrome against localhost",
 			"url": "http://localhost:5173",
-			"webRoot": "${workspaceFolder}/syndichat-frontend",
+			"webRoot": "${workspaceFolder}/frontend-challenge",
 			"port": 9222
 		}
 	]

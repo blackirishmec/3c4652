@@ -25,6 +25,14 @@ module.exports = {
 		'*.js.map',
 	],
 	plugins: ['react-refresh', 'import'],
+	overrides: [
+		{
+			files: ['*.ts', '*.tsx', '*.d.ts'],
+			parserOptions: {
+				project: './tsconfig.json',
+			},
+		},
+	],
 	rules: {
 		'no-console': 'warn',
 		'no-debugger': 'warn',
