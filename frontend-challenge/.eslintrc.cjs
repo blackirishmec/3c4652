@@ -116,12 +116,7 @@ module.exports = {
 		],
 		'import/extensions': ['error', 'never'],
 		'import/no-default-export': 'off',
-		'import/no-extraneous-dependencies': [
-			'error',
-			{
-				packageDir: __dirname,
-			},
-		],
+		'import/no-extraneous-dependencies': ['error'],
 
 		'react-hooks/rules-of-hooks': 'error',
 		'react-hooks/exhaustive-deps': 'warn',
@@ -130,5 +125,16 @@ module.exports = {
 			'warn',
 			{ allowConstantExport: true },
 		],
+	},
+	settings: {
+		ecmaVersion: 'latest',
+		react: {
+			version: 'detect',
+		},
+		'import/resolver': {
+			node: {
+				extensions: ['.js', '.jsx', '.ts', '.tsx'],
+			},
+		},
 	},
 };
