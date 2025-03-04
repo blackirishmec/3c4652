@@ -8,7 +8,7 @@ import {
 	useNodesState,
 } from '@xyflow/react';
 import { useCallback, useEffect } from 'react';
-import uuid4 from 'uuid4';
+import { default as uuid4 } from 'uuid4';
 
 import '@xyflow/react/dist/style.css';
 
