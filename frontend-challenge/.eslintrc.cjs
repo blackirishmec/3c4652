@@ -70,6 +70,8 @@ module.exports = {
 		'@typescript-eslint/ban-ts-comment': 'warn',
 		'@typescript-eslint/ban-types': 'off',
 
+		'import/no-cycle': ['error', { maxDepth: 3 }],
+		'import/no-unresolved': 'error',
 		'import/order': [
 			'error',
 			{
@@ -174,6 +176,17 @@ module.exports = {
 				named: true,
 			},
 		],
+		'import/extensions': ['error', 'never'],
+		'import/no-default-export': 'off',
+		'import/no-extraneous-dependencies': [
+			'error',
+			{
+				packageDir: __dirname,
+			},
+		],
+
+		'react-hooks/rules-of-hooks': 'error',
+		'react-hooks/exhaustive-deps': 'warn',
 
 		'react-refresh/only-export-components': [
 			'warn',
