@@ -20,7 +20,14 @@ export function FormNode({ data, selected, dragging }: NodeProps<AvantosNode>) {
 			<Handle
 				type="target"
 				position={Position.Left}
-				style={{ background: '#555' }}
+				style={{
+					height: 2,
+					width: 2,
+					background: 'white',
+					borderWidth: 2,
+					borderColor: '#818186',
+					borderStyle: 'solid',
+				}}
 			/>
 			{/* A handle for outgoing connections */}
 			<Handle
