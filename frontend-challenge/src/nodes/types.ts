@@ -1,7 +1,4 @@
-import type { BuiltInNode, Node } from '@xyflow/react';
-
-export type PositionLoggerNode = Node<{ label: string }, 'position-logger'>;
-export type AppNode = BuiltInNode | PositionLoggerNode;
+import type { Node } from '@xyflow/react';
 
 export interface AvantosNodeData extends Record<string, unknown> {
 	approval_required: boolean;

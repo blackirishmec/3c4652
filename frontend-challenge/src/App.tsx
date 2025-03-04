@@ -1,5 +1,3 @@
-import { useCallback, useEffect } from 'react';
-
 import {
 	addEdge,
 	Background,
@@ -9,7 +7,7 @@ import {
 	useEdgesState,
 	useNodesState,
 } from '@xyflow/react';
-// eslint-disable-next-line import/no-extraneous-dependencies, import/no-named-as-default
+import { useCallback, useEffect } from 'react';
 import uuid4 from 'uuid4';
 
 import '@xyflow/react/dist/style.css';
@@ -26,8 +24,8 @@ export interface AvantosEdge extends Edge {
 }
 
 export default function App() {
-	const [nodesB, setNodesB, onNodesBChange] = useNodesState<AvantosNode>([]);
-	const [edgesB, setEdgesB, onEdgesBChange] = useEdgesState<AvantosEdge>([]);
+	const [nodes, setNodes, onNodesChange] = useNodesState<AvantosNode>([]);
+	const [edges, setEdges, onEdgesChange] = useEdgesState<AvantosEdge>([]);
 
 	const fetchFlowData = useCallback(async () => {
 		try {
@@ -61,40 +59,32 @@ export default function App() {
 			);
 
 			// Update state with the transformed data.
-			setNodesB(transformedNodes);
-			setEdgesB(transformedEdges);
+			setNodes(transformedNodes);
+			setEdges(transformedEdges);
 		} catch (error) {
-			// eslint-disable-next-line no-console
 			console.error('Error fetching flow data:', error);
 		}
-	}, [setNodesB, setEdgesB]);
+	}, [setNodes, setEdges]);
 
 	// Trigger data fetching on component mount.
 	useEffect(() => {
-		const fetchFromApi = async () => {
-			await fetchFlowData();
-		};
-
-		fetchFromApi().catch(reason => {
-			// eslint-disable-next-line no-console
-			console.log('reason', reason);
-		});
+		fetchFlowData().catch(reason => console.log('Fetch error', reason));
 	}, [fetchFlowData]);
 
-	const onConnectB: OnConnect = useCallback(
-		connection => setEdgesB(edgesValue => addEdge(connection, edgesValue)),
-		[setEdgesB],
+	const onConnect: OnConnect = useCallback(
+		connection => setEdges(edgesValue => addEdge(connection, edgesValue)),
+		[setEdges],
 	);
 
 	return (
 		<ReactFlow
-			nodes={nodesB}
+			nodes={nodes}
 			nodeTypes={nodeTypes}
-			onNodesChange={onNodesBChange}
-			edges={edgesB}
+			onNodesChange={onNodesChange}
+			edges={edges}
 			edgeTypes={edgeTypes}
-			onEdgesChange={onEdgesBChange}
-			onConnect={onConnectB}
+			onEdgesChange={onEdgesChange}
+			onConnect={onConnect}
 			fitView
 		>
 			<Background />
@@ -102,26 +92,4 @@ export default function App() {
 			<Controls />
 		</ReactFlow>
 	);
-
-	// const onConnect: OnConnect = useCallback(
-	// 	connection => setEdgesB(edgesValue => addEdge(connection, edgesValue)),
-	// 	[setEdgesB],
-	// );
-
-	// return (
-	// 	<ReactFlow
-	// 		nodes={nodesB}
-	// 		nodeTypes={nodeTypes}
-	// 		onNodesChange={onNodesBChange}
-	// 		edges={edgesB}
-	// 		edgeTypes={edgeTypes}
-	// 		onEdgesChange={onEdgesBChange}
-	// 		onConnect={onConnect}
-	// 		fitView
-	// 	>
-	// 		<Background />
-	// 		<MiniMap />
-	// 		<Controls />
-	// 	</ReactFlow>
-	// );
 }
