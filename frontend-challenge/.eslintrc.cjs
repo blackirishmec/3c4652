@@ -94,84 +94,14 @@ module.exports = {
 				],
 				pathGroups: [
 					{
-						pattern: '@(react|react-native)',
+						pattern: '@(react)',
 						group: 'external',
 						position: 'before',
 					},
 					{
-						pattern: '@reduxjs/**',
+						pattern: '@(@xyflow/**)',
 						group: 'external',
 						position: 'before',
-					},
-					{
-						pattern: 'expo**',
-						group: 'external',
-						position: 'before',
-					},
-					{
-						pattern: 'react-native',
-						group: 'external',
-						position: 'before',
-					},
-					{
-						pattern: '@/types/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/interfaces/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/enums/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/models/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/api/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/redux/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/hooks/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/utilities/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/functions/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/components/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/styles/**',
-						group: 'type',
-						position: 'after',
-					},
-					{
-						pattern: '@/tests/**',
-						group: 'type',
-						position: 'after',
 					},
 					{
 						pattern: '@/**',
@@ -180,7 +110,7 @@ module.exports = {
 					},
 				],
 				'newlines-between': 'always',
-				pathGroupsExcludedImportTypes: ['builtin', 'type'],
+				pathGroupsExcludedImportTypes: ['builtin'],
 				named: true,
 			},
 		],

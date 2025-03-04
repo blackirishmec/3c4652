@@ -1,6 +1,7 @@
 import type { AppNode } from './types';
 import type { NodeTypes } from '@xyflow/react';
 
+import FormNode from './FormNode';
 import { PositionLoggerNode } from './PositionLoggerNode';
 
 export const initialNodes: AppNode[] = [
@@ -27,5 +28,6 @@ export const initialNodes: AppNode[] = [
 
 export const nodeTypes = {
 	'position-logger': PositionLoggerNode,
+	form: FormNode,
 	// Add any of your custom nodes here!
 } satisfies NodeTypes;

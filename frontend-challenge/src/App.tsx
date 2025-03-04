@@ -12,30 +12,13 @@ import {
 // eslint-disable-next-line import/no-extraneous-dependencies, import/no-named-as-default
 import uuid4 from 'uuid4';
 
-import type { Edge, Node, OnConnect } from '@xyflow/react';
-
 import '@xyflow/react/dist/style.css';
 
-export interface AvantosNodeData extends Record<string, unknown> {
-	approval_required: boolean;
-	approval_roles: string[];
-	component_id: string;
-	component_key: string;
-	component_type: AvantosNodeType;
-	id: string;
-	input_mapping: Record<string, object>;
-	name: string;
-	permitted_roles: string[] | null;
-	prerequisites: string[] | null;
-	sla_duration?: {
-		number: number;
-		unit: 'minutes' | 'hours' | 'days';
-	};
-}
+import type { AvantosNode } from './nodes/types';
+import type { Edge, OnConnect } from '@xyflow/react';
 
-export type AvantosNodeType = 'form' | 'branch' | 'trigger' | 'configuration';
-
-export type AvantosNode = Node<AvantosNodeData, AvantosNodeType>;
+import { edgeTypes } from './edges';
+import { nodeTypes } from './nodes';
 
 export interface AvantosEdge extends Edge {
 	source: string;
@@ -43,16 +26,8 @@ export interface AvantosEdge extends Edge {
 }
 
 export default function App() {
-	// const [nodes, _, onNodesChange] = useNodesState(initialNodes);
-	// const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
 	const [nodesB, setNodesB, onNodesBChange] = useNodesState<AvantosNode>([]);
 	const [edgesB, setEdgesB, onEdgesBChange] = useEdgesState<AvantosEdge>([]);
-
-	// const onConnect: OnConnect = useCallback(
-	// 	connection => setEdges(edgesValue => addEdge(connection, edgesValue)),
-	// 	[setEdges],
-	// );
 
 	const fetchFlowData = useCallback(async () => {
 		try {
@@ -89,6 +64,7 @@ export default function App() {
 			setNodesB(transformedNodes);
 			setEdgesB(transformedEdges);
 		} catch (error) {
+			// eslint-disable-next-line no-console
 			console.error('Error fetching flow data:', error);
 		}
 	}, [setNodesB, setEdgesB]);
@@ -100,6 +76,7 @@ export default function App() {
 		};
 
 		fetchFromApi().catch(reason => {
+			// eslint-disable-next-line no-console
 			console.log('reason', reason);
 		});
 	}, [fetchFlowData]);
@@ -112,10 +89,10 @@ export default function App() {
 	return (
 		<ReactFlow
 			nodes={nodesB}
-			// nodeTypes={nodeTypes}
+			nodeTypes={nodeTypes}
 			onNodesChange={onNodesBChange}
 			edges={edgesB}
-			// edgeTypes={edgeTypes}
+			edgeTypes={edgeTypes}
 			onEdgesChange={onEdgesBChange}
 			onConnect={onConnectB}
 			fitView
