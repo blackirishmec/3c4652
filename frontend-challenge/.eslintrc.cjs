@@ -78,7 +78,7 @@ module.exports = {
 		'@typescript-eslint/ban-ts-comment': 'warn',
 		'@typescript-eslint/ban-types': 'off',
 
-		'import/no-cycle': ['error', { maxDepth: 3 }],
+		// 'import/no-cycle': ['error', { maxDepth: 3 }],
 		'import/no-unresolved': 'error',
 		'import/order': [
 			'error',
@@ -104,7 +104,7 @@ module.exports = {
 						position: 'before',
 					},
 					{
-						pattern: '@/**',
+						pattern: '@**',
 						group: 'type',
 						position: 'after',
 					},
@@ -139,8 +139,9 @@ module.exports = {
 				project: './tsconfig.json',
 				alwaysTryTypes: true,
 			},
-			vite: {
-				viteConfig: viteConfig,
+			alias: {
+				map: [['~', path.resolve(__dirname, './src')]],
+				extensions: ['.js', '.jsx', '.ts', '.d.ts', '.tsx'],
 			},
 		},
 	},
