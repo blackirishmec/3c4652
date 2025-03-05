@@ -15,7 +15,7 @@ import '@xyflow/react/dist/style.css';
 import type { AvantosNode } from './nodes/types';
 import type { Edge, OnConnect } from '@xyflow/react';
 
-import Modal from './components/modal/Modal';
+import PrefillModal from './components/modal/PrefillModal';
 import { edgeTypes } from './edges';
 import { nodeTypes } from './nodes';
 
@@ -28,9 +28,13 @@ export default function App() {
 	const [nodes, setNodes, onNodesChange] = useNodesState<AvantosNode>([]);
 	const [edges, setEdges, onEdgesChange] = useEdgesState<AvantosEdge>([]);
 
-	const [showModal, setShowModal] = useState<boolean>(true);
-	const handleClose = () => {
-		setShowModal(false);
+	const [prefillNode, setPrefillNode] = useState<AvantosNode>();
+
+	const handleCloseModal = () => {
+		setPrefillNode(undefined);
+	};
+	const handleOpenModal = (node: AvantosNode) => {
+		setPrefillNode(node);
 	};
 
 	const fetchFlowData = useCallback(async () => {
@@ -102,14 +106,20 @@ export default function App() {
 			onEdgesChange={onEdgesChange}
 			onConnect={onConnect}
 			fitView
-			onNodeClick={(event, node) => {}}
+			onNodeClick={(event, node) => {
+				handleOpenModal(node);
+			}}
 		>
 			<Background />
 			<MiniMap />
 			<Controls />
-			<Modal isVisible={showModal} handleClose={handleClose}>
+			<PrefillModal
+				isVisible={prefillNode !== undefined}
+				handleClose={handleCloseModal}
+				node={prefillNode}
+			>
 				Test
-			</Modal>
+			</PrefillModal>
 		</ReactFlow>
 	);
 }

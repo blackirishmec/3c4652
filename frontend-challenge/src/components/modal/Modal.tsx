@@ -1,11 +1,13 @@
 import clsx from 'clsx';
 import { memo, useCallback } from 'react';
 
+import type { ColProps } from '../layout/FlexComponents';
 import type { ReactNode } from 'react';
 
 import { Col, Row } from '../layout/FlexComponents';
 
 export interface ModalProps {
+	bodyClassName: ColProps['className'];
 	children: ReactNode;
 	isVisible: boolean;
 	handleClose: () => void;
@@ -22,14 +24,18 @@ const classes = {
 		bg-[rgba(179,235,255,0.5)]
 	`,
 	body: `
-		bg-white 
-		p-4 
+		bg-white  
 		rounded-sm 
 		pointer-events-auto
 	`,
 } as const;
 
-function ModalBase({ children, handleClose, isVisible }: ModalProps) {
+function ModalBase({
+	bodyClassName,
+	children,
+	handleClose,
+	isVisible,
+}: ModalProps) {
 	const handleBodyOnClick = useCallback(
 		(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 			e.stopPropagation();
@@ -45,7 +51,10 @@ function ModalBase({ children, handleClose, isVisible }: ModalProps) {
 				childrenHorizontalPosition="center"
 				onClick={handleClose}
 			>
-				<Col className={clsx(classes.body)} onClick={handleBodyOnClick}>
+				<Col
+					className={clsx(classes.body, bodyClassName)}
+					onClick={handleBodyOnClick}
+				>
 					{children}
 				</Col>
 			</Row>
