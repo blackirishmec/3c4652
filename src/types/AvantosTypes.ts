@@ -1,6 +1,6 @@
 import type { EdgeTypes, NodeTypes } from '@xyflow/react';
 
-import { FormNode } from '../components/react-flow/nodes/FormNode';
+import { FormNode } from '@/components/react-flow/nodes/FormNode';
 
 export type AvantosNodeType = 'form' | 'branch' | 'trigger' | 'configuration';
 
