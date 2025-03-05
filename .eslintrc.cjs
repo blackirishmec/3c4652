@@ -47,7 +47,7 @@ module.exports = {
 		},
 	],
 	rules: {
-		'no-console': 'warn',
+		'no-console': 'off',
 		'no-debugger': 'warn',
 		'no-warning-comments': ['warn', { terms: ['!', 'any other term'] }],
 		'object-shorthand': 'error',

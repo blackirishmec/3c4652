@@ -97,7 +97,7 @@ export default function App() {
 			setNodes(transformedNodes);
 			setEdges(transformedEdges);
 		} catch (error) {
-			console.error('Error fetching flow data:', error);
+			// console.error('Error fetching flow data:', error);
 		}
 	}, [setNodes, setEdges]);
 
