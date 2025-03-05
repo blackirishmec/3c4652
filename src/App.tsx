@@ -16,10 +16,8 @@ import uuid4 from 'uuid4';
 import '@xyflow/react/dist/style.css';
 
 import type { AvantosNode } from './types/AvantosTypes';
-import type {
-	AvantosApiResponse,
-	AvantosForm,
-} from '@/interfaces/AvantosInterfaces';
+import type { AvantosApiResponse } from '@/interfaces/AvantosInterfaces';
+import type { Form } from '@/interfaces/models/formModels';
 import type { Edge, OnConnect } from '@xyflow/react';
 
 import { edgeTypes, nodeTypes } from './types/AvantosTypes';
@@ -37,9 +35,9 @@ export default function App() {
 	const [nodes, setNodes, onNodesChange] = useNodesState<AvantosNode>([]);
 	const [edges, setEdges, onEdgesChange] = useEdgesState<AvantosEdge>([]);
 
-	const [forms, setForms] = useState<AvantosForm[]>();
+	const [forms, setForms] = useState<Form[]>();
 	const [prefillNode, setPrefillNode] = useState<AvantosNode>();
-	const [prefillForm, setPrefillForm] = useState<AvantosForm>();
+	const [prefillForm, setPrefillForm] = useState<Form>();
 
 	const handleCloseModal = () => {
 		setPrefillNode(undefined);
@@ -65,9 +63,7 @@ export default function App() {
 				(await response.json()) as AvantosApiResponse;
 
 			// Validate and transform API response into React Flow format.
-			const transformedForms = data.forms.map<AvantosForm>(
-				(form: AvantosForm) => form,
-			);
+			const transformedForms = data.forms.map<Form>((form: Form) => form);
 
 			const transformedEdges = data.edges.map<AvantosEdge>(
 				(edge: AvantosEdge) => ({

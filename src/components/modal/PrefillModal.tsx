@@ -3,7 +3,7 @@ import { memo, useMemo } from 'react';
 import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
-import type { AvantosForm } from '@/interfaces/AvantosInterfaces';
+import type { Form } from '@/interfaces/models/formModels';
 import type { AvantosNode } from '@/types/AvantosTypes';
 
 import { Col, Row } from '@/components/layout/FlexComponents';
@@ -13,7 +13,7 @@ import Modal from '@/components/modal/Modal';
 export interface PrefillModalProps
 	extends Omit<ModalProps, 'bodyClassName' | 'children'> {
 	node?: AvantosNode;
-	form?: AvantosForm;
+	form?: Form;
 }
 
 function PrefillModalBase({ node, form, ...props }: PrefillModalProps) {

@@ -22,6 +22,7 @@
 		"@tailwindcss/vite": "^4.0.9",
 		"@types/inquirer": "^9.0.7",
 		"@xyflow/react": "^12.3.6",
+		"axios": "^1.8.1",
 		"clsx": "^2.1.1",
 		"inquirer": "^12.4.2",
 		"react": "^18.2.0",

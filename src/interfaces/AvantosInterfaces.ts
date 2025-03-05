@@ -4,11 +4,12 @@ import type {
 	AvantosPayloadField,
 } from '../types/AvantosTypes';
 import type { AvantosEdge } from '@/App';
+import type { Form } from '@/interfaces/models/formModels';
 
 export interface AvantosApiResponse {
 	nodes: AvantosNode[];
 	edges: AvantosEdge[];
-	forms: AvantosForm[];
+	forms: Form[];
 }
 
 export interface AvantosNodeData extends Record<string, unknown> {
@@ -60,19 +61,4 @@ export interface AvantosUISchemaElement {
 	label: string;
 	scope: string;
 	type: string;
-}
-
-export interface AvantosForm {
-	$schema?: string;
-	custom_javascript?: string;
-	description: string;
-	dynamic_field_config: Record<string, AvantosField>;
-	field_schema: AvantosFieldSchema;
-	id: string;
-	is_reusable: boolean;
-	name: string;
-	ui_schema: {
-		elements: AvantosUISchemaElement[];
-		type: string;
-	};
 }
