@@ -48,7 +48,7 @@ export const Row = React.memo(function Row({
 
 	const className = useMemo(
 		() =>
-			`flex flex-row${justifyContentClassName !== undefined ? ` ${justifyContentClassName}` : ''}${alignItemsClassName !== undefined ? ` ${alignItemsClassName}` : ''}${propClassName && ` ${propClassName}`}`,
+			`flex flex-row ${justifyContentClassName !== undefined ? ` ${justifyContentClassName}` : ''}${alignItemsClassName !== undefined ? ` ${alignItemsClassName}` : ''}${propClassName && ` ${propClassName}`}`,
 		[alignItemsClassName, justifyContentClassName, propClassName],
 	);
 
@@ -92,7 +92,7 @@ export const Col = React.memo(function Col({
 
 	const className = useMemo(
 		() =>
-			`flex flex-col${justifyContentClassName !== undefined ? ` ${justifyContentClassName}` : ''}${alignItemsClassName !== undefined ? ` ${alignItemsClassName}` : ''}${propClassName && ` ${propClassName}`}`,
+			`flex flex-col ${justifyContentClassName !== undefined ? ` ${justifyContentClassName}` : ''}${alignItemsClassName !== undefined ? ` ${alignItemsClassName}` : ''}${propClassName && ` ${propClassName}`}`,
 		[alignItemsClassName, justifyContentClassName, propClassName],
 	);
 
