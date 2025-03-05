@@ -15,12 +15,12 @@ import '@xyflow/react/dist/style.css';
 import type {
 	AvantosForm,
 	AvantosNode,
-} from '../components/react-flow/nodes/types';
+} from './components/react-flow/nodes/types';
 import type { Edge, OnConnect } from '@xyflow/react';
 
-import PrefillModal from '../components/modal/PrefillModal';
-import { edgeTypes } from '../components/react-flow/edges';
-import { nodeTypes } from '../components/react-flow/nodes';
+import PrefillModal from './components/modal/PrefillModal';
+import { edgeTypes } from './components/react-flow/edges';
+import { nodeTypes } from './components/react-flow/nodes';
 
 export interface AvantosEdge extends Edge {
 	source: string;
