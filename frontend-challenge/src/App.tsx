@@ -7,7 +7,7 @@ import {
 	useEdgesState,
 	useNodesState,
 } from '@xyflow/react';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { default as uuid4 } from 'uuid4';
 
 import '@xyflow/react/dist/style.css';
@@ -15,6 +15,7 @@ import '@xyflow/react/dist/style.css';
 import type { AvantosNode } from './nodes/types';
 import type { Edge, OnConnect } from '@xyflow/react';
 
+import Modal from './components/modal/Modal';
 import { edgeTypes } from './edges';
 import { nodeTypes } from './nodes';
 
@@ -26,6 +27,11 @@ export interface AvantosEdge extends Edge {
 export default function App() {
 	const [nodes, setNodes, onNodesChange] = useNodesState<AvantosNode>([]);
 	const [edges, setEdges, onEdgesChange] = useEdgesState<AvantosEdge>([]);
+
+	const [showModal, setShowModal] = useState<boolean>(true);
+	const handleClose = () => {
+		setShowModal(false);
+	};
 
 	const fetchFlowData = useCallback(async () => {
 		try {
@@ -41,21 +47,31 @@ export default function App() {
 			} = await response.json();
 
 			// Validate and transform API response into React Flow format.
-			const transformedNodes = data.nodes.map<AvantosNode>(
-				(node: AvantosNode) => ({
-					id: node.id,
-					data: node.data,
-					position: node.position,
-					type: node.type,
-				}),
-			);
-
 			const transformedEdges = data.edges.map<AvantosEdge>(
 				(edge: AvantosEdge) => ({
 					id: uuid4(),
 					source: edge.source,
 					target: edge.target,
 				}),
+			);
+
+			const transformedNodes = data.nodes.map<AvantosNode>(
+				(node: AvantosNode) => {
+					const tempData = node.data;
+					tempData.edgeTo = transformedEdges.some(
+						transformedEdge => transformedEdge.target === node.id,
+					);
+					tempData.edgeFrom = transformedEdges.some(
+						transformedEdge => transformedEdge.source === node.id,
+					);
+
+					return {
+						id: node.id,
+						data: tempData,
+						position: node.position,
+						type: node.type,
+					};
+				},
 			);
 
 			// Update state with the transformed data.
@@ -86,10 +102,14 @@ export default function App() {
 			onEdgesChange={onEdgesChange}
 			onConnect={onConnect}
 			fitView
+			onNodeClick={(event, node) => {}}
 		>
 			<Background />
 			<MiniMap />
 			<Controls />
+			<Modal isVisible={showModal} handleClose={handleClose}>
+				Test
+			</Modal>
 		</ReactFlow>
 	);
 }

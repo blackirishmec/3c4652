@@ -15,6 +15,8 @@ export interface AvantosNodeData extends Record<string, unknown> {
 		number: number;
 		unit: 'minutes' | 'hours' | 'days';
 	};
+	edgeTo: boolean;
+	edgeFrom: boolean;
 }
 
 export type AvantosNodeType = 'form' | 'branch' | 'trigger' | 'configuration';

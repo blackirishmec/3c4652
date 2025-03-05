@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 type PositionValue = 'start' | 'center' | 'end';
 
@@ -16,7 +16,7 @@ const justifyContentMap = {
 	end: 'justify-end',
 };
 
-export interface RowProps {
+export interface RowProps extends HTMLAttributes<HTMLDivElement> {
 	/** The content to be rendered inside the row. */
 	children?: ReactNode;
 	/** Horizontal alignment of the children inside the row. */
@@ -31,6 +31,7 @@ export const Row = React.memo(function ({
 	childrenHorizontalPosition,
 	childrenVerticalPosition,
 	className: propClassName = '',
+	...props
 }: RowProps) {
 	const alignItemsClassName = useMemo(
 		() =>
@@ -51,10 +52,14 @@ export const Row = React.memo(function ({
 		[alignItemsClassName, justifyContentClassName, propClassName],
 	);
 
-	return <div className={className}>{children}</div>;
+	return (
+		<div className={className} {...props}>
+			{children}
+		</div>
+	);
 });
 
-export interface ColProps {
+export interface ColProps extends HTMLAttributes<HTMLDivElement> {
 	/** The content to be rendered inside the row. */
 	children?: ReactNode;
 	/** Horizontal alignment of the children inside the row. */
@@ -69,6 +74,7 @@ export const Col = React.memo(function ({
 	childrenHorizontalPosition,
 	childrenVerticalPosition,
 	className: propClassName = '',
+	...props
 }: ColProps) {
 	const alignItemsClassName = useMemo(
 		() =>
@@ -90,5 +96,9 @@ export const Col = React.memo(function ({
 		[alignItemsClassName, justifyContentClassName, propClassName],
 	);
 
-	return <div className={className}>{children}</div>;
+	return (
+		<div className={className} {...props}>
+			{children}
+		</div>
+	);
 });
