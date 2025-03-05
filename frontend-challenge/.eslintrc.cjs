@@ -139,9 +139,8 @@ module.exports = {
 				project: './tsconfig.json',
 				alwaysTryTypes: true,
 			},
-			alias: {
-				map: [['~', path.resolve(__dirname, './src')]],
-				extensions: ['.js', '.jsx', '.ts', '.d.ts', '.tsx'],
+			vite: {
+				viteConfig: viteConfig,
 			},
 		},
 	},
