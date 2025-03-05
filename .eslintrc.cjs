@@ -1,15 +1,20 @@
 const path = require('path');
 
 module.exports = {
+	// root: true,
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaFeatures: { jsx: true },
-		ecmaVersion: 'latest',
+		ecmaVersion: 2023,
 		sourceType: 'module',
 		project: './tsconfig.json',
 		tsconfigRootDir: __dirname,
 	},
-	env: { browser: true, es2020: true },
+	env: {
+		browser: true,
+		es2023: true,
+		node: true,
+	},
 	extends: [
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
@@ -115,7 +120,15 @@ module.exports = {
 				named: true,
 			},
 		],
-		'import/extensions': ['error', 'never'],
+		'import/extensions': [
+			'error',
+			'never',
+			{
+				css: 'always',
+				scss: 'always',
+				sass: 'always',
+			},
+		],
 		'import/no-default-export': 'off',
 		'import/no-extraneous-dependencies': ['error'],
 
