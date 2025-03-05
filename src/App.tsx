@@ -10,6 +10,7 @@ import {
 	useNodesState,
 } from '@xyflow/react';
 
+import { Provider } from 'react-redux';
 import uuid4 from 'uuid4';
 
 import '@xyflow/react/dist/style.css';
@@ -22,6 +23,8 @@ import type {
 import type { Edge, OnConnect } from '@xyflow/react';
 
 import { edgeTypes, nodeTypes } from './types/AvantosTypes';
+
+import { store } from '@/redux/store';
 
 import PrefillModal from '@/components/modal/PrefillModal';
 
@@ -113,28 +116,30 @@ export default function App() {
 	);
 
 	return (
-		<ReactFlow
-			nodes={nodes}
-			nodeTypes={nodeTypes}
-			onNodesChange={onNodesChange}
-			edges={edges}
-			edgeTypes={edgeTypes}
-			onEdgesChange={onEdgesChange}
-			onConnect={onConnect}
-			fitView
-			onNodeClick={(_event, node) => {
-				handleOpenModal(node);
-			}}
-		>
-			<Background />
-			<MiniMap />
-			<Controls />
-			<PrefillModal
-				isVisible={prefillNode !== undefined}
-				handleClose={handleCloseModal}
-				node={prefillNode}
-				form={prefillForm}
-			/>
-		</ReactFlow>
+		<Provider store={store}>
+			<ReactFlow
+				nodes={nodes}
+				nodeTypes={nodeTypes}
+				onNodesChange={onNodesChange}
+				edges={edges}
+				edgeTypes={edgeTypes}
+				onEdgesChange={onEdgesChange}
+				onConnect={onConnect}
+				fitView
+				onNodeClick={(_event, node) => {
+					handleOpenModal(node);
+				}}
+			>
+				<Background />
+				<MiniMap />
+				<Controls />
+				<PrefillModal
+					isVisible={prefillNode !== undefined}
+					handleClose={handleCloseModal}
+					node={prefillNode}
+					form={prefillForm}
+				/>
+			</ReactFlow>
+		</Provider>
 	);
 }

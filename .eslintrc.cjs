@@ -197,7 +197,14 @@ module.exports = {
 			},
 		],
 		'import/no-default-export': 'off',
-		'import/no-extraneous-dependencies': ['error'],
+		'import/no-extraneous-dependencies': [
+			'error',
+			{
+				devDependencies: false,
+				optionalDependencies: false,
+				peerDependencies: false,
+			},
+		],
 
 		'react/self-closing-comp': [
 			'error',
