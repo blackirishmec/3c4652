@@ -1,6 +1,9 @@
-import type { Node } from '@xyflow/react';
+import type {
+	AvantosNodeType,
+	AvantosPayloadField,
+} from '../types/AvantosTypes';
 
-interface AvantosNodeData extends Record<string, unknown> {
+export interface AvantosNodeData extends Record<string, unknown> {
 	approval_required: boolean;
 	approval_roles: string[];
 	component_id: string;
@@ -19,23 +22,14 @@ interface AvantosNodeData extends Record<string, unknown> {
 	edgeFrom: boolean;
 }
 
-type AvantosNodeType = 'form' | 'branch' | 'trigger' | 'configuration';
-
-export type AvantosNode = Node<AvantosNodeData, AvantosNodeType>;
-
-type AvantosPayloadField = {
-	type: string;
-	value: string;
-};
-
-interface AvantosField {
+export interface AvantosField {
 	endpoint_id: string;
 	output_key?: string;
 	payload_fields: Record<string, AvantosPayloadField>;
 	selector_field: string;
 }
 
-interface AvantosFieldProperty {
+export interface AvantosFieldProperty {
 	avantos_type: string;
 	type: string;
 	enum?: null;
@@ -48,7 +42,7 @@ interface AvantosFieldProperty {
 	uniqueItems?: boolean;
 }
 
-interface AvantosFieldSchema {
+export interface AvantosFieldSchema {
 	properties: Record<string, AvantosFieldProperty>;
 	required: string[] | null;
 	type: string;

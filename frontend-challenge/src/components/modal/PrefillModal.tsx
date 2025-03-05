@@ -1,7 +1,8 @@
 import { memo, useMemo } from 'react';
 
 import type { ModalProps } from './Modal';
-import type { AvantosForm, AvantosNode } from '../react-flow/nodes/types';
+import type { AvantosForm } from '../../interfaces/AvantosInterfaces';
+import type { AvantosNode } from '../../types/AvantosTypes';
 
 import Modal from './Modal';
 import { Col, Row } from '../layout/FlexComponents';
