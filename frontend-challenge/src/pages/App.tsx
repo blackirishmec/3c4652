@@ -12,12 +12,12 @@ import { default as uuid4 } from 'uuid4';
 
 import '@xyflow/react/dist/style.css';
 
-import type { AvantosForm, AvantosNode } from './nodes/types';
+import type { AvantosForm, AvantosNode } from '../nodes/types';
 import type { Edge, OnConnect } from '@xyflow/react';
 
-import PrefillModal from './components/modal/PrefillModal';
-import { edgeTypes } from './edges';
-import { nodeTypes } from './nodes';
+import PrefillModal from '../components/modal/PrefillModal';
+import { edgeTypes } from '../edges';
+import { nodeTypes } from '../nodes';
 
 export interface AvantosEdge extends Edge {
 	source: string;
