@@ -16,9 +16,10 @@ import uuid4 from 'uuid4';
 import '@xyflow/react/dist/style.css';
 
 import type { AvantosApiResponse } from '@/interfaces/AvantosInterfaces';
+import type { Edge } from '@/interfaces/models/edgeModels';
 import type { Form } from '@/interfaces/models/formModels';
 import type { Node } from '@/interfaces/models/nodeModels';
-import type { Edge, OnConnect } from '@xyflow/react';
+import type { OnConnect } from '@xyflow/react';
 
 import { edgeTypes, nodeTypes } from './types/AvantosTypes';
 
@@ -26,14 +27,9 @@ import { store } from '@/redux/store';
 
 import PrefillModal from '@/components/modal/PrefillModal';
 
-export interface AvantosEdge extends Edge {
-	source: string;
-	target: string;
-}
-
 export default function App() {
 	const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
-	const [edges, setEdges, onEdgesChange] = useEdgesState<AvantosEdge>([]);
+	const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
 	const [forms, setForms] = useState<Form[]>();
 	const [prefillNode, setPrefillNode] = useState<Node>();
@@ -65,13 +61,11 @@ export default function App() {
 			// Validate and transform API response into React Flow format.
 			const transformedForms = data.forms.map<Form>((form: Form) => form);
 
-			const transformedEdges = data.edges.map<AvantosEdge>(
-				(edge: AvantosEdge) => ({
-					id: uuid4(),
-					source: edge.source,
-					target: edge.target,
-				}),
-			);
+			const transformedEdges = data.edges.map<Edge>((edge: Edge) => ({
+				id: uuid4(),
+				source: edge.source,
+				target: edge.target,
+			}));
 
 			const transformedNodes = data.nodes.map<Node>((node: Node) => {
 				const tempData = node.data;
