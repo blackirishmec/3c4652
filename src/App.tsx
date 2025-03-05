@@ -42,6 +42,7 @@ export default function App() {
 		setPrefillNode(undefined);
 		setPrefillForm(undefined);
 	};
+
 	const handleOpenModal = (node: AvantosNode) => {
 		setPrefillNode(node);
 		setPrefillForm(
