@@ -1,5 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Nodes } from '../../../../interfaces/db_models/nodesModels';
 
-export const nodesFetched = createAction<Nodes>('nodess/nodesFetched');
-export const nodessFetched = createAction<Nodes[]>('nodess/nodessFetched');
+import type { Nodes } from '../../../../interfaces/db_models/nodesModels';
+
+export const nodeFetched = createAction<Nodes>('nodes/nodesFetched');
+export const nodesFetched = createAction<Nodes[]>('nodes/nodesFetched');

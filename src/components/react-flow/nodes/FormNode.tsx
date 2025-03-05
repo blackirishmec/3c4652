@@ -3,7 +3,7 @@ import { Handle, Position } from '@xyflow/react';
 import clsx from 'clsx';
 import { PiTable } from 'react-icons/pi';
 
-import type { AvantosNode } from '@/types/AvantosTypes';
+import type { Node } from '@/interfaces/models/nodeModels';
 import type { NodeProps } from '@xyflow/react';
 
 import { Col, Row } from '@/components/layout/FlexComponents';
@@ -23,7 +23,7 @@ const classes = {
 	`,
 } as const;
 
-export function FormNode({ data, selected, dragging }: NodeProps<AvantosNode>) {
+export function FormNode({ data, selected, dragging }: NodeProps<Node>) {
 	return (
 		<Row
 			className={clsx(

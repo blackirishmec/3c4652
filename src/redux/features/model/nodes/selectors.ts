@@ -1,24 +1,24 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '../../../store';
-import { nodessAdapter } from './nodessAdapter';
-import { Nodes } from '../../../../interfaces/db_models/nodesModels';
 
-const selectNodessState = (state: RootState) => state.nodess;
+import type { Nodes } from '../../../../interfaces/db_models/nodesModels';
+import type { RootState } from '../../../store';
+
+import { nodesAdapter } from './nodesAdapter';
+
+const selectNodessState = (state: RootState) => state.nodes;
 
 export const {
-    selectAll: selectAllNodess,
-    selectById: selectNodesById,
-    selectIds: selectNodesIds,
-} = nodessAdapter.getSelectors(selectNodessState);
+	selectAll: selectAllNodess,
+	selectById: selectNodesById,
+	selectIds: selectNodesIds,
+} = nodesAdapter.getSelectors(selectNodessState);
 
-export const selectNodesNamesById = createSelector(
-    [selectAllNodess],
-    nodess =>
-        nodess.reduce(
-            (acc, nodes) => ({
-                ...acc,
-                [nodes.id]: nodes.name,
-            }),
-            {} as Record<Nodes['id'], Nodes['name']>,
-        ),
+export const selectNodesNamesById = createSelector([selectAllNodess], nodes =>
+	nodes.reduce(
+		(acc, nodes) => ({
+			...acc,
+			[nodes.id]: nodes.name,
+		}),
+		{} as Record<Nodes['id'], Nodes['name']>,
+	),
 );

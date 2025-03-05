@@ -1,33 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { initialState } from './initialState';
-import { nodessAdapter } from './nodessAdapter';
-import { nodesFetched, nodessFetched } from './actions';
 
-const nodessSlice = createSlice({
-    name: 'nodess',
-    initialState,
-    reducers: {
-        upsertNodes: nodessAdapter.upsertOne,
-        removeNodes: nodessAdapter.removeOne,
-        upsertManyNodess: nodessAdapter.upsertMany,
-        removeAllNodess: nodessAdapter.removeAll,
-    },
-    extraReducers(builder) {
-        builder
-            .addCase(nodesFetched, (state, { payload: loggedInNodes }) => {
-                nodessAdapter.upsertOne(state, loggedInNodes);
-            })
-            .addCase(nodessFetched, (state, { payload: nodess }) => {
-                nodessAdapter.upsertMany(state, nodess);
-            });
-    },
+import { nodesFetched, nodesFetched } from './actions';
+import { initialState } from './initialState';
+import { nodesAdapter } from './nodesAdapter';
+
+const nodesSlice = createSlice({
+	name: 'nodes',
+	initialState,
+	reducers: {
+		upsertNodes: nodesAdapter.upsertOne,
+		removeNodes: nodesAdapter.removeOne,
+		upsertManyNodess: nodesAdapter.upsertMany,
+		removeAllNodess: nodesAdapter.removeAll,
+	},
+	extraReducers(builder) {
+		builder
+			.addCase(nodesFetched, (state, { payload: loggedInNodes }) => {
+				nodesAdapter.upsertOne(state, loggedInNodes);
+			})
+			.addCase(nodesFetched, (state, { payload: nodes }) => {
+				nodesAdapter.upsertMany(state, nodes);
+			});
+	},
 });
 
-export const {
-    upsertManyNodess,
-    upsertNodes,
-    removeAllNodess,
-    removeNodes,
-} = nodessSlice.actions;
+export const { upsertManyNodess, upsertNodes, removeAllNodess, removeNodes } =
+	nodesSlice.actions;
 
-export default nodessSlice.reducer;
+export default nodesSlice.reducer;

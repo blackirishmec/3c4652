@@ -4,7 +4,7 @@ import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
 import type { Form } from '@/interfaces/models/formModels';
-import type { AvantosNode } from '@/types/AvantosTypes';
+import type { Node } from '@/types/AvantosTypes';
 
 import { Col, Row } from '@/components/layout/FlexComponents';
 import FormFieldRow from '@/components/layout/FormFieldRow';
@@ -12,7 +12,7 @@ import Modal from '@/components/modal/Modal';
 
 export interface PrefillModalProps
 	extends Omit<ModalProps, 'bodyClassName' | 'children'> {
-	node?: AvantosNode;
+	node?: Node;
 	form?: Form;
 }
 

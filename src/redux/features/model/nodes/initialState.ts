@@ -1,4 +1,5 @@
-import { nodessAdapter } from './nodessAdapter';
-import { NodessState } from './types';
+import type { NodessState } from './types';
 
-export const initialState: NodessState = nodessAdapter.getInitialState();
+import { nodesAdapter } from './nodesAdapter';
+
+export const initialState: NodessState = nodesAdapter.getInitialState();

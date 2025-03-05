@@ -15,9 +15,9 @@ import uuid4 from 'uuid4';
 
 import '@xyflow/react/dist/style.css';
 
-import type { AvantosNode } from './types/AvantosTypes';
 import type { AvantosApiResponse } from '@/interfaces/AvantosInterfaces';
 import type { Form } from '@/interfaces/models/formModels';
+import type { Node } from '@/interfaces/models/nodeModels';
 import type { Edge, OnConnect } from '@xyflow/react';
 
 import { edgeTypes, nodeTypes } from './types/AvantosTypes';
@@ -32,11 +32,11 @@ export interface AvantosEdge extends Edge {
 }
 
 export default function App() {
-	const [nodes, setNodes, onNodesChange] = useNodesState<AvantosNode>([]);
+	const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
 	const [edges, setEdges, onEdgesChange] = useEdgesState<AvantosEdge>([]);
 
 	const [forms, setForms] = useState<Form[]>();
-	const [prefillNode, setPrefillNode] = useState<AvantosNode>();
+	const [prefillNode, setPrefillNode] = useState<Node>();
 	const [prefillForm, setPrefillForm] = useState<Form>();
 
 	const handleCloseModal = () => {
@@ -44,7 +44,7 @@ export default function App() {
 		setPrefillForm(undefined);
 	};
 
-	const handleOpenModal = (node: AvantosNode) => {
+	const handleOpenModal = (node: Node) => {
 		setPrefillNode(node);
 		setPrefillForm(
 			forms?.find(form => form.id === node?.data.component_id),
@@ -73,24 +73,22 @@ export default function App() {
 				}),
 			);
 
-			const transformedNodes = data.nodes.map<AvantosNode>(
-				(node: AvantosNode) => {
-					const tempData = node.data;
-					tempData.edgeTo = transformedEdges.some(
-						transformedEdge => transformedEdge.target === node.id,
-					);
-					tempData.edgeFrom = transformedEdges.some(
-						transformedEdge => transformedEdge.source === node.id,
-					);
+			const transformedNodes = data.nodes.map<Node>((node: Node) => {
+				const tempData = node.data;
+				tempData.edgeTo = transformedEdges.some(
+					transformedEdge => transformedEdge.target === node.id,
+				);
+				tempData.edgeFrom = transformedEdges.some(
+					transformedEdge => transformedEdge.source === node.id,
+				);
 
-					return {
-						id: node.id,
-						data: tempData,
-						position: node.position,
-						type: node.type,
-					};
-				},
-			);
+				return {
+					id: node.id,
+					data: tempData,
+					position: node.position,
+					type: node.type,
+				};
+			});
 
 			// Update state with the transformed data.
 			setForms(transformedForms);
