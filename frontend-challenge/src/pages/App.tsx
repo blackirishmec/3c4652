@@ -15,9 +15,9 @@ import '@xyflow/react/dist/style.css';
 import type { AvantosForm, AvantosNode } from '../components/nodes/types';
 import type { Edge, OnConnect } from '@xyflow/react';
 
+import { edgeTypes } from '../components/edges';
 import PrefillModal from '../components/modal/PrefillModal';
 import { nodeTypes } from '../components/nodes';
-import { edgeTypes } from '../edges';
 
 export interface AvantosEdge extends Edge {
 	source: string;
