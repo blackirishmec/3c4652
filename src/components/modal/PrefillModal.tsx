@@ -1,12 +1,14 @@
 import { memo, useMemo } from 'react';
 
-import type { ModalProps } from './Modal';
-import type { AvantosForm } from '../../interfaces/AvantosInterfaces';
-import type { AvantosNode } from '../../types/AvantosTypes';
+import uuid4 from 'uuid4';
 
-import Modal from './Modal';
-import { Col, Row } from '../layout/FlexComponents';
-import FormFieldRow from '../layout/FormFieldRow';
+import type { ModalProps } from '@/components/modal/Modal';
+import type { AvantosForm } from '@/interfaces/AvantosInterfaces';
+import type { AvantosNode } from '@/types/AvantosTypes';
+
+import { Col, Row } from '@/components/layout/FlexComponents';
+import FormFieldRow from '@/components/layout/FormFieldRow';
+import Modal from '@/components/modal/Modal';
 
 export interface PrefillModalProps extends Omit<ModalProps, 'bodyClassName'> {
 	node?: AvantosNode;
@@ -14,13 +16,14 @@ export interface PrefillModalProps extends Omit<ModalProps, 'bodyClassName'> {
 }
 
 function PrefillModalBase({ node, form, ...props }: PrefillModalProps) {
-	//TODO: {Wed, 03/05/25 @00:05} => I think that JSON Forms might help traverse the data retrieved from the avantos server. For Instance I think I need to cross reference form.field_schema and form.ui_schema
+	// TODO: {Wed, 03/05/25 @00:05} => I think that JSON Forms might help traverse the data retrieved from the avantos server. For Instance I think I need to cross reference form.field_schema and form.ui_schema
 	const Rows = useMemo(
 		() =>
 			form?.ui_schema.elements.map((element, index) => (
 				<FormFieldRow
+					key={uuid4()}
 					element={element}
-					prefilled={index % 2 ? true : false}
+					prefilled={!!(index % 2)}
 				/>
 			)),
 		// form?.field_schema.properties &&

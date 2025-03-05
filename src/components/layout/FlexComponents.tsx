@@ -26,7 +26,7 @@ export interface RowProps extends HTMLAttributes<HTMLDivElement> {
 	className?: React.HTMLAttributes<HTMLDivElement>['className'];
 }
 
-export const Row = React.memo(function ({
+export const Row = React.memo(function Row({
 	children,
 	childrenHorizontalPosition,
 	childrenVerticalPosition,
@@ -48,7 +48,7 @@ export const Row = React.memo(function ({
 
 	const className = useMemo(
 		() =>
-			`flex flex-row${justifyContentClassName !== undefined ? ' ' + justifyContentClassName : ''}${alignItemsClassName !== undefined ? ' ' + alignItemsClassName : ''}${propClassName && ' ' + propClassName}`,
+			`flex flex-row${justifyContentClassName !== undefined ? ` ${justifyContentClassName}` : ''}${alignItemsClassName !== undefined ? ` ${alignItemsClassName}` : ''}${propClassName && ` ${propClassName}`}`,
 		[alignItemsClassName, justifyContentClassName, propClassName],
 	);
 
@@ -69,7 +69,7 @@ export interface ColProps extends HTMLAttributes<HTMLDivElement> {
 	className?: React.HTMLAttributes<HTMLDivElement>['className'];
 }
 
-export const Col = React.memo(function ({
+export const Col = React.memo(function Col({
 	children,
 	childrenHorizontalPosition,
 	childrenVerticalPosition,
@@ -92,7 +92,7 @@ export const Col = React.memo(function ({
 
 	const className = useMemo(
 		() =>
-			`flex flex-col${justifyContentClassName !== undefined ? ' ' + justifyContentClassName : ''}${alignItemsClassName !== undefined ? ' ' + alignItemsClassName : ''}${propClassName && ' ' + propClassName}`,
+			`flex flex-col${justifyContentClassName !== undefined ? ` ${justifyContentClassName}` : ''}${alignItemsClassName !== undefined ? ` ${alignItemsClassName}` : ''}${propClassName && ` ${propClassName}`}`,
 		[alignItemsClassName, justifyContentClassName, propClassName],
 	);
 

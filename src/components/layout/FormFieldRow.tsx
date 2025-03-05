@@ -1,8 +1,9 @@
-import clsx from 'clsx';
 import { memo } from 'react';
+
+import clsx from 'clsx';
 import { PiDatabase, PiXCircleFill } from 'react-icons/pi';
 
-import type { AvantosUISchemaElement } from '../../interfaces/AvantosInterfaces';
+import type { AvantosUISchemaElement } from '@/interfaces/AvantosInterfaces';
 
 import { Col, Row } from './FlexComponents';
 

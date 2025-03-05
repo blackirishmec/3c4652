@@ -1,7 +1,15 @@
 import type {
+	AvantosNode,
 	AvantosNodeType,
 	AvantosPayloadField,
 } from '../types/AvantosTypes';
+import type { AvantosEdge } from '@/App';
+
+export interface AvantosApiResponse {
+	nodes: AvantosNode[];
+	edges: AvantosEdge[];
+	forms: AvantosForm[];
+}
 
 export interface AvantosNodeData extends Record<string, unknown> {
 	approval_required: boolean;

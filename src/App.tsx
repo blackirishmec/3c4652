@@ -15,7 +15,10 @@ import uuid4 from 'uuid4';
 import '@xyflow/react/dist/style.css';
 
 import type { AvantosNode } from './types/AvantosTypes';
-import type { AvantosForm } from '@/interfaces/AvantosInterfaces';
+import type {
+	AvantosApiResponse,
+	AvantosForm,
+} from '@/interfaces/AvantosInterfaces';
 import type { Edge, OnConnect } from '@xyflow/react';
 
 import { edgeTypes, nodeTypes } from './types/AvantosTypes';
@@ -54,11 +57,8 @@ export default function App() {
 			if (!response.ok) {
 				throw new Error(`HTTP error: ${response.status}`);
 			}
-			const data: {
-				nodes: AvantosNode[];
-				edges: AvantosEdge[];
-				forms: AvantosForm[];
-			} = await response.json();
+			const data: AvantosApiResponse =
+				(await response.json()) as AvantosApiResponse;
 
 			// Validate and transform API response into React Flow format.
 			const transformedForms = data.forms.map<AvantosForm>(

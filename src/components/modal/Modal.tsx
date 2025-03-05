@@ -1,10 +1,11 @@
-import clsx from 'clsx';
 import { memo, useCallback } from 'react';
 
-import type { ColProps } from '../layout/FlexComponents';
+import clsx from 'clsx';
+
+import type { ColProps } from '@/components/layout/FlexComponents';
 import type { ReactNode } from 'react';
 
-import { Col, Row } from '../layout/FlexComponents';
+import { Col, Row } from '@/components/layout/FlexComponents';
 
 const classes = {
 	backdrop: `
