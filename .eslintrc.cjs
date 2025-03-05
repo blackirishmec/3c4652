@@ -29,7 +29,14 @@ module.exports = {
 		'plugin:import/recommended',
 		'plugin:import/typescript',
 	],
-	ignorePatterns: ['.eslintrc.cjs', '!*.js', '.*.js', '*.json', '*.js.map'],
+	ignorePatterns: [
+		'.eslintrc.cjs',
+		'generateReduxSlice.ts',
+		'!*.js',
+		'.*.js',
+		'*.json',
+		'*.js.map',
+	],
 	plugins: [
 		'@typescript-eslint',
 		'react',
