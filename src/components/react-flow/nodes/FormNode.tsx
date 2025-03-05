@@ -1,10 +1,11 @@
-import { Col, Row } from '@components/layout/FlexComponents';
 import { Handle, Position } from '@xyflow/react';
 import clsx from 'clsx';
 import { PiTable } from 'react-icons/pi';
 
 import type { AvantosNode } from '@/types/AvantosTypes';
 import type { NodeProps } from '@xyflow/react';
+
+import { Col, Row } from '@/components/layout/FlexComponents';
 
 const classes = {
 	rowContainer: `
