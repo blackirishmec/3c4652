@@ -18,8 +18,8 @@ import type {
 } from '../components/react-flow/nodes/types';
 import type { Edge, OnConnect } from '@xyflow/react';
 
-import { edgeTypes } from '../components/edges';
 import PrefillModal from '../components/modal/PrefillModal';
+import { edgeTypes } from '../components/react-flow/edges';
 import { nodeTypes } from '../components/react-flow/nodes';
 
 export interface AvantosEdge extends Edge {
