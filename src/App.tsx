@@ -10,7 +10,7 @@ import {
 	useNodesState,
 } from '@xyflow/react';
 
-import { default as uuid4 } from 'uuid4';
+import uuid4 from 'uuid4';
 
 import '@xyflow/react/dist/style.css';
 

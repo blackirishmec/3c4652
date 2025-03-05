@@ -17,20 +17,27 @@ module.exports = {
 	},
 	extends: [
 		'eslint:recommended',
+		'airbnb', // Airbnb base JS + React rules
+		'airbnb/hooks', // Airbnb React Hooks rules (enforces Hooks best practices)
+		'airbnb-typescript',
 		'plugin:@typescript-eslint/recommended',
+		'plugin:@typescript-eslint/recommended-requiring-type-checking',
+		'plugin:react/recommended',
+		'plugin:prettier/recommended',
 		'plugin:react-hooks/recommended',
+		'plugin:react/jsx-runtime',
 		'plugin:import/recommended',
 		'plugin:import/typescript',
 	],
-	ignorePatterns: [
-		'dist',
-		'.eslintrc.cjs',
-		'!*.js',
-		'.*.js',
-		'*.json',
-		'*.js.map',
+	ignorePatterns: ['.eslintrc.cjs', '!*.js', '.*.js', '*.json', '*.js.map'],
+	plugins: [
+		'@typescript-eslint',
+		'react',
+		'react-hooks',
+		'react-refresh',
+		'import',
+		'unused-imports',
 	],
-	plugins: ['@typescript-eslint', 'react-refresh', 'import'],
 	overrides: [
 		{
 			files: ['*.ts', '*.tsx', '*.d.ts'],
@@ -137,6 +144,17 @@ module.exports = {
 		'import/no-default-export': 'off',
 		'import/no-extraneous-dependencies': ['error'],
 
+		'react/self-closing-comp': [
+			'error',
+			{
+				component: true,
+				html: true,
+			},
+		],
+		'react/prop-types': 'off',
+		'react/require-default-props': 'off',
+		'react/react-in-jsx-scope': 'off',
+
 		'react-hooks/rules-of-hooks': 'error',
 		'react-hooks/exhaustive-deps': 'warn',
 
@@ -144,6 +162,8 @@ module.exports = {
 			'warn',
 			{ allowConstantExport: true },
 		],
+
+		'prettier/prettier': ['error', { endOfLine: 'auto' }],
 	},
 	settings: {
 		ecmaVersion: 'latest',
