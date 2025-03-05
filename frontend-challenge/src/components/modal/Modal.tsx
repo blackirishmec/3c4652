@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 
 import type { ReactNode } from 'react';
 
@@ -25,11 +25,18 @@ const classes = {
 		bg-white 
 		p-4 
 		rounded-sm 
-		pointer-events-none
+		pointer-events-auto
 	`,
 } as const;
 
 function ModalBase({ children, handleClose, isVisible }: ModalProps) {
+	const handleBodyOnClick = useCallback(
+		(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+			e.stopPropagation();
+		},
+		[],
+	);
+
 	return (
 		isVisible && (
 			<Row
@@ -38,7 +45,7 @@ function ModalBase({ children, handleClose, isVisible }: ModalProps) {
 				childrenHorizontalPosition="center"
 				onClick={handleClose}
 			>
-				<Col className={clsx(classes.body)} onClick={undefined}>
+				<Col className={clsx(classes.body)} onClick={handleBodyOnClick}>
 					{children}
 				</Col>
 			</Row>
