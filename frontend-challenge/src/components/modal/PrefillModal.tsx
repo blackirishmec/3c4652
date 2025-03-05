@@ -1,19 +1,20 @@
 import { memo } from 'react';
 
 import type { ModalProps } from './Modal';
-import type { AvantosNode } from '../../nodes/types';
+import type { AvantosForm, AvantosNode } from '../../nodes/types';
 
 import Modal from './Modal';
 import { Col, Row } from '../layout/FlexComponents';
 
 export interface PrefillModalProps extends Omit<ModalProps, 'bodyClassName'> {
 	node?: AvantosNode;
+	form?: AvantosForm;
 }
 
-function PrefillModalBase({ node, ...props }: PrefillModalProps) {
-	// const Rows = () => {
-	// 	node?.data.
-	// }
+function PrefillModalBase({ node, form, ...props }: PrefillModalProps) {
+	const Rows = () => {
+		form?.ui_schema.elements.forEach(element => element.labe);
+	};
 
 	return (
 		node !== undefined && (
