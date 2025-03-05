@@ -28,10 +28,10 @@ export function FormNode({ data, selected, dragging }: NodeProps<AvantosNode>) {
 			className={clsx(
 				classes.rowContainer,
 				selected === true && classes.rowSelected,
-				dragging ? 'bg-[#fafafa]' : 'bg-[#fff]',
+				dragging === true ? 'bg-[#fafafa]' : 'bg-[#fff]',
 			)}
 		>
-			{data.edgeTo && (
+			{data.edgeTo === true && (
 				<Handle
 					type="target"
 					position={Position.Left}
@@ -58,7 +58,7 @@ export function FormNode({ data, selected, dragging }: NodeProps<AvantosNode>) {
 				<Row className="text-gray-500 text-sm">Form</Row>
 				<Row className="font-semibold">{data.name}</Row>
 			</Col>
-			{data.edgeFrom && (
+			{data.edgeFrom === true && (
 				<Handle
 					type="source"
 					position={Position.Right}

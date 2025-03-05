@@ -141,7 +141,7 @@ module.exports = {
 				alwaysTryTypes: true,
 			},
 			alias: {
-				map: [['@', path.resolve(__dirname, './src')]],
+				map: [['@/', path.resolve(__dirname, './src')]],
 				extensions: ['.js', '.jsx', '.ts', '.d.ts', '.tsx'],
 			},
 		},
