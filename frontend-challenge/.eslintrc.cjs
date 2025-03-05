@@ -24,7 +24,7 @@ module.exports = {
 		'*.json',
 		'*.js.map',
 	],
-	plugins: ['react-refresh', 'import'],
+	plugins: ['@typescript-eslint', 'react-refresh', 'import'],
 	overrides: [
 		{
 			files: ['*.ts', '*.tsx', '*.d.ts'],
@@ -134,6 +134,10 @@ module.exports = {
 		'import/resolver': {
 			node: {
 				extensions: ['.js', '.jsx', '.ts', '.tsx'],
+			},
+			typescript: {
+				project: './tsconfig.json',
+				alwaysTryTypes: true,
 			},
 		},
 	},
