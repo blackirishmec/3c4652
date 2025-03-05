@@ -5,7 +5,7 @@ import { PiTable } from 'react-icons/pi';
 import type { AvantosNode } from './types';
 import type { NodeProps } from '@xyflow/react';
 
-import { Col, Row } from '../components/layout/FlexComponents';
+import { Col, Row } from '../layout/FlexComponents';
 
 const classes = {
 	rowContainer: `
