@@ -118,7 +118,7 @@ export default function App() {
 			onEdgesChange={onEdgesChange}
 			onConnect={onConnect}
 			fitView
-			onNodeClick={(event, node) => {
+			onNodeClick={(_event, node) => {
 				handleOpenModal(node);
 			}}
 		>
