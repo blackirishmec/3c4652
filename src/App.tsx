@@ -133,9 +133,7 @@ export default function App() {
 				handleClose={handleCloseModal}
 				node={prefillNode}
 				form={prefillForm}
-			>
-				Test
-			</PrefillModal>
+			/>
 		</ReactFlow>
 	);
 }

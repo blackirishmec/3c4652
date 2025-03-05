@@ -10,7 +10,8 @@ import { Col, Row } from '@/components/layout/FlexComponents';
 import FormFieldRow from '@/components/layout/FormFieldRow';
 import Modal from '@/components/modal/Modal';
 
-export interface PrefillModalProps extends Omit<ModalProps, 'bodyClassName'> {
+export interface PrefillModalProps
+	extends Omit<ModalProps, 'bodyClassName' | 'children'> {
 	node?: AvantosNode;
 	form?: AvantosForm;
 }
@@ -35,7 +36,11 @@ function PrefillModalBase({ node, form, ...props }: PrefillModalProps) {
 
 	return (
 		node !== undefined && (
-			<Modal {...props} bodyClassName="w-175">
+			<Modal
+				handleClose={props.handleClose}
+				isVisible={props.isVisible}
+				bodyClassName="w-175"
+			>
 				<Row className="py-3 px-4 border-b">
 					<Col className="flex-1">{node.data.name}</Col>
 					<Col>X</Col>

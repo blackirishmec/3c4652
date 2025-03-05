@@ -122,6 +122,61 @@ module.exports = {
 						position: 'after',
 					},
 					{
+						pattern: '@/interfaces/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
+						pattern: '@/enums/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
+						pattern: '@/models/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
+						pattern: '@/api/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
+						pattern: '@/redux/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
+						pattern: '@/hooks/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
+						pattern: '@/utilities/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
+						pattern: '@/functions/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
+						pattern: '@/components/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
+						pattern: '@/styles/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
+						pattern: '@/tests/**',
+						group: 'type',
+						position: 'after',
+					},
+					{
 						pattern: '@/**',
 						group: 'type',
 						position: 'after',
