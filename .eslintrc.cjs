@@ -100,14 +100,19 @@ module.exports = {
 				],
 				pathGroups: [
 					{
-						pattern: '@(react|react-dom/**)',
+						pattern: 'react',
 						group: 'external',
 						position: 'before',
 					},
 					{
-						pattern: '@(@xyflow/**)',
+						pattern: '@xyflow/**',
 						group: 'external',
 						position: 'before',
+					},
+					{
+						pattern: './types/**',
+						group: 'type',
+						position: 'after',
 					},
 					{
 						pattern: '@/**',

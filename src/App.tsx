@@ -1,3 +1,5 @@
+import { useCallback, useEffect, useState } from 'react';
+
 import {
 	addEdge,
 	Background,
@@ -7,17 +9,18 @@ import {
 	useEdgesState,
 	useNodesState,
 } from '@xyflow/react';
-import { useCallback, useEffect, useState } from 'react';
+
 import { default as uuid4 } from 'uuid4';
 
 import '@xyflow/react/dist/style.css';
 
-import type { AvantosForm } from './interfaces/AvantosInterfaces';
+import type { AvantosNode } from './types/AvantosTypes';
+import type { AvantosForm } from '@/interfaces/AvantosInterfaces';
 import type { Edge, OnConnect } from '@xyflow/react';
 
-import PrefillModal from '@/components/modal/PrefillModal';
+import { edgeTypes, nodeTypes } from './types/AvantosTypes';
 
-import { type AvantosNode, edgeTypes, nodeTypes } from './types/AvantosTypes';
+import PrefillModal from '@/components/modal/PrefillModal';
 
 export interface AvantosEdge extends Edge {
 	source: string;
