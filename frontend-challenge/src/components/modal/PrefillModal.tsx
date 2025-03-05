@@ -16,8 +16,11 @@ function PrefillModalBase({ node, form, ...props }: PrefillModalProps) {
 	//TODO: {Wed, 03/05/25 @00:05} => I think that JSON Forms might help traverse the data retrieved from the avantos server. For Instance I think I need to cross reference form.field_schema and form.ui_schema
 	const Rows = useMemo(
 		() =>
-			form?.ui_schema.elements.map(element => (
-				<FormFieldRow element={element} />
+			form?.ui_schema.elements.map((element, index) => (
+				<FormFieldRow
+					element={element}
+					prefilled={index % 2 ? true : false}
+				/>
 			)),
 		// form?.field_schema.properties &&
 		// Object.keys(form?.field_schema.properties).map(property => (

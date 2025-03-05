@@ -11,25 +11,62 @@ const classes = {
 		rounded-sm 
 		py-1 
 		px-2 
-		bg-gray-200 
-		focus:border-blue-200
+		bg-gray-100 
+		border
+		border-dashed
+		border-gray-300
+		hover:bg-blue-50
+		hover:border-blue-500
+		cursor-pointer
+	`,
+	prefilledContainerRow: `
+		rounded-full!
+		border-solid!
+		border-gray-100!
+		hover:border-gray-100!
+		hover:bg-gray-100!
+	`,
+	label: `
+		flex-1 
+		pl-2
+		text-gray-400
+	`,
+	prefilledLabel: `
+		text-black!
 	`,
 } as const;
 
 export interface FormFieldRowProps {
 	element: AvantosUISchemaElement;
+	prefilled?: boolean;
 }
 
-function FormFieldRowBase({ element }: FormFieldRowProps) {
+function FormFieldRowBase({ element, prefilled = false }: FormFieldRowProps) {
 	return (
-		<Row className={clsx(classes.containerRow)}>
-			<Col childrenVerticalPosition="center">
-				<PiDatabase className="text-xl" />
+		<Row
+			className={clsx(
+				classes.containerRow,
+				prefilled && classes.prefilledContainerRow,
+			)}
+		>
+			{!prefilled && (
+				<Col childrenVerticalPosition="center">
+					<PiDatabase className="text-xl" />
+				</Col>
+			)}
+			<Col
+				className={clsx(
+					classes.label,
+					prefilled && classes.prefilledLabel,
+				)}
+			>
+				{element.label}
 			</Col>
-			<Col className="flex-1 pl-2">{element.label}</Col>
-			<Col childrenVerticalPosition="center">
-				<PiXCircleFill color="gray" />
-			</Col>
+			{prefilled && (
+				<Col childrenVerticalPosition="center">
+					<PiXCircleFill color="gray" />
+				</Col>
+			)}
 		</Row>
 	);
 }
