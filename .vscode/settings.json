@@ -17,6 +17,7 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode",
 		"editor.formatOnSave": true
 	},
+	"typescript.preferences.importModuleSpecifier": "non-relative",
 	"prettier.requireConfig": true,
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "always"
