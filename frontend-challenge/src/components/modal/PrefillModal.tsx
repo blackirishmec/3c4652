@@ -1,10 +1,11 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import type { ModalProps } from './Modal';
 import type { AvantosForm, AvantosNode } from '../../nodes/types';
 
 import Modal from './Modal';
 import { Col, Row } from '../layout/FlexComponents';
+import FormFieldRow from '../layout/FormFieldRow';
 
 export interface PrefillModalProps extends Omit<ModalProps, 'bodyClassName'> {
 	node?: AvantosNode;
@@ -12,9 +13,18 @@ export interface PrefillModalProps extends Omit<ModalProps, 'bodyClassName'> {
 }
 
 function PrefillModalBase({ node, form, ...props }: PrefillModalProps) {
-	const Rows = () => {
-		form?.ui_schema.elements.forEach(element => element.labe);
-	};
+	//TODO: {Wed, 03/05/25 @00:05} => I think that JSON Forms might help traverse the data retrieved from the avantos server. For Instance I think I need to cross reference form.field_schema and form.ui_schema
+	const Rows = useMemo(
+		() =>
+			form?.ui_schema.elements.map(element => (
+				<FormFieldRow element={element} />
+			)),
+		// form?.field_schema.properties &&
+		// Object.keys(form?.field_schema.properties).map(property => (
+		// 	<FormFieldRow element={property} />
+		// )),
+		[form],
+	);
 
 	return (
 		node !== undefined && (
@@ -31,11 +41,7 @@ function PrefillModalBase({ node, form, ...props }: PrefillModalProps) {
 					<Col childrenVerticalPosition="center">I/O</Col>
 				</Row>
 				<Row className="pt-8 px-4">
-					<Col>
-						<Row>Field Row A</Row>
-						<Row>Field Row B</Row>
-						<Row>Field Row C</Row>
-					</Col>
+					<Col className="flex-1 space-y-4">{Rows}</Col>
 				</Row>
 				<Row className="py-3" childrenHorizontalPosition="center">
 					Button

@@ -54,7 +54,7 @@ interface AvantosFieldSchema {
 	type: string;
 }
 
-interface AvantosUISchemaElement {
+export interface AvantosUISchemaElement {
 	label: string;
 	scope: string;
 	type: string;

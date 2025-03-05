@@ -6,13 +6,6 @@ import type { ReactNode } from 'react';
 
 import { Col, Row } from '../layout/FlexComponents';
 
-export interface ModalProps {
-	bodyClassName: ColProps['className'];
-	children: ReactNode;
-	isVisible: boolean;
-	handleClose: () => void;
-}
-
 const classes = {
 	backdrop: `
 		fixed 
@@ -29,6 +22,13 @@ const classes = {
 		pointer-events-auto
 	`,
 } as const;
+
+export interface ModalProps {
+	bodyClassName: ColProps['className'];
+	children: ReactNode;
+	isVisible: boolean;
+	handleClose: () => void;
+}
 
 function ModalBase({
 	bodyClassName,
