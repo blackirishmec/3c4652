@@ -1,4 +1,4 @@
-import { EntityState } from '@reduxjs/toolkit';
-import { Nodes } from '../../../../interfaces/db_models/nodesModels';
+import type { Node } from '@/interfaces/models/nodeModels';
+import type { EntityState } from '@reduxjs/toolkit';
 
-export interface NodessState extends EntityState<Nodes, number> {}
+export interface NodesState extends EntityState<Node, Node['id']> {}

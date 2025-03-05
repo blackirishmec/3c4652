@@ -1,5 +1,7 @@
-import type { NodessState } from './types';
+import type { NodesState } from './types';
 
-import { nodesAdapter } from './nodesAdapter';
+import nodesAdapter from '@/redux/features/model/nodes/nodesAdapter';
 
-export const initialState: NodessState = nodesAdapter.getInitialState();
+const initialState: NodesState = nodesAdapter.getInitialState();
+
+export default initialState;

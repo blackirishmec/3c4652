@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { Form } from '@/interfaces/models/formModels';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import formsAdapter from '@/redux/features/model/form/formsAdapter';
+import formsAdapter from '@/redux/features/model/forms/formsAdapter';
 
 import { formFetched, formsFetched } from './actions';
 import initialState from './initialState';

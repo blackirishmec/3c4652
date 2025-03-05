@@ -1,6 +1,6 @@
 import type { FormsState } from './types';
 
-import formsAdapter from '@/redux/features/model/form/formsAdapter';
+import formsAdapter from '@/redux/features/model/forms/formsAdapter';
 
 const initialState: FormsState = formsAdapter.getInitialState();
 

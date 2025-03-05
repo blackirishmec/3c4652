@@ -1,10 +1,10 @@
 import type {
 	AvantosNodeType,
 	AvantosPayloadField,
-	Node,
 } from '../types/AvantosTypes';
 import type { AvantosEdge } from '@/App';
 import type { Form } from '@/interfaces/models/formModels';
+import type { Node } from '@/interfaces/models/nodeModels';
 
 export interface AvantosApiResponse {
 	nodes: Node[];

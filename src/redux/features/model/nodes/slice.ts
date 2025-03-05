@@ -1,21 +1,42 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { nodesFetched, nodesFetched } from './actions';
-import { initialState } from './initialState';
-import { nodesAdapter } from './nodesAdapter';
+import type { Node } from '@/interfaces/models/nodeModels';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+import nodesAdapter from '@/redux/features/model/nodes/nodesAdapter';
+
+import { nodeFetched, nodesFetched } from './actions';
+import initialState from './initialState';
 
 const nodesSlice = createSlice({
 	name: 'nodes',
 	initialState,
 	reducers: {
-		upsertNodes: nodesAdapter.upsertOne,
-		removeNodes: nodesAdapter.removeOne,
-		upsertManyNodess: nodesAdapter.upsertMany,
-		removeAllNodess: nodesAdapter.removeAll,
+		addNode: (state, action: PayloadAction<Node>) => {
+			nodesAdapter.addOne(state, action.payload);
+		},
+		upsertNode: (state, action: PayloadAction<Node>) => {
+			nodesAdapter.upsertOne(state, action.payload);
+		},
+		removeNode: (state, action: PayloadAction<Node['id']>) => {
+			nodesAdapter.removeOne(state, action.payload);
+		},
+		upsertManyNodes: (state, action: PayloadAction<Node[]>) => {
+			nodesAdapter.upsertMany(state, action.payload);
+		},
+		removeManyMealItemMealUsers: (
+			state,
+			action: PayloadAction<Node['id'][]>,
+		) => {
+			nodesAdapter.removeMany(state, action.payload);
+		},
+		removeAllNodes: state => {
+			nodesAdapter.removeAll(state);
+		},
 	},
 	extraReducers(builder) {
 		builder
-			.addCase(nodesFetched, (state, { payload: loggedInNodes }) => {
+			.addCase(nodeFetched, (state, { payload: loggedInNodes }) => {
 				nodesAdapter.upsertOne(state, loggedInNodes);
 			})
 			.addCase(nodesFetched, (state, { payload: nodes }) => {
@@ -24,7 +45,13 @@ const nodesSlice = createSlice({
 	},
 });
 
-export const { upsertManyNodess, upsertNodes, removeAllNodess, removeNodes } =
-	nodesSlice.actions;
+export const {
+	addNode,
+	upsertNode,
+	removeNode,
+	upsertManyNodes,
+	removeManyMealItemMealUsers,
+	removeAllNodes,
+} = nodesSlice.actions;
 
 export default nodesSlice.reducer;

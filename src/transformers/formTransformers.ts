@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import type { Form } from '@/interfaces/models/formModels';
 import type { FormResource } from '@/interfaces/resources/formResources';
 

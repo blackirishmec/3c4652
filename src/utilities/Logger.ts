@@ -186,7 +186,6 @@ const log = ({
 		currentLine,
 	});
 
-	// eslint-disable-next-line no-console
 	console.log(formattedMessage);
 };
 

@@ -4,7 +4,7 @@ import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
 import type { Form } from '@/interfaces/models/formModels';
-import type { Node } from '@/types/AvantosTypes';
+import type { Node } from '@/interfaces/models/nodeModels';
 
 import { Col, Row } from '@/components/layout/FlexComponents';
 import FormFieldRow from '@/components/layout/FormFieldRow';

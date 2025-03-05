@@ -3,7 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '../../../store';
 import type { Form } from '@/interfaces/models/formModels';
 
-import formsAdapter from '@/redux/features/model/form/formsAdapter';
+import formsAdapter from '@/redux/features/model/forms/formsAdapter';
 
 const selectFormsState = (state: RootState) => state.forms;
 
