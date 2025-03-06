@@ -5,6 +5,7 @@ import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
 
 import { selectClickedNodeId } from '@/redux/features/ui/flow';
+import exploreNodePrerequisites from '@/redux/utilities/exploreNodePrerequisites';
 
 export const selectClickedNode = createSelector(
 	[selectClickedNodeId, (state: RootState) => state.nodes.entities],
@@ -15,17 +16,14 @@ export const selectClickedNode = createSelector(
 );
 
 export const selectClickedNodeParents = createSelector(
-	[
-		selectClickedNode,
-		(state: RootState) => state.nodes.entities,
-		(state: RootState) => state.edges.entities,
-	],
-	(clickedNode, nodeEntities, edgeEntities): Node[] => {
+	[selectClickedNode, (state: RootState) => state.nodes.entities],
+	(clickedNode, nodeEntities): Node[] => {
 		if (clickedNode === undefined) return [];
 
-		const clickedNodeParents: Node[] = [];
-
-		// TODO:  Recursively explore clickedNode.data.prerequisites to get nodes which have ids in clickedNode.data.prerequisites and add them to the clickedNodeParents array (unique values in this array only!). Then recursively explore those added clickedNodeParents in the same manner.
+		const clickedNodeParents = exploreNodePrerequisites({
+			node: clickedNode,
+			nodeEntities,
+		});
 
 		return clickedNodeParents;
 	},
