@@ -18,17 +18,15 @@ function PrefillMappingChildrenListColBase({
 		<Col className="flex-1 pl-10">
 			<ul className="w-full">
 				{nodeFormFieldSchemaPropertiesArray !== undefined &&
-					nodeFormFieldSchemaPropertiesArray
-						.map(
-							(
-								nodeFormFieldSchemaProperty: AvantosFieldSchemaPropertiesArrayValue,
-							) => (
-								<li key={nodeFormFieldSchemaProperty.key}>
-									{nodeFormFieldSchemaProperty.key}
-								</li>
-							),
-						)
-						.reverse()}
+					nodeFormFieldSchemaPropertiesArray.map(
+						(
+							nodeFormFieldSchemaProperty: AvantosFieldSchemaPropertiesArrayValue,
+						) => (
+							<li key={nodeFormFieldSchemaProperty.key}>
+								{nodeFormFieldSchemaProperty.key}
+							</li>
+						),
+					)}
 			</ul>
 		</Col>
 	);

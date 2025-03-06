@@ -57,7 +57,7 @@ function PrefillMappingParentListItemBase({
 			createSelectNodeFormFieldSchemaPropertiesArray(
 				parentNode ? parentNode.id : '',
 			),
-		[],
+		[parentNode],
 	);
 	const nodeFormFieldSchemaPropertiesArray = useTypedSelector(
 		selectNodeFormFieldSchemaPropertiesArray,
