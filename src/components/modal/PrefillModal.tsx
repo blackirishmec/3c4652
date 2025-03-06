@@ -3,8 +3,11 @@ import { memo, useMemo } from 'react';
 import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
-import type { Form } from '@/interfaces/models/formModels';
-import type { Node } from '@/interfaces/models/nodeModels';
+
+import { selectFormByClickedNode } from '@/redux/selectors/relationships/formRelationshipSelectors';
+import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+
+import useTypedSelector from '@/hooks/useTypedSelector';
 
 import { Col, Row } from '@/components/layout/FlexComponents';
 import FormFieldRow from '@/components/layout/FormFieldRow';
@@ -14,35 +17,31 @@ export interface PrefillModalProps
 	extends Omit<ModalProps, 'bodyClassName' | 'children'> {}
 
 function PrefillModalBase({ ...props }: PrefillModalProps) {
-	// TODO: {Wed, 03/05/25 @22:27} => Select form via formRelationshipSelectors->selectFormByClickedNode()
-	// const form =
+	const clickedNode = useTypedSelector(selectClickedNode);
+	const formByClickedNode = useTypedSelector(selectFormByClickedNode);
 
 	// TODO: {Wed, 03/05/25 @00:05} => I think that JSON Forms might help traverse the data retrieved from the avantos server. For Instance I think I need to cross reference form.field_schema and form.ui_schema
 	const Rows = useMemo(
 		() =>
-			form?.ui_schema.elements.map((element, index) => (
+			formByClickedNode?.ui_schema.elements.map((element, index) => (
 				<FormFieldRow
 					key={uuid4()}
 					element={element}
 					prefilled={!!(index % 2)}
 				/>
 			)),
-		// form?.field_schema.properties &&
-		// Object.keys(form?.field_schema.properties).map(property => (
-		// 	<FormFieldRow element={property} />
-		// )),
-		[form],
+		[formByClickedNode],
 	);
 
 	return (
-		node !== undefined && (
+		clickedNode !== undefined && (
 			<Modal
 				handleClose={props.handleClose}
 				isVisible={props.isVisible}
 				bodyClassName="w-175"
 			>
 				<Row className="py-3 px-4 border-b">
-					<Col className="flex-1">{node.data.name}</Col>
+					<Col className="flex-1">{clickedNode.data.name}</Col>
 					<Col>X</Col>
 				</Row>
 				<Row className="pt-3 px-4">
