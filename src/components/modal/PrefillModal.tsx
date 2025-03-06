@@ -1,5 +1,6 @@
 import { memo, useMemo } from 'react';
 
+import { PiXFill } from 'react-icons/pi';
 import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
@@ -9,6 +10,7 @@ import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelations
 
 import useTypedSelector from '@/hooks/useTypedSelector';
 
+import Button from '@/components/button/Button';
 import { Col, Row } from '@/components/layout/FlexComponents';
 import FormFieldRow from '@/components/layout/FormFieldRow';
 import Modal from '@/components/modal/Modal';
@@ -25,11 +27,11 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 	// TODO: {Wed, 03/05/25 @00:05} => I think that JSON Forms might help traverse the data retrieved from the avantos server. For Instance I think I need to cross reference form.field_schema and form.ui_schema
 	const Rows = useMemo(
 		() =>
-			clickedFormFieldSchemaPropertiesArray.map(property => (
+			clickedFormFieldSchemaPropertiesArray.map((property, index) => (
 				<FormFieldRow
 					key={uuid4()}
 					property={property}
-					// prefilled={!!(index % 2)}
+					prefilled={!!(index % 2)}
 				/>
 			)),
 		[clickedFormFieldSchemaPropertiesArray],
@@ -47,7 +49,11 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 		>
 			<Row className="py-3 px-4 border-b">
 				<Col className="flex-1">{clickedNodeName}</Col>
-				<Col>X</Col>
+				<Col>
+					<Button>
+						<PiXFill size={24} />
+					</Button>
+				</Col>
 			</Row>
 			<Row className="pt-3 px-4">
 				<Col className="flex-1">

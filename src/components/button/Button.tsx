@@ -6,14 +6,10 @@ import type { ButtonHTMLAttributes } from 'react';
 
 const classes = {
 	buttonBase: `
-		border 
-		border-primary! 
-		rounded-sm 
-		hover:border-primary 
-		hover:bg-black! 
-		px-3 
-		py-1
+		hover:bg-red-100! 
+		hover:opacity-80
 		outline-0!
+		cursor-pointer
 	`,
 	buttonDisabled: `
 		disabled:opacity-50 
