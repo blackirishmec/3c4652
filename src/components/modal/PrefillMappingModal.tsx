@@ -12,6 +12,7 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 
 import Button from '@/components/button/Button';
 import { Col, Row } from '@/components/layout/FlexComponents';
+import PrefillMappingListCol from '@/components/list/PrefillMappingListCol';
 import Modal from '@/components/modal/Modal';
 
 export interface PrefillMappingModalProps
@@ -50,13 +51,11 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 					</Button>
 				</Col>
 			</Row>
-			<Row className="py-3 px-4 border-b border-gray-300">
+			<Row className="py-3 px-4 border-b border-gray-300 font-medium">
 				Select data element to map
 			</Row>
 			<Row className="">
-				<Col className="flex-1 w-50 border-r border-gray-300 pt-4 px-4  bg-[#F6F6F6]">
-					Available data
-				</Col>
+				<PrefillMappingListCol />
 				<Col className="flex-1 w-50" />
 			</Row>
 			<Row
