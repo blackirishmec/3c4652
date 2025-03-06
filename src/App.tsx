@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { Background, Controls, MiniMap, ReactFlow } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 
-import type { Form } from '@/interfaces/models/formModels';
 import type { Node } from '@/interfaces/models/nodeModels';
+import type { MouseEvent } from 'react';
 
 import { edgeTypes, nodeTypes } from './types/AvantosTypes';
 
@@ -14,9 +14,10 @@ import {
 	onEdgesChange,
 	selectAllEdges,
 } from '@/redux/features/model/edges';
-import { selectAllForms } from '@/redux/features/model/forms';
 import { onNodesChange, selectAllNodes } from '@/redux/features/model/nodes';
+import { resetClickedNodeId, setClickedNodeId } from '@/redux/features/ui/flow';
 import { fetchFlowData } from '@/redux/features/ui/flow/thunks';
+import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -30,9 +31,8 @@ export default function App() {
 
 	const nodes = useTypedSelector(selectAllNodes);
 	const edges = useTypedSelector(selectAllEdges);
-	const forms = useTypedSelector(selectAllForms);
+	const clickedNode = useTypedSelector(selectClickedNode);
 
-	// Trigger data fetching on component mount.
 	useEffect(() => {
 		dispatch(fetchFlowData())
 			.unwrap()
@@ -41,20 +41,28 @@ export default function App() {
 			);
 	}, [dispatch]);
 
-	const [prefillNode, setPrefillNode] = useState<Node>();
-	const [prefillForm, setPrefillForm] = useState<Form>();
+	const handleOpenModal = useCallback(
+		(node: Node) => {
+			dispatch(setClickedNodeId(node.id));
+		},
+		[dispatch],
+	);
 
-	const handleCloseModal = () => {
-		setPrefillNode(undefined);
-		setPrefillForm(undefined);
-	};
+	const handleNodeClick = useCallback(
+		(_event: MouseEvent<Element, globalThis.MouseEvent>, node: Node) => {
+			handleOpenModal(node);
+		},
+		[handleOpenModal],
+	);
 
-	const handleOpenModal = (node: Node) => {
-		setPrefillNode(node);
-		setPrefillForm(
-			forms?.find(form => form.id === node?.data.component_id),
-		);
-	};
+	const modalIsVisible = useMemo(
+		() => clickedNode !== undefined,
+		[clickedNode],
+	);
+
+	const handleCloseModal = useCallback(() => {
+		dispatch(resetClickedNodeId());
+	}, [dispatch]);
 
 	return (
 		<ReactFlow
@@ -66,18 +74,14 @@ export default function App() {
 			onEdgesChange={onEdgesChange}
 			onConnect={onConnect}
 			fitView
-			onNodeClick={(_event, node) => {
-				handleOpenModal(node);
-			}}
+			onNodeClick={handleNodeClick}
 		>
 			<Background />
 			<MiniMap />
 			<Controls />
 			<PrefillModal
-				isVisible={prefillNode !== undefined}
+				isVisible={modalIsVisible}
 				handleClose={handleCloseModal}
-				node={prefillNode}
-				form={prefillForm}
 			/>
 		</ReactFlow>
 	);

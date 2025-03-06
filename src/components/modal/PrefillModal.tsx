@@ -11,12 +11,12 @@ import FormFieldRow from '@/components/layout/FormFieldRow';
 import Modal from '@/components/modal/Modal';
 
 export interface PrefillModalProps
-	extends Omit<ModalProps, 'bodyClassName' | 'children'> {
-	node?: Node;
-	form?: Form;
-}
+	extends Omit<ModalProps, 'bodyClassName' | 'children'> {}
 
-function PrefillModalBase({ node, form, ...props }: PrefillModalProps) {
+function PrefillModalBase({ ...props }: PrefillModalProps) {
+	// TODO: {Wed, 03/05/25 @22:27} => Select form via formRelationshipSelectors->selectFormByClickedNode()
+	// const form =
+
 	// TODO: {Wed, 03/05/25 @00:05} => I think that JSON Forms might help traverse the data retrieved from the avantos server. For Instance I think I need to cross reference form.field_schema and form.ui_schema
 	const Rows = useMemo(
 		() =>
