@@ -1,5 +1,5 @@
 {
-	"cSpell.words": ["Avantos", "njsproj", "ntvs", "xyflow"],
+	"cSpell.words": ["Avantos", "njsproj", "noninteractive", "ntvs", "xyflow"],
 	"editor.formatOnSave": true,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"eslint.enable": true,

@@ -12,7 +12,7 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 
 import Button from '@/components/button/Button';
 import { Col, Row } from '@/components/layout/FlexComponents';
-import PrefillMappingListCol from '@/components/list/PrefillMappingListCol';
+import PrefillMappingParentListCol from '@/components/list/PrefillMappingParentListCol';
 import Modal from '@/components/modal/Modal';
 
 export interface PrefillMappingModalProps
@@ -35,7 +35,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 		<Modal
 			handleClose={props.handleClose}
 			isVisible={props.isVisible}
-			bodyClassName="w-155"
+			bodyClassName="w-155 h-175"
 		>
 			<Row className="py-3 px-4 border-b">
 				<Col className="flex-1">{clickedNodeName}</Col>
@@ -54,8 +54,8 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 			<Row className="py-3 px-4 border-b border-gray-300 font-medium">
 				Select data element to map
 			</Row>
-			<Row className="">
-				<PrefillMappingListCol />
+			<Row className="flex-1">
+				<PrefillMappingParentListCol />
 				<Col className="flex-1 w-50" />
 			</Row>
 			<Row

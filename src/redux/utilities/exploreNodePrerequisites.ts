@@ -4,31 +4,39 @@ export interface ExploreNodePrerequisites {
 	node: Node;
 	nodeEntities: Record<string, Node>;
 }
-const exploreNodePrerequisites = ({
-	node,
-	nodeEntities,
-}: ExploreNodePrerequisites): Node[] => {
-	if (!node.data.prerequisites) return [];
 
-	const visitedNodeIds = new Set<Node['id']>();
+const exploreNodePrerequisites = (
+	{ node, nodeEntities }: ExploreNodePrerequisites,
+	visitedNodeIds: Set<Node['id']> = new Set(),
+): Node[] => {
+	if (!node?.data?.prerequisites || node.data.prerequisites.length === 0) {
+		return [];
+	}
 
-	const clickedNodeParents: Node[] = [];
-
-	node.data.prerequisites
-		.filter(prerequisiteId => !visitedNodeIds.has(prerequisiteId))
-		.forEach(prerequisiteId => {
-			const prerequisiteNode = nodeEntities[prerequisiteId];
-			if (prerequisiteNode !== undefined) {
-				visitedNodeIds.add(prerequisiteId);
-				clickedNodeParents.push(prerequisiteNode);
-				exploreNodePrerequisites({
-					node: prerequisiteNode,
-					nodeEntities,
-				});
+	return node.data.prerequisites.reduce<Node[]>(
+		(prerequisites, prerequisiteId) => {
+			if (visitedNodeIds.has(prerequisiteId)) {
+				return prerequisites;
 			}
-		});
 
-	return clickedNodeParents;
+			const prerequisiteNode = nodeEntities[prerequisiteId];
+			if (prerequisiteNode == null) {
+				return prerequisites;
+			}
+
+			visitedNodeIds.add(prerequisiteId);
+
+			return [
+				...prerequisites,
+				prerequisiteNode,
+				...exploreNodePrerequisites(
+					{ node: prerequisiteNode, nodeEntities },
+					visitedNodeIds,
+				),
+			];
+		},
+		[],
+	);
 };
 
 export default exploreNodePrerequisites;

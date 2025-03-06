@@ -1,0 +1,55 @@
+import { memo, useCallback, useState } from 'react';
+
+import type { ChangeEvent } from 'react';
+
+import { selectClickedNodeParents } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+
+import useTypedSelector from '@/hooks/useTypedSelector';
+
+import InputRow from '@/components/form/input/InputRow';
+import { Col, Row } from '@/components/layout/FlexComponents';
+import PrefillMappingParentListItem from '@/components/list/PrefillMappingParentListItem';
+
+// export interface PrefillMappingParentListColProps {}
+
+function PrefillMappingParentListColBase() {
+	// {}: PrefillMappingParentListColProps
+	const [searchTerm, setSearchTerm] = useState<string>('');
+
+	const clickedNodeParents = useTypedSelector(selectClickedNodeParents);
+
+	const handleInputRowOnChange = useCallback(
+		(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
+		[],
+	);
+
+	return (
+		<Col className="flex-1 w-50 border-r border-gray-300 pt-4 px-4 bg-[#F6F6F6]">
+			<Row>Available data</Row>
+			<Row className="pt-2">
+				<InputRow
+					placeholder="Search"
+					onChange={handleInputRowOnChange}
+				/>
+			</Row>
+			<Row className="pt-1">
+				<ul className="w-full">
+					<PrefillMappingParentListItem label="Action Properties" />
+					<PrefillMappingParentListItem label="Client Organization Properties" />
+					{clickedNodeParents
+						.map(clickedNodeParent => (
+							<PrefillMappingParentListItem
+								parentNode={clickedNodeParent}
+								key={clickedNodeParent.id}
+							/>
+						))
+						.reverse()}
+				</ul>
+			</Row>
+		</Col>
+	);
+}
+
+const PrefillMappingParentListCol = memo(PrefillMappingParentListColBase);
+
+export default PrefillMappingParentListCol;
