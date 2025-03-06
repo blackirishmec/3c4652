@@ -19,7 +19,7 @@ const flowSlice = createSlice({
 			thunk: fetchFlowData,
 			statusStateProperty: 'fetchFlowStatus',
 			onFulfilled(state) {
-				state.lastFetchFlow = new Date();
+				state.lastFetchFlow = new Date().toISOString();
 			},
 		});
 	},

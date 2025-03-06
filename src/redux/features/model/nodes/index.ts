@@ -3,6 +3,7 @@ export * from './selectors';
 export { default as nodesAdapter } from './nodesAdapter';
 export {
 	addNode,
+	onNodesChange,
 	removeAllNodes,
 	removeManyNodes,
 	removeNode,

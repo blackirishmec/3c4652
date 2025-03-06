@@ -4,9 +4,7 @@ import statusInitialState from '@/redux/initialStates/statusInitialState';
 
 const initialState: FlowState = {
 	fetchFlowStatus: { ...statusInitialState },
-	lastFetchFlow: undefined,
-	edges: [],
-	nodes: [],
+	lastFetchFlow: null,
 };
 
 export default initialState;

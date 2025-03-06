@@ -1,7 +1,10 @@
+import { applyNodeChanges } from '@xyflow/react';
+
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { NodeChange } from '@xyflow/react';
 
 import nodesAdapter from '@/redux/features/model/nodes/nodesAdapter';
 
@@ -30,6 +33,24 @@ const nodesSlice = createSlice({
 		removeAllNodes: state => {
 			nodesAdapter.removeAll(state);
 		},
+		onNodesChange: (state, action: PayloadAction<NodeChange<Node>[]>) => {
+			const { entities } = state;
+
+			const nodes = Object.entries(entities).reduce<Node[]>(
+				(acc, [entityId]) => {
+					const entity = entities[entityId];
+
+					if (entity !== undefined) acc.push(entity);
+
+					return acc;
+				},
+				[],
+			);
+
+			const updatedNodes = applyNodeChanges(action.payload, nodes);
+
+			nodesAdapter.setAll(state, updatedNodes);
+		},
 	},
 	extraReducers(builder) {
 		builder
@@ -49,6 +70,7 @@ export const {
 	upsertManyNodes,
 	removeManyNodes,
 	removeAllNodes,
+	onNodesChange,
 } = nodesSlice.actions;
 
 export default nodesSlice.reducer;

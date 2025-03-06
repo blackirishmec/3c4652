@@ -1,7 +1,10 @@
+import { addEdge as defaultAddEdge, applyEdgeChanges } from '@xyflow/react';
+
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { Edge } from '@/interfaces/models/edgeModels';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { Connection, EdgeChange } from '@xyflow/react';
 
 import edgesAdapter from '@/redux/features/model/edges/edgesAdapter';
 
@@ -30,6 +33,42 @@ const edgesSlice = createSlice({
 		removeAllEdges: state => {
 			edgesAdapter.removeAll(state);
 		},
+		onEdgesChange: (state, action: PayloadAction<EdgeChange<Edge>[]>) => {
+			const { entities } = state;
+
+			const edges = Object.entries(entities).reduce<Edge[]>(
+				(acc, [entityId]) => {
+					const entity = entities[entityId];
+
+					if (entity !== undefined) acc.push(entity);
+
+					return acc;
+				},
+				[],
+			);
+
+			const updatedEdges = applyEdgeChanges(action.payload, edges);
+
+			edgesAdapter.setAll(state, updatedEdges);
+		},
+		onConnect: (state, action: PayloadAction<Connection>) => {
+			const { entities } = state;
+
+			const edges = Object.entries(entities).reduce<Edge[]>(
+				(acc, [entityId]) => {
+					const entity = entities[entityId];
+
+					if (entity !== undefined) acc.push(entity);
+
+					return acc;
+				},
+				[],
+			);
+
+			const edgesToAdd = defaultAddEdge(action.payload, edges);
+
+			edgesAdapter.setAll(state, edgesToAdd);
+		},
 	},
 	extraReducers(builder) {
 		builder
@@ -49,6 +88,8 @@ export const {
 	upsertManyEdges,
 	removeManyEdges,
 	removeAllEdges,
+	onEdgesChange,
+	onConnect,
 } = edgesSlice.actions;
 
 export default edgesSlice.reducer;
