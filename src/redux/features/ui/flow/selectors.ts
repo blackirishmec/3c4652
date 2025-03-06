@@ -35,3 +35,8 @@ export const selectNodeFormFields = createSelector(
 	[selectFlowState],
 	flow => flow.nodeFormFields,
 );
+
+export const selectClickedNodeFormField = createSelector(
+	[selectFlowState],
+	flow => flow.clickedNodeFormField,
+);
