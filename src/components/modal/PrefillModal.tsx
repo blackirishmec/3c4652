@@ -21,8 +21,6 @@ export interface PrefillModalProps
 	extends Omit<ModalProps, 'bodyClassName' | 'children'> {}
 
 function PrefillModalBase({ ...props }: PrefillModalProps) {
-	// Node -> Form -> Field (form.field_schema.property) -> Prefill Field (form.field_schema.property)
-
 	const dispatch = useAppDispatch();
 
 	const clickedNode = useTypedSelector(selectClickedNode);
