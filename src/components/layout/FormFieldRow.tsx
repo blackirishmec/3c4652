@@ -54,6 +54,8 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 
 	const prefilled = clickedNodeFormField !== undefined;
 
+	const handleFormFieldRowOnClick = () => {};
+
 	return (
 		<Row
 			className={clsx(
