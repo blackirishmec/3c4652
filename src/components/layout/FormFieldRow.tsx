@@ -7,10 +7,7 @@ import type { RootState } from '@/redux/store';
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
-import {
-	selectNodeFormFields,
-	setSelectedClickedNodeFormFieldSchemaPropertyKey,
-} from '@/redux/features/ui/flow';
+import { setSelectedClickedNodeFormFieldSchemaPropertyKey } from '@/redux/features/ui/flow';
 import { createSelectClickedNodeFormField } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
@@ -55,18 +52,15 @@ export interface FormFieldRowProps {
 function FormFieldRowBase({ property }: FormFieldRowProps) {
 	const dispatch = useAppDispatch();
 
-	const selectSelectedClickedNodeFormField = useMemo(
+	const selectClickedNodeFormField = useMemo(
 		() => createSelectClickedNodeFormField(property.key),
 		[property.key],
 	);
-	const clickedNodeFormField = useTypedSelector(
-		selectSelectedClickedNodeFormField,
-	);
+	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
 
-	const clickedParentNode = useTypedSelector((state: RootState) =>
+	const prefillingNode = useTypedSelector((state: RootState) =>
 		selectNodeById(state, clickedNodeFormField?.prefillingNodeId ?? ''),
 	);
-	const nodeFormFields = useTypedSelector(selectNodeFormFields);
 
 	const handleOnClick = useCallback(() => {
 		dispatch(
@@ -74,10 +68,7 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 		);
 	}, [dispatch, property.key]);
 
-	const prefilled = nodeFormFields.some(
-		nodeFormField =>
-			nodeFormField.nodeFormFieldSchemaPropertyKey === property.key,
-	);
+	const prefilled = clickedNodeFormField !== undefined;
 
 	return (
 		<Row
@@ -99,9 +90,9 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 				)}
 			>
 				{`${property.key}${
-					clickedParentNode !== undefined &&
+					prefillingNode !== undefined &&
 					clickedNodeFormField !== undefined
-						? `: ${clickedParentNode.data.name}.${clickedNodeFormField.nodeFormFieldSchemaPropertyKey}`
+						? `: ${prefillingNode.data.name}.${clickedNodeFormField.nodeFormFieldSchemaPropertyKey}`
 						: ''
 				}`}
 			</Col>

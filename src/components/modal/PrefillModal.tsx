@@ -32,7 +32,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 		selectClickedFormFieldSchemaPropertiesArray,
 	);
 
-	const clickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
+	const selectedClickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
 		selectSelectedClickedNodeFormFieldSchemaPropertyKey,
 	);
 
@@ -41,8 +41,8 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 	}, [dispatch]);
 
 	const prefillMappingModalIsVisible = useMemo(
-		() => clickedNodeFormFieldSchemaPropertyKey !== undefined,
-		[clickedNodeFormFieldSchemaPropertyKey],
+		() => selectedClickedNodeFormFieldSchemaPropertyKey !== undefined,
+		[selectedClickedNodeFormFieldSchemaPropertyKey],
 	);
 
 	const Rows = useMemo(
@@ -103,9 +103,6 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 			<PrefillMappingModal
 				isVisible={prefillMappingModalIsVisible}
 				handleClose={handleClosePrefillMappingModal}
-				clickedNodeFormFieldSchemaPropertyKey={
-					clickedNodeFormFieldSchemaPropertyKey
-				}
 			/>
 		</Modal>
 	);

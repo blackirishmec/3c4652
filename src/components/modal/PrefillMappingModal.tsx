@@ -10,6 +10,7 @@ import {
 	addNodeFormField,
 	resetSelectedClickedNodeFormField,
 	selectSelectedClickedNodeFormField,
+	selectSelectedClickedNodeFormFieldSchemaPropertyKey,
 } from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
@@ -22,17 +23,15 @@ import PrefillMappingParentListCol from '@/components/list/PrefillMappingParentL
 import Modal from '@/components/modal/Modal';
 
 export interface PrefillMappingModalProps
-	extends Omit<ModalProps, 'bodyClassName' | 'children'> {
-	clickedNodeFormFieldSchemaPropertyKey: string | undefined;
-}
+	extends Omit<ModalProps, 'bodyClassName' | 'children'> {}
 
-function PrefillMappingModalBase({
-	clickedNodeFormFieldSchemaPropertyKey,
-	...props
-}: PrefillMappingModalProps) {
+function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	const dispatch = useAppDispatch();
 
 	const clickedNode = useTypedSelector(selectClickedNode);
+	const selectedClickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
+		selectSelectedClickedNodeFormFieldSchemaPropertyKey,
+	);
 	const clickedNodeFormField = useTypedSelector(
 		selectSelectedClickedNodeFormField,
 	);
@@ -62,7 +61,7 @@ function PrefillMappingModalBase({
 			bodyClassName="w-155 h-175"
 		>
 			<Row className="py-3 px-4 border-b">
-				<Col className="flex-1">{`${clickedNodeName}.${clickedNodeFormFieldSchemaPropertyKey}`}</Col>
+				<Col className="flex-1">{`${clickedNodeName}.${selectedClickedNodeFormFieldSchemaPropertyKey}`}</Col>
 				<Col>
 					<Button
 						className="hover:bg-red-100"
