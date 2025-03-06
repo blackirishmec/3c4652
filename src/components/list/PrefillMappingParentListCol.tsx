@@ -24,7 +24,7 @@ function PrefillMappingParentListColBase() {
 	);
 
 	return (
-		<Col className="flex-1 w-50 border-r border-gray-300 pt-4 px-4 bg-[#F6F6F6]">
+		<Col className="flex-1 h-full overflow-hidden w-50 border-r border-gray-300 pt-4 px-4 bg-[#F6F6F6]">
 			<Row>Available data</Row>
 			<Row className="pt-2">
 				<InputRow
@@ -32,7 +32,7 @@ function PrefillMappingParentListColBase() {
 					onChange={handleInputRowOnChange}
 				/>
 			</Row>
-			<Row className="pt-1">
+			<Row className="pt-1 overflow-y-auto">
 				<ul className="w-full">
 					<PrefillMappingParentListItem label="Action Properties" />
 					<PrefillMappingParentListItem label="Client Organization Properties" />

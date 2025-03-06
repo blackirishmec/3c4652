@@ -54,7 +54,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 			<Row className="py-3 px-4 border-b border-gray-300 font-medium">
 				Select data element to map
 			</Row>
-			<Row className="flex-1">
+			<Row className="flex-1 min-h-0">
 				<PrefillMappingParentListCol />
 				<Col className="flex-1 w-50" />
 			</Row>
