@@ -32,23 +32,28 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	const selectedClickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
 		selectSelectedClickedNodeFormFieldSchemaPropertyKey,
 	);
-	const clickedNodeFormField = useTypedSelector(
+	const selectedClickedNodeFormField = useTypedSelector(
 		selectSelectedClickedNodeFormField,
 	);
-	const clickedParentNode = useTypedSelector((state: RootState) =>
-		selectNodeById(state, clickedNodeFormField?.prefillingNodeId ?? ''),
+	const prefillingNode = useTypedSelector((state: RootState) =>
+		selectNodeById(
+			state,
+			selectedClickedNodeFormField?.prefillingNodeId ?? '',
+		),
 	);
 
 	const handleCloseModal = useCallback(() => {
 		props.handleClose();
 	}, [props]);
 
-	const handleSelectMapping = useCallback(() => {
-		if (clickedNodeFormField === undefined) return;
-		dispatch(addNodeFormField(clickedNodeFormField));
+	const handleSaveSelectedPrefillMapping = useCallback(() => {
+		if (selectedClickedNodeFormField === undefined) return;
+
+		dispatch(addNodeFormField(selectedClickedNodeFormField));
 		dispatch(resetSelectedClickedNodeFormField());
+
 		handleCloseModal();
-	}, [clickedNodeFormField, dispatch, handleCloseModal]);
+	}, [selectedClickedNodeFormField, dispatch, handleCloseModal]);
 
 	if (clickedNode === undefined) return null;
 
@@ -76,15 +81,15 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 			</Row>
 			<Row className="py-3 px-4 border-b border-gray-300 font-medium">
 				<Col className="flex-1">Select data element to map</Col>
-				{clickedParentNode !== undefined && (
+				{prefillingNode !== undefined && (
 					<Col>
 						<Row className="flex-1">
 							<Col className="bg-blue-100">
-								{clickedParentNode?.data.name}
+								{prefillingNode?.data.name}
 							</Col>
-							{clickedNodeFormField && (
+							{selectedClickedNodeFormField && (
 								<Col className="bg-green-100">
-									{`.${clickedNodeFormField?.nodeFormFieldSchemaPropertyKey}`}
+									{`.${selectedClickedNodeFormField?.nodeFormFieldSchemaPropertyKey}`}
 								</Col>
 							)}
 						</Row>
@@ -110,8 +115,8 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 				<Col>
 					<Button
 						className="border border-red-400 text-red-500 py-2 px-3 rounded-sm hover:bg-blue-100!"
-						onClick={handleSelectMapping}
-						disabled={clickedNodeFormField === undefined}
+						onClick={handleSaveSelectedPrefillMapping}
+						disabled={selectedClickedNodeFormField === undefined}
 					>
 						Select
 					</Button>

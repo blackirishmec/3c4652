@@ -6,7 +6,10 @@ import type { RootState } from '@/redux/store';
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
-import { selectNodeFormFields } from '@/redux/features/ui/flow';
+import {
+	selectNodeFormFields,
+	selectSelectedClickedNodeFormField,
+} from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 export const createSelectNodeFormFields = (nodeId: Node['id']) => {
@@ -75,3 +78,30 @@ export const createSelectClickedNodeFormField = (
 		},
 	);
 };
+
+// TODO: {Thu, 03/06/25 @16:10} => Handle globals!
+export const selectSelectedClickedNodeFormFieldPrefillingNode = createSelector(
+	[
+		selectClickedNodeFormFields,
+		selectSelectedClickedNodeFormField,
+		(state: RootState) => state.nodes.entities,
+	],
+	(
+		clickedNodeFormFields,
+		selectedClickedNodeFormField,
+		nodeEntities,
+	): Node | undefined => {
+		if (
+			clickedNodeFormFields === undefined &&
+			selectedClickedNodeFormField === undefined
+		)
+			return undefined;
+
+		clickedNodeFormFields;
+
+		const prefillingNode =
+			nodeEntities[selectedClickedNodeFormField?.prefillingNodeId ?? ''];
+
+		return prefillingNode;
+	},
+);
