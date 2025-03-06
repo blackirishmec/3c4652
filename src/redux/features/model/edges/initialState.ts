@@ -1,7 +1,7 @@
-import type { NodesState } from './types';
+import type { EdgesState } from './types';
 
-import nodesAdapter from '@/redux/features/model/nodes/nodesAdapter';
+import edgesAdapter from '@/redux/features/model/edges/edgesAdapter';
 
-const initialState: NodesState = nodesAdapter.getInitialState();
+const initialState: EdgesState = edgesAdapter.getInitialState();
 
 export default initialState;

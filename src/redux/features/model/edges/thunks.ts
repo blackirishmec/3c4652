@@ -3,26 +3,23 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import type { AvantosApiResponse } from '@/interfaces/AvantosInterfaces';
-import type { Node } from '@/interfaces/models/nodeModels';
+import type { Edge } from '@/interfaces/models/edgeModels';
 
 import axiosInstance from '@/api/axiosInstance';
 
-import { transformNodeResources } from '@/transformers/nodeTransformers';
+import { transformEdgeResources } from '@/transformers/edgeTransformers';
 
-export const fetchNodes = createAsyncThunk<Node[], void>(
-	'nodes/fetchNodes',
+export const fetchEdges = createAsyncThunk<Edge[], void>(
+	'edges/fetchEdges',
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await axiosInstance.get<AvantosApiResponse>(
 				'actions/blueprints/bp_01jk766tckfwx84xjcxazggzyc/graph',
 			);
 
-			const { nodes } = transformNodeResources({
-				nodeResources: response.data.nodes,
-				edgeResources: response.data.edges,
-			});
+			const { edges } = transformEdgeResources(response.data.edges);
 
-			return nodes;
+			return edges;
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
 				return rejectWithValue(error.response?.data ?? error.message);

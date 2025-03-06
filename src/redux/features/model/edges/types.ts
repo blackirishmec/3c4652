@@ -1,4 +1,4 @@
-import type { Node } from '@/interfaces/models/nodeModels';
+import type { Edge } from '@/interfaces/models/edgeModels';
 import type { EntityState } from '@reduxjs/toolkit';
 
-export interface NodesState extends EntityState<Node, Node['id']> {}
+export interface EdgesState extends EntityState<Edge, Edge['id']> {}

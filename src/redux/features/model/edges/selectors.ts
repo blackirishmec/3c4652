@@ -1,11 +1,11 @@
 import type { RootState } from '../../../store';
 
-import nodesAdapter from '@/redux/features/model/nodes/nodesAdapter';
+import edgesAdapter from '@/redux/features/model/edges/edgesAdapter';
 
-const selectNodesState = (state: RootState) => state.nodes;
+const selectEdgesState = (state: RootState) => state.edges;
 
 export const {
-	selectAll: selectAllNodes,
-	selectById: selectNodesById,
-	selectIds: selectNodesIds,
-} = nodesAdapter.getSelectors(selectNodesState);
+	selectAll: selectAllEdges,
+	selectById: selectEdgesById,
+	selectIds: selectEdgesIds,
+} = edgesAdapter.getSelectors(selectEdgesState);

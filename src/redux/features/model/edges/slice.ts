@@ -1,57 +1,57 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { Node } from '@/interfaces/models/nodeModels';
+import type { Edge } from '@/interfaces/models/edgeModels';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import nodesAdapter from '@/redux/features/model/nodes/nodesAdapter';
+import edgesAdapter from '@/redux/features/model/edges/edgesAdapter';
 
-import { nodeFetched, nodesFetched } from './actions';
+import { edgeFetched, edgesFetched } from './actions';
 import initialState from './initialState';
 
-const nodesSlice = createSlice({
-	name: 'nodes',
+const edgesSlice = createSlice({
+	name: 'edges',
 	initialState,
 	reducers: {
-		addNode: (state, action: PayloadAction<Node>) => {
-			nodesAdapter.addOne(state, action.payload);
+		addEdge: (state, action: PayloadAction<Edge>) => {
+			edgesAdapter.addOne(state, action.payload);
 		},
-		upsertNode: (state, action: PayloadAction<Node>) => {
-			nodesAdapter.upsertOne(state, action.payload);
+		upsertEdge: (state, action: PayloadAction<Edge>) => {
+			edgesAdapter.upsertOne(state, action.payload);
 		},
-		removeNode: (state, action: PayloadAction<Node['id']>) => {
-			nodesAdapter.removeOne(state, action.payload);
+		removeEdge: (state, action: PayloadAction<Edge['id']>) => {
+			edgesAdapter.removeOne(state, action.payload);
 		},
-		upsertManyNodes: (state, action: PayloadAction<Node[]>) => {
-			nodesAdapter.upsertMany(state, action.payload);
+		upsertManyEdges: (state, action: PayloadAction<Edge[]>) => {
+			edgesAdapter.upsertMany(state, action.payload);
 		},
 		removeManyMealItemMealUsers: (
 			state,
-			action: PayloadAction<Node['id'][]>,
+			action: PayloadAction<Edge['id'][]>,
 		) => {
-			nodesAdapter.removeMany(state, action.payload);
+			edgesAdapter.removeMany(state, action.payload);
 		},
-		removeAllNodes: state => {
-			nodesAdapter.removeAll(state);
+		removeAllEdges: state => {
+			edgesAdapter.removeAll(state);
 		},
 	},
 	extraReducers(builder) {
 		builder
-			.addCase(nodeFetched, (state, { payload: loggedInNodes }) => {
-				nodesAdapter.upsertOne(state, loggedInNodes);
+			.addCase(edgeFetched, (state, { payload: loggedInEdges }) => {
+				edgesAdapter.upsertOne(state, loggedInEdges);
 			})
-			.addCase(nodesFetched, (state, { payload: nodes }) => {
-				nodesAdapter.upsertMany(state, nodes);
+			.addCase(edgesFetched, (state, { payload: edges }) => {
+				edgesAdapter.upsertMany(state, edges);
 			});
 	},
 });
 
 export const {
-	addNode,
-	upsertNode,
-	removeNode,
-	upsertManyNodes,
+	addEdge,
+	upsertEdge,
+	removeEdge,
+	upsertManyEdges,
 	removeManyMealItemMealUsers,
-	removeAllNodes,
-} = nodesSlice.actions;
+	removeAllEdges,
+} = edgesSlice.actions;
 
-export default nodesSlice.reducer;
+export default edgesSlice.reducer;
