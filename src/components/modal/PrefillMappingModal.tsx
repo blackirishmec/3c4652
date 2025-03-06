@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 import { PiXFill } from 'react-icons/pi';
 import uuid4 from 'uuid4';
@@ -16,12 +16,11 @@ import Button from '@/components/button/Button';
 import { Col, Row } from '@/components/layout/FlexComponents';
 import FormFieldRow from '@/components/layout/FormFieldRow';
 import Modal from '@/components/modal/Modal';
-import PrefillMappingModal from '@/components/modal/PrefillMappingModal';
 
-export interface PrefillModalProps
+export interface PrefillMappingModalProps
 	extends Omit<ModalProps, 'bodyClassName' | 'children'> {}
 
-function PrefillModalBase({ ...props }: PrefillModalProps) {
+function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	const dispatch = useAppDispatch();
 
 	const clickedNode = useTypedSelector(selectClickedNode);
@@ -29,13 +28,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 		selectClickedFormFieldSchemaPropertiesArray,
 	);
 
-	const [prefillMappingModalVisible, setPrefillMappingModalVisible] =
-		useState(false);
-
-	const handleClosePrefillMappingModal = useCallback(() => {
-		setPrefillMappingModalVisible(false);
-	}, []);
-
+	// TODO: {Wed, 03/05/25 @00:05} => I think that JSON Forms might help traverse the data retrieved from the avantos server. For Instance I think I need to cross reference form.field_schema and form.ui_schema
 	const Rows = useMemo(
 		() =>
 			clickedFormFieldSchemaPropertiesArray.map(property => (
@@ -74,8 +67,8 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 			</Row>
 			<Row className="pt-3 px-4">
 				<Col className="flex-1">
-					<Row className="font-semibold">Prefill</Row>
-					<Row>Prefill fields for this form</Row>
+					<Row className="font-semibold">PrefillMapping</Row>
+					<Row>PrefillMapping fields for this form</Row>
 				</Col>
 				<Col childrenVerticalPosition="center">I/O</Col>
 			</Row>
@@ -90,14 +83,11 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 					Close{' '}
 				</Button>
 			</Row>
-			<PrefillMappingModal
-				isVisible={prefillMappingModalVisible}
-				handleClose={handleClosePrefillMappingModal}
-			/>
+			{/* <PrefillMappingMappingModal /> */}
 		</Modal>
 	);
 }
 
-const PrefillModal = memo(PrefillModalBase);
+const PrefillMappingModal = memo(PrefillMappingModalBase);
 
-export default PrefillModal;
+export default PrefillMappingModal;
