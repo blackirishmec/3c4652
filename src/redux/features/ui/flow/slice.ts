@@ -7,6 +7,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import initialState from '@/redux/features/ui/flow/initialState';
 import { fetchFlowData } from '@/redux/features/ui/flow/thunks';
 import handleAsyncState from '@/redux/utilities/handleAsyncState';
+import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
 
 const flowSlice = createSlice({
 	name: 'flow',
@@ -44,8 +45,8 @@ const flowSlice = createSlice({
 			{ payload: nodeFormFieldToAdd }: PayloadAction<NodeFormField>,
 		) => {
 			if (
-				!state.nodeFormFields.some(
-					field => field === nodeFormFieldToAdd,
+				!state.nodeFormFields.some(field =>
+					nodeFormFieldsAreEqual(field, nodeFormFieldToAdd),
 				)
 			) {
 				state.nodeFormFields.push(nodeFormFieldToAdd);

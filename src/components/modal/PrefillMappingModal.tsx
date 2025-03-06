@@ -6,9 +6,14 @@ import type { ModalProps } from '@/components/modal/Modal';
 import type { RootState } from '@/redux/store';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
-import { selectClickedNodeFormField } from '@/redux/features/ui/flow';
+import {
+	addNodeFormField,
+	resetClickedNodeFormField,
+	selectClickedNodeFormField,
+} from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
+import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
 
 import Button from '@/components/button/Button';
@@ -25,6 +30,8 @@ function PrefillMappingModalBase({
 	clickedNodeFormFieldSchemaPropertyKey,
 	...props
 }: PrefillMappingModalProps) {
+	const dispatch = useAppDispatch();
+
 	const clickedNode = useTypedSelector(selectClickedNode);
 	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
 	const clickedParentNode = useTypedSelector((state: RootState) =>
@@ -34,6 +41,13 @@ function PrefillMappingModalBase({
 	const handleCloseModal = useCallback(() => {
 		props.handleClose();
 	}, [props]);
+
+	const handleSelectMapping = useCallback(() => {
+		if (clickedNodeFormField === undefined) return;
+		dispatch(addNodeFormField(clickedNodeFormField));
+		dispatch(resetClickedNodeFormField());
+		handleCloseModal();
+	}, [clickedNodeFormField, dispatch, handleCloseModal]);
 
 	if (clickedNode === undefined) return null;
 
@@ -95,7 +109,7 @@ function PrefillMappingModalBase({
 				<Col>
 					<Button
 						className="border border-red-400 text-red-500 py-2 px-3 rounded-sm hover:bg-blue-100!"
-						onClick={handleCloseModal}
+						onClick={handleSelectMapping}
 						disabled={clickedNodeFormField === undefined}
 					>
 						Select

@@ -13,6 +13,7 @@ import {
 	setClickedNodeFormField,
 } from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -76,12 +77,11 @@ function PrefillMappingChildListItemBase({
 			};
 
 			if (
-				tempClickedNodeFormField.nodeFormFieldSchemaPropertyKey ===
-					clickedNodeFormField?.nodeFormFieldSchemaPropertyKey &&
-				tempClickedNodeFormField.nodeId ===
-					clickedNodeFormField?.nodeId &&
-				tempClickedNodeFormField.prefillingNodeId ===
-					clickedNodeFormField?.prefillingNodeId
+				clickedNodeFormField !== undefined &&
+				nodeFormFieldsAreEqual(
+					tempClickedNodeFormField,
+					clickedNodeFormField,
+				)
 			) {
 				dispatch(resetClickedNodeFormField());
 			} else {
