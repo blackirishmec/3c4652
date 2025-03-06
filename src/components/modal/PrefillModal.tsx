@@ -39,7 +39,11 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 	const Rows = useMemo(
 		() =>
 			clickedFormFieldSchemaPropertiesArray.map(property => (
-				<FormFieldRow key={uuid4()} property={property} />
+				<FormFieldRow
+					key={uuid4()}
+					property={property}
+					onClick={() => setPrefillMappingModalVisible(true)}
+				/>
 			)),
 		[clickedFormFieldSchemaPropertiesArray],
 	);

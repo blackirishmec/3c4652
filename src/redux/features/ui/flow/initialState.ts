@@ -7,6 +7,7 @@ const initialState: FlowState = {
 	lastFetchFlow: null,
 	clickedNodeId: undefined,
 	nodeFormFields: [],
+	clickedNodeFormField: undefined,
 };
 
 export default initialState;

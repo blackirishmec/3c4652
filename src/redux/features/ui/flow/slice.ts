@@ -17,15 +17,27 @@ const flowSlice = createSlice({
 			state.lastFetchFlow = initialState.lastFetchFlow;
 			state.clickedNodeId = initialState.clickedNodeId;
 			state.nodeFormFields = [...initialState.nodeFormFields];
+			state.clickedNodeFormField = initialState.clickedNodeFormField;
 		},
 		setClickedNodeId: (
 			state,
 			{ payload: nodeId }: PayloadAction<Node['id']>,
 		) => {
 			state.clickedNodeId = nodeId;
+			state.clickedNodeFormField = initialState.clickedNodeFormField;
 		},
 		resetClickedNodeId: state => {
 			state.clickedNodeId = initialState.clickedNodeId;
+			state.clickedNodeFormField = initialState.clickedNodeFormField;
+		},
+		setClickedNodeFormField: (
+			state,
+			{ payload: nodeFormField }: PayloadAction<NodeFormField>,
+		) => {
+			state.clickedNodeFormField = nodeFormField;
+		},
+		resetClickedNodeFormField: state => {
+			state.clickedNodeFormField = initialState.clickedNodeFormField;
 		},
 		addNodeFormField: (
 			state,
@@ -66,6 +78,8 @@ export const {
 	resetClickedNodeId,
 	addNodeFormField,
 	removeNodeFormField,
+	setClickedNodeFormField,
+	resetClickedNodeFormField,
 } = flowSlice.actions;
 
 export default flowSlice.reducer;

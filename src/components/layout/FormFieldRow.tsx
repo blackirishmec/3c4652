@@ -43,9 +43,10 @@ const classes = {
 
 export interface FormFieldRowProps {
 	property: AvantosFieldSchemaPropertiesArrayValue;
+	onClick?: () => void;
 }
 
-function FormFieldRowBase({ property }: FormFieldRowProps) {
+function FormFieldRowBase({ property, onClick }: FormFieldRowProps) {
 	const selectClickedNodeFormField = useMemo(
 		() => createSelectClickedNodeFormField(property.key),
 		[property.key],
@@ -54,14 +55,13 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 
 	const prefilled = clickedNodeFormField !== undefined;
 
-	const handleFormFieldRowOnClick = () => {};
-
 	return (
 		<Row
 			className={clsx(
 				classes.containerRow,
 				prefilled && classes.prefilledContainerRow,
 			)}
+			onClick={onClick}
 		>
 			{!prefilled && (
 				<Col childrenVerticalPosition="center">

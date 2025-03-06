@@ -7,4 +7,5 @@ export interface FlowState {
 	lastFetchFlow: string | null;
 	clickedNodeId?: Node['id'];
 	nodeFormFields: NodeFormField[];
+	clickedNodeFormField?: NodeFormField;
 }
