@@ -3,8 +3,13 @@ import { memo, useCallback } from 'react';
 import { PiXFill } from 'react-icons/pi';
 
 import type { ModalProps } from '@/components/modal/Modal';
+import type { RootState } from '@/redux/store';
 
-import { resetClickedNodeId } from '@/redux/features/ui/flow';
+import { selectNodeById } from '@/redux/features/model/nodes';
+import {
+	resetClickedNodeId,
+	selectClickedNodeFormField,
+} from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
@@ -16,12 +21,21 @@ import PrefillMappingParentListCol from '@/components/list/PrefillMappingParentL
 import Modal from '@/components/modal/Modal';
 
 export interface PrefillMappingModalProps
-	extends Omit<ModalProps, 'bodyClassName' | 'children'> {}
+	extends Omit<ModalProps, 'bodyClassName' | 'children'> {
+	clickedNodeFormFieldSchemaPropertyKey: string | undefined;
+}
 
-function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
+function PrefillMappingModalBase({
+	clickedNodeFormFieldSchemaPropertyKey,
+	...props
+}: PrefillMappingModalProps) {
 	const dispatch = useAppDispatch();
 
 	const clickedNode = useTypedSelector(selectClickedNode);
+	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
+	const clickedParentNode = useTypedSelector((state: RootState) =>
+		selectNodeById(state, clickedNodeFormField?.prefillingNodeId ?? ''),
+	);
 
 	const handleCloseModal = useCallback(() => {
 		dispatch(resetClickedNodeId());
@@ -38,7 +52,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 			bodyClassName="w-155 h-175"
 		>
 			<Row className="py-3 px-4 border-b">
-				<Col className="flex-1">{clickedNodeName}</Col>
+				<Col className="flex-1">{`${clickedNodeName}.${clickedNodeFormFieldSchemaPropertyKey}`}</Col>
 				<Col>
 					<Button
 						className="hover:bg-red-100"
@@ -52,7 +66,21 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 				</Col>
 			</Row>
 			<Row className="py-3 px-4 border-b border-gray-300 font-medium">
-				Select data element to map
+				<Col className="flex-1">Select data element to map</Col>
+				{clickedParentNode !== undefined && (
+					<Col>
+						<Row className="flex-1">
+							<Col className="bg-blue-100">
+								{clickedParentNode?.data.name}
+							</Col>
+							{clickedNodeFormField && (
+								<Col className="bg-green-100">
+									{`.${clickedNodeFormField?.nodeFormFieldSchemaPropertyKey}`}
+								</Col>
+							)}
+						</Row>
+					</Col>
+				)}
 			</Row>
 			<Row className="flex-1 min-h-0">
 				<PrefillMappingParentListCol />

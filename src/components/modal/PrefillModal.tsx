@@ -109,6 +109,9 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 			<PrefillMappingModal
 				isVisible={prefillMappingModalIsVisible}
 				handleClose={handleClosePrefillMappingModal}
+				clickedNodeFormFieldSchemaPropertyKey={
+					clickedNodeFormFieldSchemaPropertyKey
+				}
 			/>
 		</Modal>
 	);

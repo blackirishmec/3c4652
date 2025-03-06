@@ -8,8 +8,8 @@ import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosType
 import type { HTMLAttributes, MouseEvent } from 'react';
 
 import {
+	resetClickedNodeFormField,
 	selectClickedNodeFormField,
-	selectClickedNodeId,
 	setClickedNodeFormField,
 } from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
@@ -75,11 +75,28 @@ function PrefillMappingChildListItemBase({
 				prefillingNodeId: parentNode.id,
 			};
 
-			dispatch(setClickedNodeFormField(tempClickedNodeFormField));
+			if (
+				tempClickedNodeFormField.nodeFormFieldSchemaPropertyKey ===
+					clickedNodeFormField?.nodeFormFieldSchemaPropertyKey &&
+				tempClickedNodeFormField.nodeId ===
+					clickedNodeFormField?.nodeId &&
+				tempClickedNodeFormField.prefillingNodeId ===
+					clickedNodeFormField?.prefillingNodeId
+			) {
+				dispatch(resetClickedNodeFormField());
+			} else {
+				dispatch(setClickedNodeFormField(tempClickedNodeFormField));
+			}
 
 			_e.stopPropagation();
 		},
-		[clickedNode, dispatch, nodeFormFieldSchemaProperty, parentNode],
+		[
+			clickedNode,
+			clickedNodeFormField,
+			dispatch,
+			nodeFormFieldSchemaProperty,
+			parentNode,
+		],
 	);
 
 	const getNodeFormFieldIsClicked = useCallback((): boolean => {

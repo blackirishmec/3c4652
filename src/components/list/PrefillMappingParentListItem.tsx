@@ -5,8 +5,11 @@ import { PiCaretDownBold, PiCaretRightBold } from 'react-icons/pi';
 
 import type { NodeFormField } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
+import type { RootState } from '@/redux/store';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
+import { selectNodeById } from '@/redux/features/model/nodes';
+import { selectClickedNodeFormField } from '@/redux/features/ui/flow';
 import { createSelectNodeFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
 
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -61,11 +64,12 @@ function PrefillMappingParentListItemBase({
 	const nodeFormFieldSchemaPropertiesArray = useTypedSelector(
 		selectNodeFormFieldSchemaPropertiesArray,
 	);
+	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
+	const clickedParentNode = useTypedSelector((state: RootState) =>
+		selectNodeById(state, clickedNodeFormField?.prefillingNodeId ?? ''),
+	);
 
 	const [childrenListExpanded, setChildrenListExpanded] = useState(false);
-	const [tempNodeFormField, setTempNodeFormField] = useState<NodeFormField[]>(
-		[],
-	);
 
 	const handleParentLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
@@ -87,7 +91,9 @@ function PrefillMappingParentListItemBase({
 				<Row
 					className={clsx(
 						classes.parentRow,
-						childrenListExpanded && classes.expandedParentRow,
+						clickedParentNode !== undefined &&
+							clickedParentNode.id === parentNode?.id &&
+							classes.expandedParentRow,
 					)}
 				>
 					<Col className="px-2" childrenVerticalPosition="center">
