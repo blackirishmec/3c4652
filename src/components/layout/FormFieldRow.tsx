@@ -1,9 +1,10 @@
-import { memo, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 import clsx from 'clsx';
 import { PiDatabase, PiXCircleFill } from 'react-icons/pi';
 
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { Dispatch, SetStateAction } from 'react';
 
 import { createSelectClickedNodeFormField } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
@@ -43,15 +44,26 @@ const classes = {
 
 export interface FormFieldRowProps {
 	property: AvantosFieldSchemaPropertiesArrayValue;
-	onClick?: () => void;
+	setClickedNodeFormFieldSchemaPropertyKey: Dispatch<
+		SetStateAction<
+			AvantosFieldSchemaPropertiesArrayValue['key'] | undefined
+		>
+	>;
 }
 
-function FormFieldRowBase({ property, onClick }: FormFieldRowProps) {
+function FormFieldRowBase({
+	property,
+	setClickedNodeFormFieldSchemaPropertyKey,
+}: FormFieldRowProps) {
 	const selectClickedNodeFormField = useMemo(
 		() => createSelectClickedNodeFormField(property.key),
 		[property.key],
 	);
 	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
+
+	const handleOnClick = useCallback(() => {
+		setClickedNodeFormFieldSchemaPropertyKey(property.key);
+	}, [property.key, setClickedNodeFormFieldSchemaPropertyKey]);
 
 	const prefilled = clickedNodeFormField !== undefined;
 
@@ -61,7 +73,7 @@ function FormFieldRowBase({ property, onClick }: FormFieldRowProps) {
 				classes.containerRow,
 				prefilled && classes.prefilledContainerRow,
 			)}
-			onClick={onClick}
+			onClick={handleOnClick}
 		>
 			{!prefilled && (
 				<Col childrenVerticalPosition="center">

@@ -1,7 +1,6 @@
 import { memo, useCallback, useMemo, useState } from 'react';
 
 import { PiXFill } from 'react-icons/pi';
-import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
@@ -47,15 +46,17 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 	const Rows = useMemo(
 		() =>
 			clickedNode !== undefined &&
-			clickedFormFieldSchemaPropertiesArray.map(property => (
-				<FormFieldRow
-					key={uuid4()}
-					property={property}
-					onClick={() =>
-						setClickedNodeFormFieldSchemaPropertyKey(property.key)
-					}
-				/>
-			)),
+			clickedFormFieldSchemaPropertiesArray.map(property => {
+				return (
+					<FormFieldRow
+						key={property.key}
+						property={property}
+						setClickedNodeFormFieldSchemaPropertyKey={
+							setClickedNodeFormFieldSchemaPropertyKey
+						}
+					/>
+				);
+			}),
 		[clickedFormFieldSchemaPropertiesArray, clickedNode],
 	);
 
