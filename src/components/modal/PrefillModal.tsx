@@ -33,32 +33,34 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 		[formByClickedNode],
 	);
 
+	if (clickedNode === undefined) return null;
+
+	const clickedNodeName = clickedNode.data.name;
+
 	return (
-		clickedNode !== undefined && (
-			<Modal
-				handleClose={props.handleClose}
-				isVisible={props.isVisible}
-				bodyClassName="w-175"
-			>
-				<Row className="py-3 px-4 border-b">
-					<Col className="flex-1">{clickedNode.data.name}</Col>
-					<Col>X</Col>
-				</Row>
-				<Row className="pt-3 px-4">
-					<Col className="flex-1">
-						<Row className="font-semibold">Prefill</Row>
-						<Row>Prefill fields for this form</Row>
-					</Col>
-					<Col childrenVerticalPosition="center">I/O</Col>
-				</Row>
-				<Row className="pt-8 px-4">
-					<Col className="flex-1 space-y-4">{Rows}</Col>
-				</Row>
-				<Row className="py-3" childrenHorizontalPosition="center">
-					Button
-				</Row>
-			</Modal>
-		)
+		<Modal
+			handleClose={props.handleClose}
+			isVisible={props.isVisible}
+			bodyClassName="w-175"
+		>
+			<Row className="py-3 px-4 border-b">
+				<Col className="flex-1">{clickedNodeName}</Col>
+				<Col>X</Col>
+			</Row>
+			<Row className="pt-3 px-4">
+				<Col className="flex-1">
+					<Row className="font-semibold">Prefill</Row>
+					<Row>Prefill fields for this form</Row>
+				</Col>
+				<Col childrenVerticalPosition="center">I/O</Col>
+			</Row>
+			<Row className="pt-8 px-4">
+				<Col className="flex-1 space-y-4">{Rows}</Col>
+			</Row>
+			<Row className="py-3" childrenHorizontalPosition="center">
+				Button
+			</Row>
+		</Modal>
 	);
 }
 
