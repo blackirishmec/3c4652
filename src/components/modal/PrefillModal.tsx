@@ -77,7 +77,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 			</Row>
 			<Row className="py-3" childrenHorizontalPosition="center">
 				<Button
-					className="bg-red-400 text-white py-2 px-3 rounded-full hover:bg-red-300"
+					className="border border-red-400 text-red-500 py-2 px-3 rounded-sm hover:bg-blue-100!"
 					onClick={handleCloseModal}
 				>
 					Close{' '}
