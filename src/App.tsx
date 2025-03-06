@@ -5,6 +5,7 @@ import { Background, Controls, MiniMap, ReactFlow } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
 import type { Node } from '@/interfaces/models/nodeModels';
+import type { NodeChange } from '@xyflow/react';
 import type { MouseEvent } from 'react';
 
 import { edgeTypes, nodeTypes } from './types/AvantosTypes';
@@ -64,11 +65,18 @@ export default function App() {
 		dispatch(resetClickedNodeId());
 	}, [dispatch]);
 
+	const handleNodesChange = useCallback(
+		(changes: NodeChange<Node>[]) => {
+			dispatch(onNodesChange(changes));
+		},
+		[dispatch],
+	);
+
 	return (
 		<ReactFlow
 			nodes={nodes}
 			nodeTypes={nodeTypes}
-			onNodesChange={onNodesChange}
+			onNodesChange={handleNodesChange}
 			edges={edges}
 			edgeTypes={edgeTypes}
 			onEdgesChange={onEdgesChange}
