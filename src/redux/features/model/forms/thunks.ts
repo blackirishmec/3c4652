@@ -7,17 +7,20 @@ import type { Form } from '@/interfaces/models/formModels';
 
 import axiosInstance from '@/api/axiosInstance';
 
+import { transformFlowResource } from '@/transformers/flowTransformers';
 import { transformFormResources } from '@/transformers/formTransformers';
 
 export const fetchForms = createAsyncThunk<Form[], void>(
 	'forms/fetchForms',
 	async (_, { rejectWithValue }) => {
 		try {
-			const response = await axiosInstance.get<AvantosApiResponse>(
+			const { data } = await axiosInstance.get<AvantosApiResponse>(
 				'actions/blueprints/bp_01jk766tckfwx84xjcxazggzyc/graph',
 			);
 
-			const { forms } = transformFormResources(response.data.forms);
+			const { formResources } = transformFlowResource({ data });
+
+			const { forms } = transformFormResources(formResources);
 
 			return forms;
 		} catch (error) {

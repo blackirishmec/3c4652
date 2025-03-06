@@ -7,7 +7,6 @@ import {
 	MiniMap,
 	ReactFlow,
 	useEdgesState,
-	useNodesState,
 } from '@xyflow/react';
 
 import { Provider } from 'react-redux';
@@ -23,12 +22,23 @@ import type { OnConnect } from '@xyflow/react';
 
 import { edgeTypes, nodeTypes } from './types/AvantosTypes';
 
+import { selectAllNodes } from '@/redux/features/model/nodes';
 import { store } from '@/redux/store';
+
+import useTypedSelector from '@/hooks/useTypedSelector';
 
 import PrefillModal from '@/components/modal/PrefillModal';
 
 export default function App() {
-	const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+	// TODO: {Wed, 03/05/25 @20:53} => Create a UI Slice with a thunk called fetchFlowData. Dispatch it here. Then save the id of the node selected by the user click to this new slice.
+
+	const nodes = useTypedSelector(selectAllNodes);
+
+	// useEffect(() => {
+	// 	const dispatch = useAppDispatch(fetch);
+	// }, [third])
+
+	// const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
 	const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 
 	const [forms, setForms] = useState<Form[]>();

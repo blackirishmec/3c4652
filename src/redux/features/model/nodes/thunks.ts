@@ -7,17 +7,25 @@ import type { Node } from '@/interfaces/models/nodeModels';
 
 import axiosInstance from '@/api/axiosInstance';
 
+import { transformFlowResource } from '@/transformers/flowTransformers';
 import { transformNodeResources } from '@/transformers/nodeTransformers';
 
 export const fetchNodes = createAsyncThunk<Node[], void>(
 	'nodes/fetchNodes',
 	async (_, { rejectWithValue }) => {
 		try {
-			const response = await axiosInstance.get<AvantosApiResponse>(
+			const { data } = await axiosInstance.get<AvantosApiResponse>(
 				'actions/blueprints/bp_01jk766tckfwx84xjcxazggzyc/graph',
 			);
 
-			const { nodes } = transformNodeResources(response.data.nodes);
+			const { edgeResources, nodeResources } = transformFlowResource({
+				data,
+			});
+
+			const { nodes } = transformNodeResources({
+				edgeResources,
+				nodeResources,
+			});
 
 			return nodes;
 		} catch (error) {
