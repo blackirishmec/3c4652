@@ -26,7 +26,6 @@ import Logger from '@/utilities/Logger';
 import PrefillModal from '@/components/modal/PrefillModal';
 
 export default function App() {
-	// TODO: {Wed, 03/05/25 @20:53} => Create a UI Slice with a thunk called fetchFlowData. Dispatch it here. Then save the id of the node selected by the user click to this new slice.
 	const dispatch = useAppDispatch();
 
 	const nodes = useTypedSelector(selectAllNodes);
@@ -42,9 +41,6 @@ export default function App() {
 			);
 	}, [dispatch]);
 
-	// const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
-	// const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
-
 	const [prefillNode, setPrefillNode] = useState<Node>();
 	const [prefillForm, setPrefillForm] = useState<Form>();
 
@@ -59,62 +55,6 @@ export default function App() {
 			forms?.find(form => form.id === node?.data.component_id),
 		);
 	};
-
-	// const fetchFlowData = useCallback(async () => {
-	// 	try {
-	// 		const response = await fetch(
-	// 			'http://localhost:3000/api/v1/1/actions/blueprints/bp_01jk766tckfwx84xjcxazggzyc/graph',
-	// 		);
-	// 		if (!response.ok) {
-	// 			throw new Error(`HTTP error: ${response.status}`);
-	// 		}
-	// 		const data: AvantosApiResponse =
-	// 			(await response.json()) as AvantosApiResponse;
-
-	// 		// Validate and transform API response into React Flow format.
-	// 		const transformedForms = data.forms.map<Form>((form: Form) => form);
-
-	// 		const transformedEdges = data.edges.map<Edge>((edge: Edge) => ({
-	// 			id: uuid4(),
-	// 			source: edge.source,
-	// 			target: edge.target,
-	// 		}));
-
-	// 		const transformedNodes = data.nodes.map<Node>((node: Node) => {
-	// 			const tempData = node.data;
-	// 			tempData.edgeTo = transformedEdges.some(
-	// 				transformedEdge => transformedEdge.target === node.id,
-	// 			);
-	// 			tempData.edgeFrom = transformedEdges.some(
-	// 				transformedEdge => transformedEdge.source === node.id,
-	// 			);
-
-	// 			return {
-	// 				id: node.id,
-	// 				data: tempData,
-	// 				position: node.position,
-	// 				type: node.type,
-	// 			};
-	// 		});
-
-	// 		// Update state with the transformed data.
-	// 		setForms(transformedForms);
-	// 		// setNodes(transformedNodes);
-	// 		// setEdges(transformedEdges);
-	// 	} catch (error) {
-	// 		// console.error('Error fetching flow data:', error);
-	// 	}
-	// }, [setNodes, setEdges]);
-
-	// Trigger data fetching on component mount.
-	// useEffect(() => {
-	// 	fetchFlowData().catch(reason => console.log('Fetch error', reason));
-	// }, [fetchFlowData]);
-
-	// const onConnect: OnConnect = useCallback(
-	// 	connection => setEdges(edgesValue => addEdge(connection, edgesValue)),
-	// 	[setEdges],
-	// );
 
 	return (
 		<ReactFlow
