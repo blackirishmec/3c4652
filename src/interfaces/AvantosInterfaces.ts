@@ -1,5 +1,6 @@
 import type {
 	AvantosFieldSchemaProperties,
+	AvantosFieldSchemaPropertiesArrayValue,
 	AvantosNodeType,
 	AvantosPayloadField,
 } from '../types/AvantosTypes';
@@ -67,4 +68,10 @@ export interface AvantosUISchemaElement {
 	label: string;
 	scope: string;
 	type: string;
+}
+
+export interface NodeFormField {
+	nodeId: Node['id'];
+	nodeFormFieldSchemaPropertyKey: AvantosFieldSchemaPropertiesArrayValue['key'];
+	prefillingNodeId?: Node['id'];
 }

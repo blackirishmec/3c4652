@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import type { NodeFormField } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
@@ -15,6 +16,7 @@ const flowSlice = createSlice({
 			state.fetchFlowStatus = { ...initialState.fetchFlowStatus };
 			state.lastFetchFlow = initialState.lastFetchFlow;
 			state.clickedNodeId = initialState.clickedNodeId;
+			state.nodeFormFields = [...initialState.nodeFormFields];
 		},
 		setClickedNodeId: (
 			state,
@@ -24,6 +26,28 @@ const flowSlice = createSlice({
 		},
 		resetClickedNodeId: state => {
 			state.clickedNodeId = initialState.clickedNodeId;
+		},
+		addNodeFormField: (
+			state,
+			{ payload: nodeFormFieldToAdd }: PayloadAction<NodeFormField>,
+		) => {
+			if (!state.nodeFormFields.includes(nodeFormFieldToAdd)) {
+				state.nodeFormFields.push(nodeFormFieldToAdd);
+			}
+		},
+		removeNodeFormField: (
+			state,
+			{ payload: nodeFormFieldToRemove }: PayloadAction<NodeFormField>,
+		) => {
+			if (state.nodeFormFields.includes(nodeFormFieldToRemove)) {
+				const index = state.nodeFormFields.indexOf(
+					nodeFormFieldToRemove,
+				);
+
+				if (index !== -1) {
+					state.nodeFormFields.splice(index, 1);
+				}
+			}
 		},
 	},
 	extraReducers: builder => {

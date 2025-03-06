@@ -4,6 +4,8 @@ import { PiXFill } from 'react-icons/pi';
 import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
+import type { Node } from '@/interfaces/models/nodeModels';
+import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import { resetClickedNodeId } from '@/redux/features/ui/flow';
 import { selectClickedFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
@@ -21,6 +23,8 @@ export interface PrefillModalProps
 	extends Omit<ModalProps, 'bodyClassName' | 'children'> {}
 
 function PrefillModalBase({ ...props }: PrefillModalProps) {
+	// Node -> Form -> Field (form.field_schema.property) -> Prefill Field (form.field_schema.property)
+
 	const dispatch = useAppDispatch();
 
 	const clickedNode = useTypedSelector(selectClickedNode);
@@ -63,7 +67,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 						onClick={handleCloseModal}
 					>
 						<PiXFill
-							className="text-red-500 hover:text-red-400"
+							className="text-red-400 hover:text-red-300"
 							size={24}
 						/>
 					</Button>
@@ -81,7 +85,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 			</Row>
 			<Row className="py-3" childrenHorizontalPosition="center">
 				<Button
-					className="bg-red-500 text-white py-2 px-3 rounded-full hover:bg-red-400"
+					className="bg-red-400 text-white py-2 px-3 rounded-full hover:bg-red-300"
 					onClick={handleCloseModal}
 				>
 					Close{' '}
