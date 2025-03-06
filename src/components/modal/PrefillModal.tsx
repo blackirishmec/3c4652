@@ -1,13 +1,15 @@
-import { memo, useMemo } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 import { PiXFill } from 'react-icons/pi';
 import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
 
+import { resetClickedNodeId } from '@/redux/features/ui/flow';
 import { selectClickedFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
+import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
 
 import Button from '@/components/button/Button';
@@ -19,6 +21,8 @@ export interface PrefillModalProps
 	extends Omit<ModalProps, 'bodyClassName' | 'children'> {}
 
 function PrefillModalBase({ ...props }: PrefillModalProps) {
+	const dispatch = useAppDispatch();
+
 	const clickedNode = useTypedSelector(selectClickedNode);
 	const clickedFormFieldSchemaPropertiesArray = useTypedSelector(
 		selectClickedFormFieldSchemaPropertiesArray,
@@ -37,6 +41,10 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 		[clickedFormFieldSchemaPropertiesArray],
 	);
 
+	const handleCloseModal = useCallback(() => {
+		dispatch(resetClickedNodeId());
+	}, [dispatch]);
+
 	if (clickedNode === undefined) return null;
 
 	const clickedNodeName = clickedNode.data.name;
@@ -50,7 +58,10 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 			<Row className="py-3 px-4 border-b">
 				<Col className="flex-1">{clickedNodeName}</Col>
 				<Col>
-					<Button>
+					<Button
+						className="hover:bg-red-100"
+						onClick={handleCloseModal}
+					>
 						<PiXFill size={24} />
 					</Button>
 				</Col>
@@ -66,7 +77,12 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 				<Col className="flex-1 space-y-4">{Rows}</Col>
 			</Row>
 			<Row className="py-3" childrenHorizontalPosition="center">
-				Button
+				<Button
+					className="bg-red-500 text-white py-2 px-3 rounded-full hover:bg-red-300"
+					onClick={handleCloseModal}
+				>
+					Close{' '}
+				</Button>
 			</Row>
 		</Modal>
 	);

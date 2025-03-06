@@ -6,7 +6,7 @@ import type { ButtonHTMLAttributes } from 'react';
 
 const classes = {
 	buttonBase: `
-		hover:bg-red-100! 
+		hover:bg-gray-200
 		hover:opacity-80
 		outline-0!
 		cursor-pointer
