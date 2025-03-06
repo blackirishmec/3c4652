@@ -6,6 +6,7 @@ import type {
 } from '@/types/AvantosTypes';
 
 import { Col } from '@/components/layout/FlexComponents';
+import PrefillMappingChildListItem from '@/components/list/PrefillMappingChildListItem';
 
 export interface PrefillMappingChildrenListColProps {
 	nodeFormFieldSchemaPropertiesArray?: AvantosFieldSchemaPropertiesArray;
@@ -15,16 +16,17 @@ function PrefillMappingChildrenListColBase({
 	nodeFormFieldSchemaPropertiesArray,
 }: PrefillMappingChildrenListColProps) {
 	return (
-		<Col className="flex-1 pl-10">
+		<Col className="flex-1">
 			<ul className="w-full">
 				{nodeFormFieldSchemaPropertiesArray !== undefined &&
 					nodeFormFieldSchemaPropertiesArray.map(
 						(
 							nodeFormFieldSchemaProperty: AvantosFieldSchemaPropertiesArrayValue,
 						) => (
-							<li key={nodeFormFieldSchemaProperty.key}>
-								{nodeFormFieldSchemaProperty.key}
-							</li>
+							<PrefillMappingChildListItem
+								key={nodeFormFieldSchemaProperty.key}
+								label={nodeFormFieldSchemaProperty.key}
+							/>
 						),
 					)}
 			</ul>
