@@ -1,9 +1,13 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import clsx from 'clsx';
 import { PiDatabase, PiXCircleFill } from 'react-icons/pi';
 
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+
+import { createSelectClickedNodeFormField } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+
+import useTypedSelector from '@/hooks/useTypedSelector';
 
 import { Col, Row } from './FlexComponents';
 
@@ -39,10 +43,17 @@ const classes = {
 
 export interface FormFieldRowProps {
 	property: AvantosFieldSchemaPropertiesArrayValue;
-	prefilled?: boolean;
 }
 
-function FormFieldRowBase({ property, prefilled = false }: FormFieldRowProps) {
+function FormFieldRowBase({ property }: FormFieldRowProps) {
+	const selectClickedNodeFormField = useMemo(
+		() => createSelectClickedNodeFormField(property.key),
+		[property.key],
+	);
+	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
+
+	const prefilled = clickedNodeFormField !== undefined;
+
 	return (
 		<Row
 			className={clsx(
