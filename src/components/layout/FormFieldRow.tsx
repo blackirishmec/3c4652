@@ -9,7 +9,7 @@ import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosType
 import { selectNodeById } from '@/redux/features/model/nodes';
 import {
 	selectNodeFormFields,
-	setClickedNodeFormFieldSchemaPropertyKey,
+	setSelectedClickedNodeFormFieldSchemaPropertyKey,
 } from '@/redux/features/ui/flow';
 import { createSelectClickedNodeFormField } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
@@ -55,11 +55,13 @@ export interface FormFieldRowProps {
 function FormFieldRowBase({ property }: FormFieldRowProps) {
 	const dispatch = useAppDispatch();
 
-	const selectClickedNodeFormField = useMemo(
+	const selectSelectedClickedNodeFormField = useMemo(
 		() => createSelectClickedNodeFormField(property.key),
 		[property.key],
 	);
-	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
+	const clickedNodeFormField = useTypedSelector(
+		selectSelectedClickedNodeFormField,
+	);
 
 	const clickedParentNode = useTypedSelector((state: RootState) =>
 		selectNodeById(state, clickedNodeFormField?.prefillingNodeId ?? ''),
@@ -67,7 +69,9 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 	const nodeFormFields = useTypedSelector(selectNodeFormFields);
 
 	const handleOnClick = useCallback(() => {
-		dispatch(setClickedNodeFormFieldSchemaPropertyKey(property.key));
+		dispatch(
+			setSelectedClickedNodeFormFieldSchemaPropertyKey(property.key),
+		);
 	}, [dispatch, property.key]);
 
 	const prefilled = nodeFormFields.some(

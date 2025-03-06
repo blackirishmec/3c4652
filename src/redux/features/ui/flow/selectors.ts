@@ -36,12 +36,13 @@ export const selectNodeFormFields = createSelector(
 	flow => flow.nodeFormFields,
 );
 
-export const selectClickedNodeFormField = createSelector(
+export const selectSelectedClickedNodeFormField = createSelector(
 	[selectFlowState],
-	flow => flow.clickedNodeFormField,
+	flow => flow.selectedClickedNodeFormField,
 );
 
-export const selectClickedNodeFormFieldSchemaPropertyKey = createSelector(
-	[selectFlowState],
-	flow => flow.clickedNodeFormFieldSchemaPropertyKey,
-);
+export const selectSelectedClickedNodeFormFieldSchemaPropertyKey =
+	createSelector(
+		[selectFlowState],
+		flow => flow.selectedClickedNodeFormFieldSchemaPropertyKey,
+	);

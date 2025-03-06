@@ -8,6 +8,6 @@ export interface FlowState {
 	lastFetchFlow: string | null;
 	clickedNodeId?: Node['id'];
 	nodeFormFields: NodeFormField[];
-	clickedNodeFormFieldSchemaPropertyKey?: AvantosFieldSchemaPropertiesArrayValue['key'];
-	clickedNodeFormField?: NodeFormField;
+	selectedClickedNodeFormField?: NodeFormField;
+	selectedClickedNodeFormFieldSchemaPropertyKey?: AvantosFieldSchemaPropertiesArrayValue['key'];
 }

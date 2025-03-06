@@ -8,8 +8,8 @@ import type { RootState } from '@/redux/store';
 import { selectNodeById } from '@/redux/features/model/nodes';
 import {
 	addNodeFormField,
-	resetClickedNodeFormField,
-	selectClickedNodeFormField,
+	resetSelectedClickedNodeFormField,
+	selectSelectedClickedNodeFormField,
 } from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
@@ -33,7 +33,9 @@ function PrefillMappingModalBase({
 	const dispatch = useAppDispatch();
 
 	const clickedNode = useTypedSelector(selectClickedNode);
-	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
+	const clickedNodeFormField = useTypedSelector(
+		selectSelectedClickedNodeFormField,
+	);
 	const clickedParentNode = useTypedSelector((state: RootState) =>
 		selectNodeById(state, clickedNodeFormField?.prefillingNodeId ?? ''),
 	);
@@ -45,7 +47,7 @@ function PrefillMappingModalBase({
 	const handleSelectMapping = useCallback(() => {
 		if (clickedNodeFormField === undefined) return;
 		dispatch(addNodeFormField(clickedNodeFormField));
-		dispatch(resetClickedNodeFormField());
+		dispatch(resetSelectedClickedNodeFormField());
 		handleCloseModal();
 	}, [clickedNodeFormField, dispatch, handleCloseModal]);
 

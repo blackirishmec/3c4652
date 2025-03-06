@@ -19,46 +19,50 @@ const flowSlice = createSlice({
 			state.lastFetchFlow = initialState.lastFetchFlow;
 			state.clickedNodeId = initialState.clickedNodeId;
 			state.nodeFormFields = [...initialState.nodeFormFields];
-			state.clickedNodeFormField = initialState.clickedNodeFormField;
-			state.clickedNodeFormFieldSchemaPropertyKey =
-				initialState.clickedNodeFormFieldSchemaPropertyKey;
+			state.selectedClickedNodeFormField =
+				initialState.selectedClickedNodeFormField;
+			state.selectedClickedNodeFormFieldSchemaPropertyKey =
+				initialState.selectedClickedNodeFormFieldSchemaPropertyKey;
 		},
 		setClickedNodeId: (
 			state,
 			{ payload: nodeId }: PayloadAction<Node['id']>,
 		) => {
 			state.clickedNodeId = nodeId;
-			state.clickedNodeFormField = initialState.clickedNodeFormField;
-			state.clickedNodeFormFieldSchemaPropertyKey =
-				initialState.clickedNodeFormFieldSchemaPropertyKey;
+			state.selectedClickedNodeFormField =
+				initialState.selectedClickedNodeFormField;
+			state.selectedClickedNodeFormFieldSchemaPropertyKey =
+				initialState.selectedClickedNodeFormFieldSchemaPropertyKey;
 		},
 		resetClickedNodeId: state => {
 			state.clickedNodeId = initialState.clickedNodeId;
-			state.clickedNodeFormField = initialState.clickedNodeFormField;
-			state.clickedNodeFormFieldSchemaPropertyKey =
-				initialState.clickedNodeFormFieldSchemaPropertyKey;
+			state.selectedClickedNodeFormField =
+				initialState.selectedClickedNodeFormField;
+			state.selectedClickedNodeFormFieldSchemaPropertyKey =
+				initialState.selectedClickedNodeFormFieldSchemaPropertyKey;
 		},
-		setClickedNodeFormField: (
+		setSelectedClickedNodeFormField: (
 			state,
 			{ payload: nodeFormField }: PayloadAction<NodeFormField>,
 		) => {
-			state.clickedNodeFormField = nodeFormField;
+			state.selectedClickedNodeFormField = nodeFormField;
 		},
-		resetClickedNodeFormField: state => {
-			state.clickedNodeFormField = initialState.clickedNodeFormField;
+		resetSelectedClickedNodeFormField: state => {
+			state.selectedClickedNodeFormField =
+				initialState.selectedClickedNodeFormField;
 		},
-		setClickedNodeFormFieldSchemaPropertyKey: (
+		setSelectedClickedNodeFormFieldSchemaPropertyKey: (
 			state,
 			{
-				payload: nodeFormFieldSchemaPropertyKey,
+				payload: clickedNodeFormFieldSchemaPropertyKey,
 			}: PayloadAction<AvantosFieldSchemaPropertiesArrayValue['key']>,
 		) => {
-			state.clickedNodeFormFieldSchemaPropertyKey =
-				nodeFormFieldSchemaPropertyKey;
+			state.selectedClickedNodeFormFieldSchemaPropertyKey =
+				clickedNodeFormFieldSchemaPropertyKey;
 		},
-		resetClickedNodeFormFieldSchemaPropertyKey: state => {
-			state.clickedNodeFormFieldSchemaPropertyKey =
-				initialState.clickedNodeFormFieldSchemaPropertyKey;
+		resetSelectedClickedNodeFormFieldSchemaPropertyKey: state => {
+			state.selectedClickedNodeFormFieldSchemaPropertyKey =
+				initialState.selectedClickedNodeFormFieldSchemaPropertyKey;
 		},
 		addNodeFormField: (
 			state,
@@ -99,10 +103,10 @@ export const {
 	resetClickedNodeId,
 	addNodeFormField,
 	removeNodeFormField,
-	setClickedNodeFormField,
-	resetClickedNodeFormField,
-	setClickedNodeFormFieldSchemaPropertyKey,
-	resetClickedNodeFormFieldSchemaPropertyKey,
+	setSelectedClickedNodeFormField,
+	resetSelectedClickedNodeFormField,
+	setSelectedClickedNodeFormFieldSchemaPropertyKey,
+	resetSelectedClickedNodeFormFieldSchemaPropertyKey,
 } = flowSlice.actions;
 
 export default flowSlice.reducer;

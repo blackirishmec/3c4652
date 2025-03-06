@@ -3,12 +3,12 @@ export * from './selectors';
 export {
 	addNodeFormField,
 	removeNodeFormField,
-	resetClickedNodeFormField,
-	resetClickedNodeFormFieldSchemaPropertyKey,
 	resetClickedNodeId,
 	resetFlow,
-	setClickedNodeFormField,
-	setClickedNodeFormFieldSchemaPropertyKey,
+	resetSelectedClickedNodeFormField,
+	resetSelectedClickedNodeFormFieldSchemaPropertyKey,
 	setClickedNodeId,
+	setSelectedClickedNodeFormField,
+	setSelectedClickedNodeFormFieldSchemaPropertyKey,
 } from './slice';
 export { default as flowReducer } from './slice';

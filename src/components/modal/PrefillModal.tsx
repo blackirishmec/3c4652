@@ -5,9 +5,9 @@ import { PiXFill } from 'react-icons/pi';
 import type { ModalProps } from '@/components/modal/Modal';
 
 import {
-	resetClickedNodeFormFieldSchemaPropertyKey,
 	resetClickedNodeId,
-	selectClickedNodeFormFieldSchemaPropertyKey,
+	resetSelectedClickedNodeFormFieldSchemaPropertyKey,
+	selectSelectedClickedNodeFormFieldSchemaPropertyKey,
 } from '@/redux/features/ui/flow';
 import { selectClickedFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
@@ -33,11 +33,11 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 	);
 
 	const clickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
-		selectClickedNodeFormFieldSchemaPropertyKey,
+		selectSelectedClickedNodeFormFieldSchemaPropertyKey,
 	);
 
 	const handleClosePrefillMappingModal = useCallback(() => {
-		dispatch(resetClickedNodeFormFieldSchemaPropertyKey());
+		dispatch(resetSelectedClickedNodeFormFieldSchemaPropertyKey());
 	}, [dispatch]);
 
 	const prefillMappingModalIsVisible = useMemo(

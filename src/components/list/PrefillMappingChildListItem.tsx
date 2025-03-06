@@ -8,10 +8,10 @@ import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosType
 import type { HTMLAttributes, MouseEvent } from 'react';
 
 import {
-	resetClickedNodeFormField,
-	selectClickedNodeFormField,
-	selectClickedNodeFormFieldSchemaPropertyKey,
-	setClickedNodeFormField,
+	resetSelectedClickedNodeFormField,
+	selectSelectedClickedNodeFormField,
+	selectSelectedClickedNodeFormFieldSchemaPropertyKey,
+	setSelectedClickedNodeFormField,
 } from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
@@ -60,9 +60,11 @@ function PrefillMappingChildListItemBase({
 	const dispatch = useAppDispatch();
 
 	const clickedNode = useTypedSelector(selectClickedNode);
-	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
+	const clickedNodeFormField = useTypedSelector(
+		selectSelectedClickedNodeFormField,
+	);
 	const clickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
-		selectClickedNodeFormFieldSchemaPropertyKey,
+		selectSelectedClickedNodeFormFieldSchemaPropertyKey,
 	);
 
 	const handleLIOnClick = useCallback(
@@ -90,9 +92,11 @@ function PrefillMappingChildListItemBase({
 					clickedNodeFormField,
 				)
 			) {
-				dispatch(resetClickedNodeFormField());
+				dispatch(resetSelectedClickedNodeFormField());
 			} else {
-				dispatch(setClickedNodeFormField(tempClickedNodeFormField));
+				dispatch(
+					setSelectedClickedNodeFormField(tempClickedNodeFormField),
+				);
 			}
 
 			_e.stopPropagation();

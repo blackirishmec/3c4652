@@ -7,8 +7,8 @@ const initialState: FlowState = {
 	lastFetchFlow: null,
 	clickedNodeId: undefined,
 	nodeFormFields: [],
-	clickedNodeFormFieldSchemaPropertyKey: undefined,
-	clickedNodeFormField: undefined,
+	selectedClickedNodeFormField: undefined,
+	selectedClickedNodeFormFieldSchemaPropertyKey: undefined,
 };
 
 export default initialState;
