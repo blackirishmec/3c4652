@@ -1,7 +1,7 @@
 import type {
 	AvantosField,
 	AvantosFieldSchema,
-	AvantosUISchemaElement,
+	AvantosFormUiSchema,
 } from '@/interfaces/AvantosInterfaces';
 
 export interface Form {
@@ -13,8 +13,5 @@ export interface Form {
 	id: string;
 	is_reusable: boolean;
 	name: string;
-	ui_schema: {
-		elements: AvantosUISchemaElement[];
-		type: string;
-	};
+	ui_schema: AvantosFormUiSchema;
 }

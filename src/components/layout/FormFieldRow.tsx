@@ -3,7 +3,7 @@ import { memo } from 'react';
 import clsx from 'clsx';
 import { PiDatabase, PiXCircleFill } from 'react-icons/pi';
 
-import type { AvantosUISchemaElement } from '@/interfaces/AvantosInterfaces';
+import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import { Col, Row } from './FlexComponents';
 
@@ -38,11 +38,11 @@ const classes = {
 } as const;
 
 export interface FormFieldRowProps {
-	element: AvantosUISchemaElement;
+	property: AvantosFieldSchemaPropertiesArrayValue;
 	prefilled?: boolean;
 }
 
-function FormFieldRowBase({ element, prefilled = false }: FormFieldRowProps) {
+function FormFieldRowBase({ property, prefilled = false }: FormFieldRowProps) {
 	return (
 		<Row
 			className={clsx(
@@ -61,7 +61,7 @@ function FormFieldRowBase({ element, prefilled = false }: FormFieldRowProps) {
 					prefilled && classes.prefilledLabel,
 				)}
 			>
-				{element.label}
+				{property.key}
 			</Col>
 			{prefilled && (
 				<Col childrenVerticalPosition="center">

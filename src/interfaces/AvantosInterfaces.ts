@@ -1,4 +1,5 @@
 import type {
+	AvantosFieldSchemaProperties,
 	AvantosNodeType,
 	AvantosPayloadField,
 } from '../types/AvantosTypes';
@@ -31,6 +32,11 @@ export interface AvantosNodeData extends Record<string, unknown> {
 	edgeFrom: boolean;
 }
 
+export interface AvantosFormUiSchema {
+	elements: AvantosUISchemaElement[];
+	type: string;
+}
+
 export interface AvantosField {
 	endpoint_id: string;
 	output_key?: string;
@@ -52,7 +58,7 @@ export interface AvantosFieldProperty {
 }
 
 export interface AvantosFieldSchema {
-	properties: Record<string, AvantosFieldProperty>;
+	properties: AvantosFieldSchemaProperties;
 	required: string[] | null;
 	type: string;
 }

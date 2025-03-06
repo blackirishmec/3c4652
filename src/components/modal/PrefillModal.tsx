@@ -4,7 +4,7 @@ import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
 
-import { selectFormByClickedNode } from '@/redux/selectors/relationships/formRelationshipSelectors';
+import { selectClickedFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -18,19 +18,21 @@ export interface PrefillModalProps
 
 function PrefillModalBase({ ...props }: PrefillModalProps) {
 	const clickedNode = useTypedSelector(selectClickedNode);
-	const formByClickedNode = useTypedSelector(selectFormByClickedNode);
+	const clickedFormFieldSchemaPropertiesArray = useTypedSelector(
+		selectClickedFormFieldSchemaPropertiesArray,
+	);
 
 	// TODO: {Wed, 03/05/25 @00:05} => I think that JSON Forms might help traverse the data retrieved from the avantos server. For Instance I think I need to cross reference form.field_schema and form.ui_schema
 	const Rows = useMemo(
 		() =>
-			formByClickedNode?.ui_schema.elements.map((element, index) => (
+			clickedFormFieldSchemaPropertiesArray.map(property => (
 				<FormFieldRow
 					key={uuid4()}
-					element={element}
-					prefilled={!!(index % 2)}
+					property={property}
+					// prefilled={!!(index % 2)}
 				/>
 			)),
-		[formByClickedNode],
+		[clickedFormFieldSchemaPropertiesArray],
 	);
 
 	if (clickedNode === undefined) return null;
