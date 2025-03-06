@@ -24,10 +24,7 @@ const nodesSlice = createSlice({
 		upsertManyNodes: (state, action: PayloadAction<Node[]>) => {
 			nodesAdapter.upsertMany(state, action.payload);
 		},
-		removeManyMealItemMealUsers: (
-			state,
-			action: PayloadAction<Node['id'][]>,
-		) => {
+		removeManyNodes: (state, action: PayloadAction<Node['id'][]>) => {
 			nodesAdapter.removeMany(state, action.payload);
 		},
 		removeAllNodes: state => {
@@ -50,7 +47,7 @@ export const {
 	upsertNode,
 	removeNode,
 	upsertManyNodes,
-	removeManyMealItemMealUsers,
+	removeManyNodes,
 	removeAllNodes,
 } = nodesSlice.actions;
 

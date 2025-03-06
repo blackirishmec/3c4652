@@ -24,10 +24,7 @@ const edgesSlice = createSlice({
 		upsertManyEdges: (state, action: PayloadAction<Edge[]>) => {
 			edgesAdapter.upsertMany(state, action.payload);
 		},
-		removeManyMealItemMealUsers: (
-			state,
-			action: PayloadAction<Edge['id'][]>,
-		) => {
+		removeManyEdges: (state, action: PayloadAction<Edge['id'][]>) => {
 			edgesAdapter.removeMany(state, action.payload);
 		},
 		removeAllEdges: state => {
@@ -50,7 +47,7 @@ export const {
 	upsertEdge,
 	removeEdge,
 	upsertManyEdges,
-	removeManyMealItemMealUsers,
+	removeManyEdges,
 	removeAllEdges,
 } = edgesSlice.actions;
 

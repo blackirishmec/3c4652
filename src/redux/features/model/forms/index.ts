@@ -5,7 +5,7 @@ export {
 	addForm,
 	removeAllForms,
 	removeForm,
-	removeManyMealItemMealUsers,
+	removeManyForms,
 	upsertForm,
 	upsertManyForms,
 } from './slice';

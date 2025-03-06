@@ -5,7 +5,7 @@ export {
 	addEdge,
 	removeAllEdges,
 	removeEdge,
-	removeManyMealItemMealUsers,
+	removeManyEdges,
 	upsertEdge,
 	upsertManyEdges,
 } from './slice';

@@ -24,10 +24,7 @@ const formsSlice = createSlice({
 		upsertManyForms: (state, action: PayloadAction<Form[]>) => {
 			formsAdapter.upsertMany(state, action.payload);
 		},
-		removeManyMealItemMealUsers: (
-			state,
-			action: PayloadAction<Form['id'][]>,
-		) => {
+		removeManyForms: (state, action: PayloadAction<Form['id'][]>) => {
 			formsAdapter.removeMany(state, action.payload);
 		},
 		removeAllForms: state => {
@@ -51,7 +48,7 @@ export const {
 	upsertForm,
 	removeAllForms,
 	removeForm,
-	removeManyMealItemMealUsers,
+	removeManyForms,
 } = formsSlice.actions;
 
 export default formsSlice.reducer;

@@ -4,7 +4,7 @@ export { default as nodesAdapter } from './nodesAdapter';
 export {
 	addNode,
 	removeAllNodes,
-	removeManyMealItemMealUsers,
+	removeManyNodes,
 	removeNode,
 	upsertManyNodes,
 	upsertNode,
