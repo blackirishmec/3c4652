@@ -17,7 +17,10 @@ export const fetchNodes = createAsyncThunk<Node[], void>(
 				'actions/blueprints/bp_01jk766tckfwx84xjcxazggzyc/graph',
 			);
 
-			const { nodes } = transformNodeResources(response.data.nodes);
+			const { nodes } = transformNodeResources({
+				nodeResources: response.data.nodes,
+				edgeResources: response.data.edges,
+			});
 
 			return nodes;
 		} catch (error) {

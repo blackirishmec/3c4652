@@ -1,12 +1,12 @@
 export * from './types';
 export * from './selectors';
-export { default as nodesAdapter } from './nodesAdapter';
+export { default as edgesAdapter } from './edgesAdapter';
 export {
-	addNode,
-	removeAllNodes,
+	addEdge,
+	removeAllEdges,
+	removeEdge,
 	removeManyMealItemMealUsers,
-	removeNode,
-	upsertManyNodes,
-	upsertNode,
+	upsertEdge,
+	upsertManyEdges,
 } from './slice';
-export { default as nodesReducer } from './slice';
+export { default as edgesReducer } from './slice';
