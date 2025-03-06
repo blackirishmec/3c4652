@@ -4,11 +4,11 @@ import { createSelector } from '@reduxjs/toolkit';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
 
-import { selectClickedNodeId } from '@/redux/features/ui/flow';
+import { selectActiveNodeId } from '@/redux/features/ui/flow';
 import exploreNodePrerequisites from '@/redux/utilities/exploreNodePrerequisites';
 
 export const selectClickedNode = createSelector(
-	[selectClickedNodeId, (state: RootState) => state.nodes.entities],
+	[selectActiveNodeId, (state: RootState) => state.nodes.entities],
 	(activeNodeId, nodeEntities): Node | undefined =>
 		activeNodeId !== undefined
 			? (nodeEntities[activeNodeId] ?? undefined)

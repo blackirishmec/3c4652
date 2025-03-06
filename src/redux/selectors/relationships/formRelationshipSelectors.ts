@@ -14,7 +14,7 @@ import type {
 } from '@/types/AvantosTypes';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
-import { selectClickedNodeId } from '@/redux/features/ui/flow';
+import { selectActiveNodeId } from '@/redux/features/ui/flow';
 
 export const createSelectFormByNode = (nodeId: Node['id']) => {
 	const selectNode = (state: RootState) => selectNodeById(state, nodeId);
@@ -39,7 +39,7 @@ export const createSelectFormByNode = (nodeId: Node['id']) => {
 
 export const selectFormByClickedNode = createSelector(
 	[
-		selectClickedNodeId,
+		selectActiveNodeId,
 		(state: RootState) => state.nodes.entities,
 		(state: RootState) => state.forms.entities,
 	],

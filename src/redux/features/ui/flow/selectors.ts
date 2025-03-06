@@ -26,7 +26,7 @@ export const selectLastFetchFlow = createSelector(
 	flow => flow.lastFetchFlowData,
 );
 
-export const selectClickedNodeId = createSelector(
+export const selectActiveNodeId = createSelector(
 	[selectFlowState],
 	flow => flow.activeNodeId,
 );
