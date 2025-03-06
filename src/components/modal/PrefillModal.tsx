@@ -1,9 +1,8 @@
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 import { PiXFill } from 'react-icons/pi';
 
 import type { ModalProps } from '@/components/modal/Modal';
-import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import {
 	resetClickedNodeFormFieldSchemaPropertyKey,
