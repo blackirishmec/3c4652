@@ -70,7 +70,7 @@ export interface AvantosUISchemaElement {
 	type: string;
 }
 
-export interface NodeFormField {
+export interface NodeFormFieldMapping {
 	nodeId: Node['id'];
 	nodeFormFieldSchemaPropertyKey: AvantosFieldSchemaPropertiesArrayValue['key'];
 	prefillingNodeId?: Node['id'];

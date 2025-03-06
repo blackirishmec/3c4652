@@ -8,41 +8,41 @@ export const selectFlowState = (state: RootState) => state.flow;
 
 export const fetchFlowStatusSelectors = createStatusSelectors(
 	'fetchFlow',
-	(state: RootState) => state.flow.fetchFlowStatus,
+	(state: RootState) => state.flow.fetchFlowDataStatus,
 );
 
 export const selectFlowLoaded = createSelector(
 	[selectFlowState],
-	flow => flow.lastFetchFlow !== undefined,
+	flow => flow.lastFetchFlowData !== undefined,
 );
 
 export const selectFlowIsLoading = createSelector(
 	[selectFlowState],
-	flow => flow.fetchFlowStatus.loading === 'loading',
+	flow => flow.fetchFlowDataStatus.loading === 'loading',
 );
 
 export const selectLastFetchFlow = createSelector(
 	[selectFlowState],
-	flow => flow.lastFetchFlow,
+	flow => flow.lastFetchFlowData,
 );
 
 export const selectClickedNodeId = createSelector(
 	[selectFlowState],
-	flow => flow.clickedNodeId,
+	flow => flow.activeNodeId,
 );
 
 export const selectNodeFormFields = createSelector(
 	[selectFlowState],
-	flow => flow.nodeFormFields,
+	flow => flow.nodeFormFieldMappings,
 );
 
 export const selectSelectedClickedNodeFormField = createSelector(
 	[selectFlowState],
-	flow => flow.selectedClickedNodeFormField,
+	flow => flow.activeNodeFormFieldMappedPropertyKey,
 );
 
 export const selectSelectedClickedNodeFormFieldSchemaPropertyKey =
 	createSelector(
 		[selectFlowState],
-		flow => flow.selectedClickedNodeFormFieldSchemaPropertyKey,
+		flow => flow.activeNodeFormFieldPropertyKey,
 	);

@@ -2,16 +2,16 @@ import { memo, useCallback, useMemo } from 'react';
 
 import clsx from 'clsx';
 
-import type { NodeFormField } from '@/interfaces/AvantosInterfaces';
+import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
 import {
-	resetSelectedClickedNodeFormField,
+	resetActiveNodeFormFieldMappedPropertyKey,
 	selectSelectedClickedNodeFormField,
 	selectSelectedClickedNodeFormFieldSchemaPropertyKey,
-	setSelectedClickedNodeFormField,
+	setActiveNodeFormFieldMappedPropertyKey,
 } from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
@@ -77,7 +77,7 @@ function PrefillMappingChildListItemBase({
 			)
 				return;
 
-			const tempClickedNodeFormField: NodeFormField = {
+			const tempClickedNodeFormField: NodeFormFieldMapping = {
 				nodeId: clickedNode.id,
 				nodeFormFieldSchemaPropertyKey: nodeFormFieldSchemaProperty.key,
 				prefillingNodeId: parentNode.id,
@@ -92,10 +92,12 @@ function PrefillMappingChildListItemBase({
 					clickedNodeFormField,
 				)
 			) {
-				dispatch(resetSelectedClickedNodeFormField());
+				dispatch(resetActiveNodeFormFieldMappedPropertyKey());
 			} else {
 				dispatch(
-					setSelectedClickedNodeFormField(tempClickedNodeFormField),
+					setActiveNodeFormFieldMappedPropertyKey(
+						tempClickedNodeFormField,
+					),
 				);
 			}
 

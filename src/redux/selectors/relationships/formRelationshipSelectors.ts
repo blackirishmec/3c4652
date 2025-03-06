@@ -43,10 +43,10 @@ export const selectFormByClickedNode = createSelector(
 		(state: RootState) => state.nodes.entities,
 		(state: RootState) => state.forms.entities,
 	],
-	(clickedNodeId, nodeEntities, formEntities): Form | undefined => {
-		if (clickedNodeId === undefined) return undefined;
+	(activeNodeId, nodeEntities, formEntities): Form | undefined => {
+		if (activeNodeId === undefined) return undefined;
 
-		const clickedNode = nodeEntities[clickedNodeId];
+		const clickedNode = nodeEntities[activeNodeId];
 
 		if (clickedNode === undefined) return undefined;
 

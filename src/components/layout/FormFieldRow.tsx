@@ -7,7 +7,7 @@ import type { RootState } from '@/redux/store';
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
-import { setSelectedClickedNodeFormFieldSchemaPropertyKey } from '@/redux/features/ui/flow';
+import { setActiveNodeFormFieldPropertyKey } from '@/redux/features/ui/flow';
 import { createSelectClickedNodeFormField } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
@@ -63,9 +63,7 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 	);
 
 	const handleOnClick = useCallback(() => {
-		dispatch(
-			setSelectedClickedNodeFormFieldSchemaPropertyKey(property.key),
-		);
+		dispatch(setActiveNodeFormFieldPropertyKey(property.key));
 	}, [dispatch, property.key]);
 
 	const prefilled = clickedNodeFormField !== undefined;

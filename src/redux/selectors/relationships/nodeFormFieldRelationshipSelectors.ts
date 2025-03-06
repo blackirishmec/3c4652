@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import type { NodeFormField } from '@/interfaces/AvantosInterfaces';
+import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
@@ -17,10 +17,10 @@ export const createSelectNodeFormFields = (nodeId: Node['id']) => {
 
 	return createSelector(
 		[selectNode, selectNodeFormFields],
-		(node, nodeFormFields): NodeFormField[] => {
+		(node, nodeFormFieldMappings): NodeFormFieldMapping[] => {
 			if (node === undefined) return [];
 
-			return nodeFormFields.filter(nodeFormField => {
+			return nodeFormFieldMappings.filter(nodeFormField => {
 				return nodeFormField.nodeId === node.id;
 			});
 		},
@@ -29,10 +29,10 @@ export const createSelectNodeFormFields = (nodeId: Node['id']) => {
 
 export const selectClickedNodeFormFields = createSelector(
 	[selectClickedNode, selectNodeFormFields],
-	(clickedNode, nodeFormFields): NodeFormField[] => {
+	(clickedNode, nodeFormFieldMappings): NodeFormFieldMapping[] => {
 		if (clickedNode === undefined) return [];
 
-		return nodeFormFields.filter(nodeFormField => {
+		return nodeFormFieldMappings.filter(nodeFormField => {
 			return nodeFormField.nodeId === clickedNode.id;
 		});
 	},
@@ -46,10 +46,10 @@ export const createSelectNodeFormField = (
 
 	return createSelector(
 		[selectNode, selectNodeFormFields],
-		(node, nodeFormFields): NodeFormField | undefined => {
+		(node, nodeFormFieldMappings): NodeFormFieldMapping | undefined => {
 			if (node === undefined) return undefined;
 
-			return nodeFormFields.find(nodeFormField => {
+			return nodeFormFieldMappings.find(nodeFormField => {
 				return (
 					nodeFormField.nodeId === node.id &&
 					nodeFormField.nodeFormFieldSchemaPropertyKey ===
@@ -65,10 +65,13 @@ export const createSelectClickedNodeFormField = (
 ) => {
 	return createSelector(
 		[selectClickedNode, selectNodeFormFields],
-		(clickedNode, nodeFormFields): NodeFormField | undefined => {
+		(
+			clickedNode,
+			nodeFormFieldMappings,
+		): NodeFormFieldMapping | undefined => {
 			if (clickedNode === undefined) return undefined;
 
-			return nodeFormFields.find(nodeFormField => {
+			return nodeFormFieldMappings.find(nodeFormField => {
 				return (
 					nodeFormField.nodeId === clickedNode.id &&
 					nodeFormField.nodeFormFieldSchemaPropertyKey ===
@@ -88,19 +91,21 @@ export const selectSelectedClickedNodeFormFieldPrefillingNode = createSelector(
 	],
 	(
 		clickedNodeFormFields,
-		selectedClickedNodeFormField,
+		activeNodeFormFieldMappedPropertyKey,
 		nodeEntities,
 	): Node | undefined => {
 		if (
 			clickedNodeFormFields === undefined &&
-			selectedClickedNodeFormField === undefined
+			activeNodeFormFieldMappedPropertyKey === undefined
 		)
 			return undefined;
 
 		clickedNodeFormFields;
 
 		const prefillingNode =
-			nodeEntities[selectedClickedNodeFormField?.prefillingNodeId ?? ''];
+			nodeEntities[
+				activeNodeFormFieldMappedPropertyKey?.prefillingNodeId ?? ''
+			];
 
 		return prefillingNode;
 	},

@@ -1,14 +1,14 @@
 export * from './types';
 export * from './selectors';
 export {
-	addNodeFormField,
-	removeNodeFormField,
-	resetClickedNodeId,
+	addNodeFormFieldMapping,
+	removeNodeFormFieldMapping,
+	resetActiveNodeFormFieldMappedPropertyKey,
+	resetActiveNodeFormFieldPropertyKey,
+	resetActiveNodeId,
 	resetFlow,
-	resetSelectedClickedNodeFormField,
-	resetSelectedClickedNodeFormFieldSchemaPropertyKey,
-	setClickedNodeId,
-	setSelectedClickedNodeFormField,
-	setSelectedClickedNodeFormFieldSchemaPropertyKey,
+	setActiveNodeFormFieldMappedPropertyKey,
+	setActiveNodeFormFieldPropertyKey,
+	setActiveNodeId,
 } from './slice';
 export { default as flowReducer } from './slice';

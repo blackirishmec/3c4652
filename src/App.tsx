@@ -16,7 +16,7 @@ import {
 	selectAllEdges,
 } from '@/redux/features/model/edges';
 import { onNodesChange, selectAllNodes } from '@/redux/features/model/nodes';
-import { resetClickedNodeId, setClickedNodeId } from '@/redux/features/ui/flow';
+import { resetActiveNodeId, setActiveNodeId } from '@/redux/features/ui/flow';
 import { fetchFlowData } from '@/redux/features/ui/flow/thunks';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
@@ -44,7 +44,7 @@ export default function App() {
 
 	const handleOpenModal = useCallback(
 		(node: Node) => {
-			dispatch(setClickedNodeId(node.id));
+			dispatch(setActiveNodeId(node.id));
 		},
 		[dispatch],
 	);
@@ -62,7 +62,7 @@ export default function App() {
 	);
 
 	const handleCloseModal = useCallback(() => {
-		dispatch(resetClickedNodeId());
+		dispatch(resetActiveNodeId());
 	}, [dispatch]);
 
 	const handleNodesChange = useCallback(

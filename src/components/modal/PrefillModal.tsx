@@ -5,8 +5,8 @@ import { PiXFill } from 'react-icons/pi';
 import type { ModalProps } from '@/components/modal/Modal';
 
 import {
-	resetClickedNodeId,
-	resetSelectedClickedNodeFormFieldSchemaPropertyKey,
+	resetActiveNodeFormFieldPropertyKey,
+	resetActiveNodeId,
 	selectSelectedClickedNodeFormFieldSchemaPropertyKey,
 } from '@/redux/features/ui/flow';
 import { selectClickedFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
@@ -32,17 +32,17 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 		selectClickedFormFieldSchemaPropertiesArray,
 	);
 
-	const selectedClickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
+	const activeNodeFormFieldPropertyKey = useTypedSelector(
 		selectSelectedClickedNodeFormFieldSchemaPropertyKey,
 	);
 
 	const handleClosePrefillMappingModal = useCallback(() => {
-		dispatch(resetSelectedClickedNodeFormFieldSchemaPropertyKey());
+		dispatch(resetActiveNodeFormFieldPropertyKey());
 	}, [dispatch]);
 
 	const prefillMappingModalIsVisible = useMemo(
-		() => selectedClickedNodeFormFieldSchemaPropertyKey !== undefined,
-		[selectedClickedNodeFormFieldSchemaPropertyKey],
+		() => activeNodeFormFieldPropertyKey !== undefined,
+		[activeNodeFormFieldPropertyKey],
 	);
 
 	const Rows = useMemo(
@@ -55,7 +55,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 	);
 
 	const handleCloseModal = useCallback(() => {
-		dispatch(resetClickedNodeId());
+		dispatch(resetActiveNodeId());
 	}, [dispatch]);
 
 	if (clickedNode === undefined) return null;

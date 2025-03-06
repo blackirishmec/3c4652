@@ -1,8 +1,8 @@
-import type { NodeFormField } from '@/interfaces/AvantosInterfaces';
+import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 
 const nodeFormFieldsAreEqual = (
-	nodeFormFieldA: NodeFormField,
-	nodeFormFieldB: NodeFormField,
+	nodeFormFieldA: NodeFormFieldMapping,
+	nodeFormFieldB: NodeFormFieldMapping,
 ): boolean => {
 	return (
 		nodeFormFieldA.nodeFormFieldSchemaPropertyKey ===

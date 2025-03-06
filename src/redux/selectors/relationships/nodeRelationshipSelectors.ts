@@ -9,9 +9,9 @@ import exploreNodePrerequisites from '@/redux/utilities/exploreNodePrerequisites
 
 export const selectClickedNode = createSelector(
 	[selectClickedNodeId, (state: RootState) => state.nodes.entities],
-	(clickedNodeId, nodeEntities): Node | undefined =>
-		clickedNodeId !== undefined
-			? (nodeEntities[clickedNodeId] ?? undefined)
+	(activeNodeId, nodeEntities): Node | undefined =>
+		activeNodeId !== undefined
+			? (nodeEntities[activeNodeId] ?? undefined)
 			: undefined,
 );
 

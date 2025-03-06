@@ -7,8 +7,8 @@ import type { RootState } from '@/redux/store';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
 import {
-	addNodeFormField,
-	resetSelectedClickedNodeFormField,
+	addNodeFormFieldMapping,
+	resetActiveNodeFormFieldMappedPropertyKey,
 	selectSelectedClickedNodeFormField,
 	selectSelectedClickedNodeFormFieldSchemaPropertyKey,
 } from '@/redux/features/ui/flow';
@@ -29,16 +29,16 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	const dispatch = useAppDispatch();
 
 	const clickedNode = useTypedSelector(selectClickedNode);
-	const selectedClickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
+	const activeNodeFormFieldPropertyKey = useTypedSelector(
 		selectSelectedClickedNodeFormFieldSchemaPropertyKey,
 	);
-	const selectedClickedNodeFormField = useTypedSelector(
+	const activeNodeFormFieldMappedPropertyKey = useTypedSelector(
 		selectSelectedClickedNodeFormField,
 	);
 	const prefillingNode = useTypedSelector((state: RootState) =>
 		selectNodeById(
 			state,
-			selectedClickedNodeFormField?.prefillingNodeId ?? '',
+			activeNodeFormFieldMappedPropertyKey?.prefillingNodeId ?? '',
 		),
 	);
 
@@ -47,13 +47,13 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	}, [props]);
 
 	const handleSaveSelectedPrefillMapping = useCallback(() => {
-		if (selectedClickedNodeFormField === undefined) return;
+		if (activeNodeFormFieldMappedPropertyKey === undefined) return;
 
-		dispatch(addNodeFormField(selectedClickedNodeFormField));
-		dispatch(resetSelectedClickedNodeFormField());
+		dispatch(addNodeFormFieldMapping(activeNodeFormFieldMappedPropertyKey));
+		dispatch(resetActiveNodeFormFieldMappedPropertyKey());
 
 		handleCloseModal();
-	}, [selectedClickedNodeFormField, dispatch, handleCloseModal]);
+	}, [activeNodeFormFieldMappedPropertyKey, dispatch, handleCloseModal]);
 
 	if (clickedNode === undefined) return null;
 
@@ -66,7 +66,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 			bodyClassName="w-155 h-175"
 		>
 			<Row className="py-3 px-4 border-b">
-				<Col className="flex-1">{`${clickedNodeName}.${selectedClickedNodeFormFieldSchemaPropertyKey}`}</Col>
+				<Col className="flex-1">{`${clickedNodeName}.${activeNodeFormFieldPropertyKey}`}</Col>
 				<Col>
 					<Button
 						className="hover:bg-red-100"
@@ -87,9 +87,9 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 							<Col className="bg-blue-100">
 								{prefillingNode?.data.name}
 							</Col>
-							{selectedClickedNodeFormField && (
+							{activeNodeFormFieldMappedPropertyKey && (
 								<Col className="bg-green-100">
-									{`.${selectedClickedNodeFormField?.nodeFormFieldSchemaPropertyKey}`}
+									{`.${activeNodeFormFieldMappedPropertyKey?.nodeFormFieldSchemaPropertyKey}`}
 								</Col>
 							)}
 						</Row>
@@ -116,7 +116,9 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 					<Button
 						className="border border-red-400 text-red-500 py-2 px-3 rounded-sm hover:bg-blue-100!"
 						onClick={handleSaveSelectedPrefillMapping}
-						disabled={selectedClickedNodeFormField === undefined}
+						disabled={
+							activeNodeFormFieldMappedPropertyKey === undefined
+						}
 					>
 						Select
 					</Button>

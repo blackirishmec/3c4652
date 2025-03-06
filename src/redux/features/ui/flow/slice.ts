@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { NodeFormField } from '@/interfaces/AvantosInterfaces';
+import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -15,72 +15,87 @@ const flowSlice = createSlice({
 	initialState,
 	reducers: {
 		resetFlow: state => {
-			state.fetchFlowStatus = { ...initialState.fetchFlowStatus };
-			state.lastFetchFlow = initialState.lastFetchFlow;
-			state.clickedNodeId = initialState.clickedNodeId;
-			state.nodeFormFields = [...initialState.nodeFormFields];
-			state.selectedClickedNodeFormField =
-				initialState.selectedClickedNodeFormField;
-			state.selectedClickedNodeFormFieldSchemaPropertyKey =
-				initialState.selectedClickedNodeFormFieldSchemaPropertyKey;
+			state.fetchFlowDataStatus = { ...initialState.fetchFlowDataStatus };
+			state.lastFetchFlowData = initialState.lastFetchFlowData;
+			state.activeNodeId = initialState.activeNodeId;
+			state.nodeFormFieldMappings = [
+				...initialState.nodeFormFieldMappings,
+			];
+			state.activeNodeFormFieldPropertyKey =
+				initialState.activeNodeFormFieldPropertyKey;
+			state.activeNodeFormFieldMappedPropertyKey =
+				initialState.activeNodeFormFieldMappedPropertyKey;
 		},
-		setClickedNodeId: (
+
+		setActiveNodeId: (
 			state,
 			{ payload: nodeId }: PayloadAction<Node['id']>,
 		) => {
-			state.clickedNodeId = nodeId;
-			state.selectedClickedNodeFormField =
-				initialState.selectedClickedNodeFormField;
-			state.selectedClickedNodeFormFieldSchemaPropertyKey =
-				initialState.selectedClickedNodeFormFieldSchemaPropertyKey;
+			state.activeNodeId = nodeId;
+
+			state.activeNodeFormFieldPropertyKey =
+				initialState.activeNodeFormFieldPropertyKey;
+			state.activeNodeFormFieldMappedPropertyKey =
+				initialState.activeNodeFormFieldMappedPropertyKey;
 		},
-		resetClickedNodeId: state => {
-			state.clickedNodeId = initialState.clickedNodeId;
-			state.selectedClickedNodeFormField =
-				initialState.selectedClickedNodeFormField;
-			state.selectedClickedNodeFormFieldSchemaPropertyKey =
-				initialState.selectedClickedNodeFormFieldSchemaPropertyKey;
+		resetActiveNodeId: state => {
+			state.activeNodeId = initialState.activeNodeId;
+
+			state.activeNodeFormFieldPropertyKey =
+				initialState.activeNodeFormFieldPropertyKey;
+			state.activeNodeFormFieldMappedPropertyKey =
+				initialState.activeNodeFormFieldMappedPropertyKey;
 		},
-		setSelectedClickedNodeFormField: (
-			state,
-			{ payload: nodeFormField }: PayloadAction<NodeFormField>,
-		) => {
-			state.selectedClickedNodeFormField = nodeFormField;
-		},
-		resetSelectedClickedNodeFormField: state => {
-			state.selectedClickedNodeFormField =
-				initialState.selectedClickedNodeFormField;
-		},
-		setSelectedClickedNodeFormFieldSchemaPropertyKey: (
+
+		setActiveNodeFormFieldPropertyKey: (
 			state,
 			{
 				payload: clickedNodeFormFieldSchemaPropertyKey,
 			}: PayloadAction<AvantosFieldSchemaPropertiesArrayValue['key']>,
 		) => {
-			state.selectedClickedNodeFormFieldSchemaPropertyKey =
+			state.activeNodeFormFieldPropertyKey =
 				clickedNodeFormFieldSchemaPropertyKey;
 		},
-		resetSelectedClickedNodeFormFieldSchemaPropertyKey: state => {
-			state.selectedClickedNodeFormFieldSchemaPropertyKey =
-				initialState.selectedClickedNodeFormFieldSchemaPropertyKey;
+		resetActiveNodeFormFieldPropertyKey: state => {
+			state.activeNodeFormFieldPropertyKey =
+				initialState.activeNodeFormFieldPropertyKey;
+
+			state.activeNodeFormFieldMappedPropertyKey =
+				initialState.activeNodeFormFieldMappedPropertyKey;
 		},
-		addNodeFormField: (
+
+		setActiveNodeFormFieldMappedPropertyKey: (
 			state,
-			{ payload: nodeFormFieldToAdd }: PayloadAction<NodeFormField>,
+			{ payload: nodeFormField }: PayloadAction<NodeFormFieldMapping>,
+		) => {
+			state.activeNodeFormFieldMappedPropertyKey = nodeFormField;
+		},
+		resetActiveNodeFormFieldMappedPropertyKey: state => {
+			state.activeNodeFormFieldMappedPropertyKey =
+				initialState.activeNodeFormFieldMappedPropertyKey;
+		},
+
+		addNodeFormFieldMapping: (
+			state,
+			{
+				payload: nodeFormFieldToAdd,
+			}: PayloadAction<NodeFormFieldMapping>,
 		) => {
 			if (
-				!state.nodeFormFields.some(field =>
+				!state.nodeFormFieldMappings.some(field =>
 					nodeFormFieldsAreEqual(field, nodeFormFieldToAdd),
 				)
 			) {
-				state.nodeFormFields.push(nodeFormFieldToAdd);
+				state.nodeFormFieldMappings.push(nodeFormFieldToAdd);
 			}
 		},
-		removeNodeFormField: (
+		removeNodeFormFieldMapping: (
 			state,
-			{ payload: nodeFormFieldToRemove }: PayloadAction<NodeFormField>,
+			{
+				payload: nodeFormFieldToRemove,
+			}: PayloadAction<NodeFormFieldMapping>,
 		) => {
-			state.nodeFormFields = state.nodeFormFields.filter(
+			state.nodeFormFieldMappings = state.nodeFormFieldMappings.filter(
 				field => field !== nodeFormFieldToRemove,
 			);
 		},
@@ -89,9 +104,9 @@ const flowSlice = createSlice({
 		handleAsyncState({
 			builder,
 			thunk: fetchFlowData,
-			statusStateProperty: 'fetchFlowStatus',
+			statusStateProperty: 'fetchFlowDataStatus',
 			onFulfilled(state) {
-				state.lastFetchFlow = new Date().toISOString();
+				state.lastFetchFlowData = new Date().toISOString();
 			},
 		});
 	},
@@ -99,14 +114,14 @@ const flowSlice = createSlice({
 
 export const {
 	resetFlow,
-	setClickedNodeId,
-	resetClickedNodeId,
-	addNodeFormField,
-	removeNodeFormField,
-	setSelectedClickedNodeFormField,
-	resetSelectedClickedNodeFormField,
-	setSelectedClickedNodeFormFieldSchemaPropertyKey,
-	resetSelectedClickedNodeFormFieldSchemaPropertyKey,
+	setActiveNodeId,
+	resetActiveNodeId,
+	addNodeFormFieldMapping,
+	removeNodeFormFieldMapping,
+	setActiveNodeFormFieldMappedPropertyKey,
+	resetActiveNodeFormFieldMappedPropertyKey,
+	setActiveNodeFormFieldPropertyKey,
+	resetActiveNodeFormFieldPropertyKey,
 } = flowSlice.actions;
 
 export default flowSlice.reducer;
