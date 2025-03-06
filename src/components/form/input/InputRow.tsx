@@ -38,7 +38,7 @@ function InputRowBase({ className = '', isValid, ...props }: InputRowProps) {
 				<PiMagnifyingGlassBold color="gray" size={18} />
 			</Col>
 			<Col className="flex-1 pl-1.5">
-				<input className="outline-0" placeholder="Search" {...props} />
+				<input className="outline-0" {...props} />
 			</Col>
 		</Row>
 	);
