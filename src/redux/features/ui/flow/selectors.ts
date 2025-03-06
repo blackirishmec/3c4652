@@ -30,3 +30,8 @@ export const selectClickedNodeId = createSelector(
 	[selectFlowState],
 	flow => flow.clickedNodeId,
 );
+
+export const selectNodeFormFields = createSelector(
+	[selectFlowState],
+	flow => flow.nodeFormFields,
+);

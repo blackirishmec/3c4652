@@ -4,8 +4,6 @@ import { PiXFill } from 'react-icons/pi';
 import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
-import type { Node } from '@/interfaces/models/nodeModels';
-import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import { resetClickedNodeId } from '@/redux/features/ui/flow';
 import { selectClickedFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';

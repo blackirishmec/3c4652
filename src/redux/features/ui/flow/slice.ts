@@ -31,7 +31,11 @@ const flowSlice = createSlice({
 			state,
 			{ payload: nodeFormFieldToAdd }: PayloadAction<NodeFormField>,
 		) => {
-			if (!state.nodeFormFields.includes(nodeFormFieldToAdd)) {
+			if (
+				!state.nodeFormFields.some(
+					field => field === nodeFormFieldToAdd,
+				)
+			) {
 				state.nodeFormFields.push(nodeFormFieldToAdd);
 			}
 		},
@@ -39,15 +43,9 @@ const flowSlice = createSlice({
 			state,
 			{ payload: nodeFormFieldToRemove }: PayloadAction<NodeFormField>,
 		) => {
-			if (state.nodeFormFields.includes(nodeFormFieldToRemove)) {
-				const index = state.nodeFormFields.indexOf(
-					nodeFormFieldToRemove,
-				);
-
-				if (index !== -1) {
-					state.nodeFormFields.splice(index, 1);
-				}
-			}
+			state.nodeFormFields = state.nodeFormFields.filter(
+				field => field !== nodeFormFieldToRemove,
+			);
 		},
 	},
 	extraReducers: builder => {
@@ -62,7 +60,12 @@ const flowSlice = createSlice({
 	},
 });
 
-export const { resetFlow, setClickedNodeId, resetClickedNodeId } =
-	flowSlice.actions;
+export const {
+	resetFlow,
+	setClickedNodeId,
+	resetClickedNodeId,
+	addNodeFormField,
+	removeNodeFormField,
+} = flowSlice.actions;
 
 export default flowSlice.reducer;

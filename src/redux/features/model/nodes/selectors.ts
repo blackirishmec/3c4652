@@ -6,6 +6,6 @@ const selectNodesState = (state: RootState) => state.nodes;
 
 export const {
 	selectAll: selectAllNodes,
-	selectById: selectNodesById,
-	selectIds: selectNodesIds,
+	selectById: selectNodeById,
+	selectIds: selectNodeIds,
 } = nodesAdapter.getSelectors(selectNodesState);
