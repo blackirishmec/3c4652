@@ -3,7 +3,6 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { PiCaretDownBold, PiCaretRightBold } from 'react-icons/pi';
 
-import type { NodeFormField } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
 import type { HTMLAttributes, MouseEvent } from 'react';
@@ -74,6 +73,8 @@ function PrefillMappingParentListItemBase({
 	const handleParentLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
 			setChildrenListExpanded(!childrenListExpanded);
+
+			_e.stopPropagation();
 		},
 		[childrenListExpanded],
 	);
