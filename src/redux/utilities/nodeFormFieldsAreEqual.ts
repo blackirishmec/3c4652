@@ -8,7 +8,9 @@ const nodeFormFieldsAreEqual = (
 		nodeFormFieldA.nodeFormFieldSchemaPropertyKey ===
 			nodeFormFieldB?.nodeFormFieldSchemaPropertyKey &&
 		nodeFormFieldA.nodeId === nodeFormFieldB?.nodeId &&
-		nodeFormFieldA.prefillingNodeId === nodeFormFieldB?.prefillingNodeId
+		nodeFormFieldA.prefillingNodeId === nodeFormFieldB?.prefillingNodeId &&
+		nodeFormFieldA.prefillingNodeFormFieldSchemaPropertyKey ===
+			nodeFormFieldB?.prefillingNodeFormFieldSchemaPropertyKey
 	);
 };
 

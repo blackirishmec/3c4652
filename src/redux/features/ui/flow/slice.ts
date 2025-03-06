@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { NodeFormField } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
+import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import initialState from '@/redux/features/ui/flow/initialState';
@@ -19,6 +20,8 @@ const flowSlice = createSlice({
 			state.clickedNodeId = initialState.clickedNodeId;
 			state.nodeFormFields = [...initialState.nodeFormFields];
 			state.clickedNodeFormField = initialState.clickedNodeFormField;
+			state.clickedNodeFormFieldSchemaPropertyKey =
+				initialState.clickedNodeFormFieldSchemaPropertyKey;
 		},
 		setClickedNodeId: (
 			state,
@@ -26,10 +29,14 @@ const flowSlice = createSlice({
 		) => {
 			state.clickedNodeId = nodeId;
 			state.clickedNodeFormField = initialState.clickedNodeFormField;
+			state.clickedNodeFormFieldSchemaPropertyKey =
+				initialState.clickedNodeFormFieldSchemaPropertyKey;
 		},
 		resetClickedNodeId: state => {
 			state.clickedNodeId = initialState.clickedNodeId;
 			state.clickedNodeFormField = initialState.clickedNodeFormField;
+			state.clickedNodeFormFieldSchemaPropertyKey =
+				initialState.clickedNodeFormFieldSchemaPropertyKey;
 		},
 		setClickedNodeFormField: (
 			state,
@@ -39,6 +46,19 @@ const flowSlice = createSlice({
 		},
 		resetClickedNodeFormField: state => {
 			state.clickedNodeFormField = initialState.clickedNodeFormField;
+		},
+		setClickedNodeFormFieldSchemaPropertyKey: (
+			state,
+			{
+				payload: nodeFormFieldSchemaPropertyKey,
+			}: PayloadAction<AvantosFieldSchemaPropertiesArrayValue['key']>,
+		) => {
+			state.clickedNodeFormFieldSchemaPropertyKey =
+				nodeFormFieldSchemaPropertyKey;
+		},
+		resetClickedNodeFormFieldSchemaPropertyKey: state => {
+			state.clickedNodeFormFieldSchemaPropertyKey =
+				initialState.clickedNodeFormFieldSchemaPropertyKey;
 		},
 		addNodeFormField: (
 			state,
@@ -81,6 +101,8 @@ export const {
 	removeNodeFormField,
 	setClickedNodeFormField,
 	resetClickedNodeFormField,
+	setClickedNodeFormFieldSchemaPropertyKey,
+	resetClickedNodeFormFieldSchemaPropertyKey,
 } = flowSlice.actions;
 
 export default flowSlice.reducer;

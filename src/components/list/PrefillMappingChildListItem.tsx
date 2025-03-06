@@ -10,6 +10,7 @@ import type { HTMLAttributes, MouseEvent } from 'react';
 import {
 	resetClickedNodeFormField,
 	selectClickedNodeFormField,
+	selectClickedNodeFormFieldSchemaPropertyKey,
 	setClickedNodeFormField,
 } from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
@@ -60,13 +61,17 @@ function PrefillMappingChildListItemBase({
 
 	const clickedNode = useTypedSelector(selectClickedNode);
 	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
+	const clickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
+		selectClickedNodeFormFieldSchemaPropertyKey,
+	);
 
 	const handleLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
 			if (
 				clickedNode === undefined ||
 				nodeFormFieldSchemaProperty === undefined ||
-				parentNode === undefined
+				parentNode === undefined ||
+				clickedNodeFormFieldSchemaPropertyKey === undefined
 			)
 				return;
 
@@ -74,6 +79,8 @@ function PrefillMappingChildListItemBase({
 				nodeId: clickedNode.id,
 				nodeFormFieldSchemaPropertyKey: nodeFormFieldSchemaProperty.key,
 				prefillingNodeId: parentNode.id,
+				prefillingNodeFormFieldSchemaPropertyKey:
+					clickedNodeFormFieldSchemaPropertyKey,
 			};
 
 			if (
@@ -93,6 +100,7 @@ function PrefillMappingChildListItemBase({
 		[
 			clickedNode,
 			clickedNodeFormField,
+			clickedNodeFormFieldSchemaPropertyKey,
 			dispatch,
 			nodeFormFieldSchemaProperty,
 			parentNode,

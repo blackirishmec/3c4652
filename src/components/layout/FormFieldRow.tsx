@@ -5,12 +5,15 @@ import { PiDatabase, PiXCircleFill } from 'react-icons/pi';
 
 import type { RootState } from '@/redux/store';
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
-import type { Dispatch, SetStateAction } from 'react';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
-import { selectNodeFormFields } from '@/redux/features/ui/flow';
+import {
+	selectNodeFormFields,
+	setClickedNodeFormFieldSchemaPropertyKey,
+} from '@/redux/features/ui/flow';
 import { createSelectClickedNodeFormField } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
+import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
 
 import { Col, Row } from './FlexComponents';
@@ -47,30 +50,25 @@ const classes = {
 
 export interface FormFieldRowProps {
 	property: AvantosFieldSchemaPropertiesArrayValue;
-	setClickedNodeFormFieldSchemaPropertyKey: Dispatch<
-		SetStateAction<
-			AvantosFieldSchemaPropertiesArrayValue['key'] | undefined
-		>
-	>;
 }
 
-function FormFieldRowBase({
-	property,
-	setClickedNodeFormFieldSchemaPropertyKey,
-}: FormFieldRowProps) {
+function FormFieldRowBase({ property }: FormFieldRowProps) {
+	const dispatch = useAppDispatch();
+
 	const selectClickedNodeFormField = useMemo(
 		() => createSelectClickedNodeFormField(property.key),
 		[property.key],
 	);
 	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
+
 	const clickedParentNode = useTypedSelector((state: RootState) =>
 		selectNodeById(state, clickedNodeFormField?.prefillingNodeId ?? ''),
 	);
 	const nodeFormFields = useTypedSelector(selectNodeFormFields);
 
 	const handleOnClick = useCallback(() => {
-		setClickedNodeFormFieldSchemaPropertyKey(property.key);
-	}, [property.key, setClickedNodeFormFieldSchemaPropertyKey]);
+		dispatch(setClickedNodeFormFieldSchemaPropertyKey(property.key));
+	}, [dispatch, property.key]);
 
 	const prefilled = nodeFormFields.some(
 		nodeFormField =>

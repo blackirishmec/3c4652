@@ -40,3 +40,8 @@ export const selectClickedNodeFormField = createSelector(
 	[selectFlowState],
 	flow => flow.clickedNodeFormField,
 );
+
+export const selectClickedNodeFormFieldSchemaPropertyKey = createSelector(
+	[selectFlowState],
+	flow => flow.clickedNodeFormFieldSchemaPropertyKey,
+);

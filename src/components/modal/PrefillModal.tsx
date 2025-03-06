@@ -5,7 +5,11 @@ import { PiXFill } from 'react-icons/pi';
 import type { ModalProps } from '@/components/modal/Modal';
 import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
-import { resetClickedNodeId } from '@/redux/features/ui/flow';
+import {
+	resetClickedNodeFormFieldSchemaPropertyKey,
+	resetClickedNodeId,
+	selectClickedNodeFormFieldSchemaPropertyKey,
+} from '@/redux/features/ui/flow';
 import { selectClickedFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
@@ -29,14 +33,13 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 		selectClickedFormFieldSchemaPropertiesArray,
 	);
 
-	const [
-		clickedNodeFormFieldSchemaPropertyKey,
-		setClickedNodeFormFieldSchemaPropertyKey,
-	] = useState<AvantosFieldSchemaPropertiesArrayValue['key']>();
+	const clickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
+		selectClickedNodeFormFieldSchemaPropertyKey,
+	);
 
 	const handleClosePrefillMappingModal = useCallback(() => {
-		setClickedNodeFormFieldSchemaPropertyKey(undefined);
-	}, []);
+		dispatch(resetClickedNodeFormFieldSchemaPropertyKey());
+	}, [dispatch]);
 
 	const prefillMappingModalIsVisible = useMemo(
 		() => clickedNodeFormFieldSchemaPropertyKey !== undefined,
@@ -47,15 +50,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 		() =>
 			clickedNode !== undefined &&
 			clickedFormFieldSchemaPropertiesArray.map(property => {
-				return (
-					<FormFieldRow
-						key={property.key}
-						property={property}
-						setClickedNodeFormFieldSchemaPropertyKey={
-							setClickedNodeFormFieldSchemaPropertyKey
-						}
-					/>
-				);
+				return <FormFieldRow key={property.key} property={property} />;
 			}),
 		[clickedFormFieldSchemaPropertiesArray, clickedNode],
 	);

@@ -74,4 +74,5 @@ export interface NodeFormField {
 	nodeId: Node['id'];
 	nodeFormFieldSchemaPropertyKey: AvantosFieldSchemaPropertiesArrayValue['key'];
 	prefillingNodeId?: Node['id'];
+	prefillingNodeFormFieldSchemaPropertyKey: AvantosFieldSchemaPropertiesArrayValue['key'];
 }

@@ -1,4 +1,5 @@
 import type { NodeFormField } from '@/interfaces/AvantosInterfaces';
+import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { StatusState } from '@/types/StatusTypes';
 import type { Node } from '@xyflow/react';
 
@@ -7,5 +8,6 @@ export interface FlowState {
 	lastFetchFlow: string | null;
 	clickedNodeId?: Node['id'];
 	nodeFormFields: NodeFormField[];
+	clickedNodeFormFieldSchemaPropertyKey?: AvantosFieldSchemaPropertiesArrayValue['key'];
 	clickedNodeFormField?: NodeFormField;
 }
