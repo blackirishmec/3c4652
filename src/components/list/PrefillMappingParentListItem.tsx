@@ -22,14 +22,13 @@ const classes = {
 		border-dashed 
 		border-transparent 
 		py-1
-		hover:border-blue-500
+		hover:border-blue-500!
 		hover:bg-blue-100 
 	`,
 	expandedParentRow: `
 		border-solid!
 		border-transparent!
 		bg-blue-100
-		hover:border-gray-100!
 		hover:bg-gray-100!
 	`,
 } as const;
