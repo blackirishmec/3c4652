@@ -62,7 +62,10 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 						className="hover:bg-red-100"
 						onClick={handleCloseModal}
 					>
-						<PiXFill size={24} />
+						<PiXFill
+							className="text-red-500 hover:text-red-400"
+							size={24}
+						/>
 					</Button>
 				</Col>
 			</Row>
@@ -78,7 +81,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 			</Row>
 			<Row className="py-3" childrenHorizontalPosition="center">
 				<Button
-					className="bg-red-500 text-white py-2 px-3 rounded-full hover:bg-red-300"
+					className="bg-red-500 text-white py-2 px-3 rounded-full hover:bg-red-400"
 					onClick={handleCloseModal}
 				>
 					Close{' '}
