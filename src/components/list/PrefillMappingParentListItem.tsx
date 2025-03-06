@@ -42,7 +42,7 @@ export interface PrefillMappingParentListItemProps
 
 function PrefillMappingParentListItemBase({
 	childrenListItemData,
-	label: prop_label = 'Label',
+	label: prop_label = 'Parent Label',
 	parentNode,
 	...props
 }: PrefillMappingParentListItemProps) {
@@ -75,7 +75,6 @@ function PrefillMappingParentListItemBase({
 	);
 
 	return (
-		// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
 		<li
 			// className={clsx(
 			// 	classes.parentRow,
@@ -103,6 +102,7 @@ function PrefillMappingParentListItemBase({
 				{childrenListExpanded && (
 					<Row className="bg-[#F6F6F6]">
 						<PrefillMappingChildrenListCol
+							parentNode={parentNode}
 							nodeFormFieldSchemaPropertiesArray={
 								nodeFormFieldSchemaPropertiesArray
 							}

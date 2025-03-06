@@ -1,5 +1,6 @@
 import { memo } from 'react';
 
+import type { Node } from '@/interfaces/models/nodeModels';
 import type {
 	AvantosFieldSchemaPropertiesArray,
 	AvantosFieldSchemaPropertiesArrayValue,
@@ -9,11 +10,13 @@ import { Col } from '@/components/layout/FlexComponents';
 import PrefillMappingChildListItem from '@/components/list/PrefillMappingChildListItem';
 
 export interface PrefillMappingChildrenListColProps {
+	parentNode?: Node;
 	nodeFormFieldSchemaPropertiesArray?: AvantosFieldSchemaPropertiesArray;
 }
 
 function PrefillMappingChildrenListColBase({
 	nodeFormFieldSchemaPropertiesArray,
+	parentNode,
 }: PrefillMappingChildrenListColProps) {
 	return (
 		<Col className="flex-1">
@@ -25,7 +28,10 @@ function PrefillMappingChildrenListColBase({
 						) => (
 							<PrefillMappingChildListItem
 								key={nodeFormFieldSchemaProperty.key}
-								label={nodeFormFieldSchemaProperty.key}
+								nodeFormFieldSchemaProperty={
+									nodeFormFieldSchemaProperty
+								}
+								parentNode={parentNode}
 							/>
 						),
 					)}
