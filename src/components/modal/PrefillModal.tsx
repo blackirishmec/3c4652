@@ -4,6 +4,7 @@ import { PiXFill } from 'react-icons/pi';
 import uuid4 from 'uuid4';
 
 import type { ModalProps } from '@/components/modal/Modal';
+import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import { resetClickedNodeId } from '@/redux/features/ui/flow';
 import { selectClickedFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
@@ -29,23 +30,33 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 		selectClickedFormFieldSchemaPropertiesArray,
 	);
 
-	const [prefillMappingModalVisible, setPrefillMappingModalVisible] =
-		useState(false);
+	const [
+		clickedNodeFormFieldSchemaPropertyKey,
+		setClickedNodeFormFieldSchemaPropertyKey,
+	] = useState<AvantosFieldSchemaPropertiesArrayValue['key']>();
 
 	const handleClosePrefillMappingModal = useCallback(() => {
-		setPrefillMappingModalVisible(false);
+		setClickedNodeFormFieldSchemaPropertyKey(undefined);
 	}, []);
+
+	const prefillMappingModalIsVisible = useMemo(
+		() => clickedNodeFormFieldSchemaPropertyKey !== undefined,
+		[clickedNodeFormFieldSchemaPropertyKey],
+	);
 
 	const Rows = useMemo(
 		() =>
+			clickedNode !== undefined &&
 			clickedFormFieldSchemaPropertiesArray.map(property => (
 				<FormFieldRow
 					key={uuid4()}
 					property={property}
-					onClick={() => setPrefillMappingModalVisible(true)}
+					onClick={() =>
+						setClickedNodeFormFieldSchemaPropertyKey(property.key)
+					}
 				/>
 			)),
-		[clickedFormFieldSchemaPropertiesArray],
+		[clickedFormFieldSchemaPropertiesArray, clickedNode],
 	);
 
 	const handleCloseModal = useCallback(() => {
@@ -95,7 +106,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 				</Button>
 			</Row>
 			<PrefillMappingModal
-				isVisible={prefillMappingModalVisible}
+				isVisible={prefillMappingModalIsVisible}
 				handleClose={handleClosePrefillMappingModal}
 			/>
 		</Modal>
