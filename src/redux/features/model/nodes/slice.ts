@@ -8,8 +8,6 @@ import type { NodeChange } from '@xyflow/react';
 
 import nodesAdapter from '@/redux/features/model/nodes/nodesAdapter';
 
-import Logger from '@/utilities/Logger';
-
 import { nodeFetched, nodesFetched } from './actions';
 import initialState from './initialState';
 
@@ -37,7 +35,6 @@ const nodesSlice = createSlice({
 		},
 		onNodesChange: (state, action: PayloadAction<NodeChange<Node>[]>) => {
 			const { entities } = state;
-			Logger.info('test', 'src/redux/features/model/nodes/slice.ts:50');
 
 			const nodes = Object.entries(entities).reduce<Node[]>(
 				(acc, [entityId]) => {
@@ -49,8 +46,6 @@ const nodesSlice = createSlice({
 				},
 				[],
 			);
-
-			Logger.info('test', 'src/redux/features/model/nodes/slice.ts:50');
 
 			const updatedNodes = applyNodeChanges(action.payload, nodes);
 

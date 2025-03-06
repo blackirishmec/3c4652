@@ -9,7 +9,7 @@
 			"request": "attach",
 			"name": "Launch Chrome against localhost",
 			"url": "http://localhost:5173",
-			"webRoot": "${workspaceFolder}/frontend-challenge",
+			"webRoot": "${workspaceFolder}",
 			"port": 9222
 		}
 	]
