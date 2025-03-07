@@ -8,7 +8,7 @@ import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
 import { setActiveNodeFormFieldPropertyKey } from '@/redux/features/ui/flow';
-import { createSelectClickedNodeFormField } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import { createSelectNodeFormFieldMappingByActiveNode } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -53,7 +53,7 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 	const dispatch = useAppDispatch();
 
 	const selectClickedNodeFormField = useMemo(
-		() => createSelectClickedNodeFormField(property.key),
+		() => createSelectNodeFormFieldMappingByActiveNode(property.key),
 		[property.key],
 	);
 	const clickedNodeFormField = useTypedSelector(selectClickedNodeFormField);
