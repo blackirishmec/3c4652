@@ -35,6 +35,23 @@ const initialState: FlowState = {
 				},
 			],
 		},
+		{
+			key: 'Org Data',
+			subsetData: [
+				{
+					key: 'name',
+					property: {
+						type: 'string',
+					},
+				},
+				{
+					key: 'email',
+					property: {
+						type: 'string',
+					},
+				},
+			],
+		},
 	],
 };
 
