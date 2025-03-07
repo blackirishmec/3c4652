@@ -43,6 +43,7 @@ function PrefillMappingParentListColBase() {
 							<PrefillMappingParentListItem
 								prerequisiteNode={activeNodePrerequisiteNode}
 								key={activeNodePrerequisiteNode.id}
+								searchTerm={searchTerm}
 							/>
 						))
 						.reverse()}

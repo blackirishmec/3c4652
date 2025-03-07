@@ -12,10 +12,12 @@ import PrefillMappingChildListItem from '@/components/list/PrefillMappingChildLi
 
 export interface PrefillMappingChildrenListColProps {
 	prerequisiteNode?: Node;
+	searchTerm?: string;
 }
 
 function PrefillMappingChildrenListColBase({
 	prerequisiteNode,
+	searchTerm,
 }: PrefillMappingChildrenListColProps) {
 	const selectFormFieldSchemaPropertiesArrayByPrerequisiteNode = useMemo(
 		() =>
@@ -33,21 +35,33 @@ function PrefillMappingChildrenListColBase({
 			<ul className="w-full">
 				{formFieldSchemaPropertiesArrayByPrerequisiteNode !==
 					undefined &&
-					formFieldSchemaPropertiesArrayByPrerequisiteNode.map(
-						(
-							formFieldSchemaPropertiesArrayValueByPrerequisiteNode: FormFieldSchemaPropertiesArrayValue,
-						) => (
-							<PrefillMappingChildListItem
-								key={
-									formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
-								}
-								formFieldSchemaPropertiesArrayValueByPrerequisiteNode={
-									formFieldSchemaPropertiesArrayValueByPrerequisiteNode
-								}
-								prerequisiteNode={prerequisiteNode}
-							/>
-						),
-					)}
+					formFieldSchemaPropertiesArrayByPrerequisiteNode
+						.filter(
+							(
+								formFieldSchemaPropertiesArrayValueByPrerequisiteNode: FormFieldSchemaPropertiesArrayValue,
+							) => {
+								if (searchTerm === undefined) return true;
+
+								return formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key.includes(
+									searchTerm,
+								);
+							},
+						)
+						.map(
+							(
+								formFieldSchemaPropertiesArrayValueByPrerequisiteNode: FormFieldSchemaPropertiesArrayValue,
+							) => (
+								<PrefillMappingChildListItem
+									key={
+										formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
+									}
+									formFieldSchemaPropertiesArrayValueByPrerequisiteNode={
+										formFieldSchemaPropertiesArrayValueByPrerequisiteNode
+									}
+									prerequisiteNode={prerequisiteNode}
+								/>
+							),
+						)}
 			</ul>
 		</Col>
 	);
