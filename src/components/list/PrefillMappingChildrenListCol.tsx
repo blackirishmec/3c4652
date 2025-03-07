@@ -10,7 +10,7 @@ import { createSelectFormFieldSchemaPropertiesArrayByNode } from '@/redux/select
 import useTypedSelector from '@/hooks/useTypedSelector';
 
 import { Col } from '@/components/layout/FlexComponents';
-import PrefillMappingChildListItem from '@/components/list/PrefillMappingChildListItem';
+import ChildListItem from '@/components/list/prefill-mapping/ChildListItem';
 
 export interface PrefillMappingChildrenListColProps {
 	childrenListItemData?: GlobalDataSubsetData[];
@@ -58,7 +58,7 @@ function PrefillMappingChildrenListColBase({
 							(
 								formFieldSchemaPropertiesArrayValueByPrerequisiteNode: FormFieldSchemaPropertiesArrayValue,
 							) => (
-								<PrefillMappingChildListItem
+								<ChildListItem
 									key={
 										formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
 									}

@@ -66,18 +66,18 @@ const classes = {
 	`,
 } as const;
 
-export interface PrefillMappingChildListItemProps
+export interface ChildListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
 	label?: string;
 	prefillingNodeFormFieldSchemaPropertyKey?: string;
 	prefillingNode: Node;
 }
 
-function PrefillMappingChildListItemBase({
+function ChildListItemBase({
 	label: prop_label = 'Child Label',
 	prefillingNodeFormFieldSchemaPropertyKey,
 	prefillingNode,
-}: PrefillMappingChildListItemProps) {
+}: ChildListItemProps) {
 	const label = useMemo(
 		() => prefillingNodeFormFieldSchemaPropertyKey ?? prop_label,
 		[prefillingNodeFormFieldSchemaPropertyKey, prop_label],
@@ -239,6 +239,6 @@ function PrefillMappingChildListItemBase({
 	);
 }
 
-const PrefillMappingChildListItem = memo(PrefillMappingChildListItemBase);
+const ChildListItem = memo(ChildListItemBase);
 
-export default PrefillMappingChildListItem;
+export default ChildListItem;
