@@ -7,6 +7,8 @@ import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { StatusState } from '@/types/StatusTypes';
 import type { Node } from '@xyflow/react';
 
+export type PrefillingModelType = 'Node' | 'GlobalDataSubset';
+
 export interface FlowState {
 	fetchFlowDataStatus: StatusState;
 	lastFetchFlowData: string | null;
@@ -20,4 +22,5 @@ export interface FlowState {
 	activePrefillingGlobalDataSubsetDataKey?: GlobalDataSubsetData['id'];
 	activePrefillingParentIdentifier?: string;
 	activePrefillingChildIdentifier?: string;
+	activePrefillingModelType?: PrefillingModelType;
 }

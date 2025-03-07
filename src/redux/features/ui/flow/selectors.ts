@@ -65,3 +65,13 @@ export const selectActivePrefillingGlobalDataSubsetDataKey = createSelector(
 	[selectFlowState],
 	flow => flow.activePrefillingGlobalDataSubsetDataKey,
 );
+
+export const selectActivePrefillingParentIdentifier = createSelector(
+	[selectFlowState],
+	flow => flow.activePrefillingParentIdentifier,
+);
+
+export const selectActivePrefillingChildIdentifier = createSelector(
+	[selectFlowState],
+	flow => flow.activePrefillingChildIdentifier,
+);

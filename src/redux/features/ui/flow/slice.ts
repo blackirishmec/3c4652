@@ -6,6 +6,7 @@ import type {
 	GlobalDataSubsetData,
 } from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
+import type { PrefillingModelType } from '@/redux/features/ui/flow/types';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
@@ -43,6 +44,12 @@ const flowSlice = createSlice({
 				initialState.activePrefillingGlobalDataSubsetId;
 			state.activePrefillingGlobalDataSubsetDataKey =
 				initialState.activePrefillingGlobalDataSubsetDataKey;
+			state.activePrefillingParentIdentifier =
+				initialState.activePrefillingParentIdentifier;
+			state.activePrefillingChildIdentifier =
+				initialState.activePrefillingChildIdentifier;
+			state.activePrefillingModelType =
+				initialState.activePrefillingModelType;
 		},
 
 		addNodeFormFieldMapping: (
@@ -113,6 +120,48 @@ const flowSlice = createSlice({
 
 			state.activePrefillingGlobalDataSubsetDataKey =
 				initialState.activePrefillingGlobalDataSubsetDataKey;
+		},
+
+		setActivePrefillingParent: (
+			state,
+			{
+				payload: { prefillingModelType, identifier },
+			}: PayloadAction<{
+				prefillingModelType: PrefillingModelType;
+				identifier: string;
+			}>,
+		) => {
+			state.activePrefillingModelType = prefillingModelType;
+			state.activePrefillingParentIdentifier = identifier;
+
+			state.activePrefillingChildIdentifier =
+				initialState.activePrefillingChildIdentifier;
+		},
+		resetPrefillingActiveParent: state => {
+			state.activePrefillingModelType =
+				initialState.activePrefillingModelType;
+			state.activePrefillingParentIdentifier =
+				initialState.activePrefillingGlobalDataSubsetId;
+
+			state.activePrefillingChildIdentifier =
+				initialState.activePrefillingChildIdentifier;
+		},
+
+		setActivePrefillingChildIdentifier: (
+			state,
+			{ payload: prefillingChildIdentifier }: PayloadAction<string>,
+		) => {
+			state.activePrefillingChildIdentifier = prefillingChildIdentifier;
+
+			state.activePrefillingChildIdentifier =
+				initialState.activePrefillingChildIdentifier;
+		},
+		resetPrefillingActiveChildIdentifier: state => {
+			state.activePrefillingChildIdentifier =
+				initialState.activePrefillingGlobalDataSubsetId;
+
+			state.activePrefillingChildIdentifier =
+				initialState.activePrefillingChildIdentifier;
 		},
 
 		setActivePrefillingGlobalDataSubsetDataKey: (
@@ -231,21 +280,25 @@ const flowSlice = createSlice({
 export const {
 	addNodeFormFieldMapping,
 	removeNodeFormFieldMapping,
-	resetActivePrefillingNodeFormFieldMappedPropertyKey,
 	resetActiveNodeFormFieldPropertyKey,
 	resetActiveNodeId,
+	resetActivePrefillingNodeFormFieldMappedPropertyKey,
 	resetActivePrefillingNodeId,
+	resetAvailableDataSearchTerm,
 	resetFlow,
-	setActivePrefillingNodeFormFieldMappedPropertyKey,
+	resetPrefillingActiveChildIdentifier,
+	resetPrefillingActiveGlobalDataSubsetDataKey,
+	resetPrefillingActiveGlobalDataSubsetKey,
+	resetPrefillingActiveParent,
 	setActiveNodeFormFieldPropertyKey,
 	setActiveNodeId,
-	setActivePrefillingNodeId,
-	setAvailableDataSearchTerm,
-	resetAvailableDataSearchTerm,
-	setActivePrefillingGlobalDataSubsetKey,
-	resetPrefillingActiveGlobalDataSubsetKey,
+	setActivePrefillingChildIdentifier,
 	setActivePrefillingGlobalDataSubsetDataKey,
-	resetPrefillingActiveGlobalDataSubsetDataKey,
+	setActivePrefillingGlobalDataSubsetKey,
+	setActivePrefillingNodeFormFieldMappedPropertyKey,
+	setActivePrefillingNodeId,
+	setActivePrefillingParent,
+	setAvailableDataSearchTerm,
 } = flowSlice.actions;
 
 export default flowSlice.reducer;
