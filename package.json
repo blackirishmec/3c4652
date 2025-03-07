@@ -7,7 +7,8 @@
 		"build": "tsc && vite build",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
 		"preview": "vite preview",
-		"generate:slice": "tsx src/tools/generateReduxSlice.ts"
+		"generate:slice": "tsx src/tools/generateReduxSlice.ts",
+		"test": "jest"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.14.0",
@@ -21,6 +22,7 @@
 		"@reduxjs/toolkit": "^2.6.0",
 		"@tailwindcss/vite": "^4.0.9",
 		"@types/inquirer": "^9.0.7",
+		"@types/redux-mock-store": "^1.5.0",
 		"@xyflow/react": "^12.3.6",
 		"axios": "^1.8.1",
 		"clsx": "^2.1.1",
@@ -35,6 +37,10 @@
 	"license": "MIT",
 	"devDependencies": {
 		"@eslint/js": "^9.21.0",
+		"@testing-library/jest-dom": "^6.6.3",
+		"@testing-library/react": "^16.2.0",
+		"@testing-library/user-event": "^14.6.1",
+		"@types/jest": "^29.5.14",
 		"@types/react": "^18.2.53",
 		"@types/react-dom": "^18.2.18",
 		"@types/uuid4": "^2.0.3",
@@ -54,7 +60,13 @@
 		"eslint-plugin-react-hooks": "^4.6.2",
 		"eslint-plugin-react-refresh": "^0.4.5",
 		"eslint-plugin-unused-imports": "^4.1.4",
+		"identity-obj-proxy": "^3.0.0",
+		"jest": "^29.7.0",
+		"jest-environment-jsdom": "^29.7.0",
+		"jest-transformer-svg": "^2.1.0",
 		"prettier": "3.5.3",
+		"ts-jest": "^29.2.6",
+		"ts-node": "^10.9.2",
 		"tsx": "^4.19.3",
 		"typescript": "^5.3.3",
 		"typescript-eslint": "^8.26.0",

@@ -52,6 +52,23 @@ module.exports = {
 				project: './tsconfig.json',
 			},
 		},
+		{
+			plugins: ['testing-library'],
+			files: ['*.test.ts', '*.test.tsx', '**/__tests__/**/*.{ts,tsx}'],
+			extends: [
+				'plugin:testing-library/react',
+				'plugin:jest-dom/recommended',
+			],
+			env: { jest: true },
+			// optional loosening of rules for tests
+			rules: {
+				'testing-library/no-render-in-lifecycle': 'error',
+				'testing-library/prefer-explicit-assert': 'error',
+				'testing-library/prefer-presence-queries': 'error',
+				'testing-library/prefer-screen-queries': 'error',
+				'@typescript-eslint/no-explicit-any': 'off', // TODO: Remove this later (need to kill mixins first?)
+			},
+		},
 	],
 	rules: {
 		'no-console': 'off',
