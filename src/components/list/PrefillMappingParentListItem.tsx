@@ -12,7 +12,7 @@ import { selectPrefillingNodeByActiveNode } from '@/redux/selectors/relationship
 import useTypedSelector from '@/hooks/useTypedSelector';
 
 import { Col, Row } from '@/components/layout/FlexComponents';
-import PrefillMappingChildrenListCol from '@/components/list/PrefillMappingChildrenListCol';
+import ChildrenListCol from '@/components/list/prefill-mapping/ChildrenListCol';
 
 const classes = {
 	parentRow: `
@@ -95,7 +95,7 @@ function PrefillMappingParentListItemBase({
 				</Row>
 				{childrenListExpanded && (
 					<Row className="bg-[#F6F6F6]">
-						<PrefillMappingChildrenListCol
+						<ChildrenListCol
 							childrenListItemData={childrenListItemData}
 							prefilledNode={prefilledNode}
 						/>

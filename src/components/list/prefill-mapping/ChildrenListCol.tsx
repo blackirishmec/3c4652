@@ -12,15 +12,15 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 import { Col } from '@/components/layout/FlexComponents';
 import ChildListItem from '@/components/list/prefill-mapping/ChildListItem';
 
-export interface PrefillMappingChildrenListColProps {
+export interface ChildrenListColProps {
 	childrenListItemData?: GlobalDataSubsetData[];
 	prefilledNode?: Node;
 }
 
-function PrefillMappingChildrenListColBase({
+function ChildrenListColBase({
 	childrenListItemData,
 	prefilledNode,
-}: PrefillMappingChildrenListColProps) {
+}: ChildrenListColProps) {
 	const selectFormFieldSchemaPropertiesArrayByPrerequisiteNode = useMemo(
 		() =>
 			createSelectFormFieldSchemaPropertiesArrayByNode(
@@ -74,6 +74,6 @@ function PrefillMappingChildrenListColBase({
 	);
 }
 
-const PrefillMappingChildrenListCol = memo(PrefillMappingChildrenListColBase);
+const ChildrenListCol = memo(ChildrenListColBase);
 
-export default PrefillMappingChildrenListCol;
+export default ChildrenListCol;
