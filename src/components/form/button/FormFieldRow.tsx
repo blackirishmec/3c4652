@@ -74,7 +74,7 @@ function FormFieldRowBase({ property, className }: FormFieldRowProps) {
 	const prefillingNode = useTypedSelector((state: RootState) =>
 		selectNodeById(
 			state,
-			savedNodeFormFieldMappingForActiveNodeByPropertyKey?.prefillingNodeId ??
+			savedNodeFormFieldMappingForActiveNodeByPropertyKey?.prefillingParentIdentifier ??
 				'',
 		),
 	);
@@ -117,7 +117,7 @@ function FormFieldRowBase({ property, className }: FormFieldRowProps) {
 				prefillingNode !== undefined &&
 				savedNodeFormFieldMappingForActiveNodeByPropertyKey !==
 					undefined
-					? `: ${prefillingNode.data.name}.${savedNodeFormFieldMappingForActiveNodeByPropertyKey.prefillingNodeFormFieldSchemaPropertyKey}`
+					? `: ${prefillingNode.data.name}.${savedNodeFormFieldMappingForActiveNodeByPropertyKey.prefillingChildIdentifier}`
 					: ''
 			}`,
 		[

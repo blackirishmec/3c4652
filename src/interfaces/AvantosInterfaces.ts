@@ -74,6 +74,6 @@ export interface FormUISchemaElement {
 export interface NodeFormFieldMapping {
 	nodeId: Node['id'];
 	nodeFormFieldSchemaPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
-	prefillingNodeId?: Node['id'];
-	prefillingNodeFormFieldSchemaPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
+	prefillingParentIdentifier?: string;
+	prefillingChildIdentifier: string;
 }

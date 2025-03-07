@@ -8,9 +8,10 @@ export const nodeFormFieldMappingsAreEqual = (
 		nodeFormFieldA.nodeId === nodeFormFieldB?.nodeId &&
 		nodeFormFieldA.nodeFormFieldSchemaPropertyKey ===
 			nodeFormFieldB?.nodeFormFieldSchemaPropertyKey &&
-		nodeFormFieldA.prefillingNodeId === nodeFormFieldB?.prefillingNodeId &&
-		nodeFormFieldA.prefillingNodeFormFieldSchemaPropertyKey ===
-			nodeFormFieldB?.prefillingNodeFormFieldSchemaPropertyKey
+		nodeFormFieldA.prefillingParentIdentifier ===
+			nodeFormFieldB?.prefillingParentIdentifier &&
+		nodeFormFieldA.prefillingChildIdentifier ===
+			nodeFormFieldB?.prefillingChildIdentifier
 	);
 };
 
