@@ -3,7 +3,7 @@ import { applyNodeChanges } from '@xyflow/react';
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { Node } from '@/interfaces/models/nodeModels';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction, Update } from '@reduxjs/toolkit';
 import type { NodeChange } from '@xyflow/react';
 
 import nodesAdapter from '@/redux/features/model/nodes/nodesAdapter';
@@ -20,6 +20,12 @@ const nodesSlice = createSlice({
 		},
 		upsertNode: (state, action: PayloadAction<Node>) => {
 			nodesAdapter.upsertOne(state, action.payload);
+		},
+		updateNode: (
+			state,
+			action: PayloadAction<Update<Node, Node['id']>>,
+		) => {
+			nodesAdapter.updateOne(state, action.payload);
 		},
 		removeNode: (state, action: PayloadAction<Node['id']>) => {
 			nodesAdapter.removeOne(state, action.payload);
@@ -65,12 +71,13 @@ const nodesSlice = createSlice({
 
 export const {
 	addNode,
-	upsertNode,
-	removeNode,
-	upsertManyNodes,
-	removeManyNodes,
-	removeAllNodes,
 	onNodesChange,
+	removeAllNodes,
+	removeManyNodes,
+	removeNode,
+	updateNode,
+	upsertManyNodes,
+	upsertNode,
 } = nodesSlice.actions;
 
 export default nodesSlice.reducer;

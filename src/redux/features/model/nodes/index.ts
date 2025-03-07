@@ -7,6 +7,7 @@ export {
 	removeAllNodes,
 	removeManyNodes,
 	removeNode,
+	updateNode,
 	upsertManyNodes,
 	upsertNode,
 } from './slice';

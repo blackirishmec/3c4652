@@ -17,6 +17,12 @@ export const selectActiveNode = createSelector(
 			: undefined,
 );
 
+export const selectPrefillingEnabledByActiveNode = createSelector(
+	[selectActiveNode],
+	(activeNode): boolean =>
+		activeNode !== undefined ? activeNode.data.prefill_enabled : false,
+);
+
 export const selectActivePrefillingNode = createSelector(
 	[selectActivePrefillingNodeId, (state: RootState) => state.nodes.entities],
 	(activePrefillingNodeId, nodeEntities): Node | undefined =>

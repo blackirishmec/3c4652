@@ -4,13 +4,17 @@ import { PiToggleLeft, PiToggleRightFill, PiXFill } from 'react-icons/pi';
 
 import type { ModalProps } from '@/components/modal/Modal';
 
+import { updateNode } from '@/redux/features/model/nodes';
 import {
 	resetActiveNodeFormFieldPropertyKey,
 	resetActiveNodeId,
 	selectActiveNodeFormFieldPropertyKey,
 } from '@/redux/features/ui/flow';
 import { selectFormFieldSchemaPropertiesArrayByActiveNode } from '@/redux/selectors/relationships/formRelationshipSelectors';
-import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import {
+	selectActiveNode,
+	selectPrefillingEnabledByActiveNode,
+} from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -27,13 +31,15 @@ export interface PrefillModalProps
 function PrefillModalBase({ ...props }: PrefillModalProps) {
 	const dispatch = useAppDispatch();
 
-	const clickedNode = useTypedSelector(selectActiveNode);
-	const clickedFormFieldSchemaPropertiesArray = useTypedSelector(
+	const activeNode = useTypedSelector(selectActiveNode);
+	const formFieldSchemaPropertiesArrayByActiveNode = useTypedSelector(
 		selectFormFieldSchemaPropertiesArrayByActiveNode,
 	);
-
 	const activeNodeFormFieldPropertyKey = useTypedSelector(
 		selectActiveNodeFormFieldPropertyKey,
+	);
+	const prefillingEnabledByActiveNode = useTypedSelector(
+		selectPrefillingEnabledByActiveNode,
 	);
 
 	const handleClosePrefillMappingModal = useCallback(() => {
@@ -47,20 +53,36 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 
 	const Rows = useMemo(
 		() =>
-			clickedNode !== undefined &&
-			clickedFormFieldSchemaPropertiesArray.map(property => {
+			activeNode !== undefined &&
+			formFieldSchemaPropertiesArrayByActiveNode.map(property => {
 				return <FormFieldRow key={property.key} property={property} />;
 			}),
-		[clickedFormFieldSchemaPropertiesArray, clickedNode],
+		[formFieldSchemaPropertiesArrayByActiveNode, activeNode],
 	);
 
 	const handleCloseModal = useCallback(() => {
 		dispatch(resetActiveNodeId());
 	}, [dispatch]);
 
-	if (clickedNode === undefined) return null;
+	const handlePrefillToggleOnClick = useCallback(() => {
+		if (activeNode === undefined) return;
 
-	const clickedNodeName = clickedNode.data.name;
+		dispatch(
+			updateNode({
+				id: activeNode.id,
+				changes: {
+					data: {
+						...activeNode.data,
+						prefill_enabled: !activeNode.data.prefill_enabled,
+					},
+				},
+			}),
+		);
+	}, [activeNode, dispatch]);
+
+	if (activeNode === undefined) return null;
+
+	const clickedNodeName = activeNode.data.name;
 
 	return (
 		<Modal
@@ -85,11 +107,26 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 			<Row className="pt-3 px-4">
 				<Col className="flex-1">
 					<Row className="font-semibold">Prefill</Row>
-					<Row>Prefill fields for this form</Row>
-				</Col>
-				<Col childrenVerticalPosition="center">
-					<PiToggleLeft size={40} />
-					<PiToggleRightFill size={40} />
+					<Row childrenVerticalPosition="center">
+						<Col className="flex-1">
+							Prefill fields for this form
+						</Col>
+						<Col>
+							{prefillingEnabledByActiveNode ? (
+								<PiToggleRightFill
+									className="text-blue-500 hover:text-gray-500 rounded-xl cursor-pointer"
+									size={40}
+									onClick={handlePrefillToggleOnClick}
+								/>
+							) : (
+								<PiToggleLeft
+									className="text-gray-500 hover:text-blue-500 rounded-xl cursor-pointer"
+									size={40}
+									onClick={handlePrefillToggleOnClick}
+								/>
+							)}
+						</Col>
+					</Row>
 				</Col>
 			</Row>
 			<Row className="pt-8 px-4">
