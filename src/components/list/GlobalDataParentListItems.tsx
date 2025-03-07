@@ -4,14 +4,14 @@ import { selectGlobalData } from '@/redux/features/ui/flow';
 
 import useTypedSelector from '@/hooks/useTypedSelector';
 
-import PrefillMappingParentListItem from '@/components/list/PrefillMappingParentListItem';
+import ParentListItem from '@/components/list/prefill-mapping/ParentListItem';
 
 function GlobalDataParentListItemsBase() {
 	const globalData = useTypedSelector(selectGlobalData);
 
 	return globalData
 		.map(globalDataSubset => (
-			<PrefillMappingParentListItem
+			<ParentListItem
 				label={globalDataSubset.key}
 				key={globalDataSubset.key}
 				childrenListItemData={globalDataSubset.subsetData}

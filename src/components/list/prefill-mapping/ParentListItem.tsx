@@ -33,19 +33,19 @@ const classes = {
 	`,
 } as const;
 
-export interface PrefillMappingParentListItemProps
+export interface ParentListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
 	childrenListItemData?: GlobalDataSubsetData[];
 	label?: string;
 	prefilledNode?: Node;
 }
 
-function PrefillMappingParentListItemBase({
+function ParentListItemBase({
 	childrenListItemData,
 	label: prop_label = 'Parent Label',
 	prefilledNode,
 	...props
-}: PrefillMappingParentListItemProps) {
+}: ParentListItemProps) {
 	const label = useMemo(
 		() => (prefilledNode ? prefilledNode.data.name : prop_label),
 		[prefilledNode, prop_label],
@@ -106,6 +106,6 @@ function PrefillMappingParentListItemBase({
 	);
 }
 
-const PrefillMappingParentListItem = memo(PrefillMappingParentListItemBase);
+const ParentListItem = memo(ParentListItemBase);
 
-export default PrefillMappingParentListItem;
+export default ParentListItem;

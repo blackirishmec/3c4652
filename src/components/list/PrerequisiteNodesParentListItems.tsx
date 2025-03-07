@@ -4,7 +4,7 @@ import { selectActiveNodePrerequisiteNodes } from '@/redux/selectors/relationshi
 
 import useTypedSelector from '@/hooks/useTypedSelector';
 
-import PrefillMappingParentListItem from '@/components/list/PrefillMappingParentListItem';
+import ParentListItem from '@/components/list/prefill-mapping/ParentListItem';
 
 function PrerequisiteNodesParentListItemsBase() {
 	const activeNodePrerequisiteNodes = useTypedSelector(
@@ -13,7 +13,7 @@ function PrerequisiteNodesParentListItemsBase() {
 
 	return activeNodePrerequisiteNodes
 		.map(activeNodePrerequisiteNode => (
-			<PrefillMappingParentListItem
+			<ParentListItem
 				prefilledNode={activeNodePrerequisiteNode}
 				key={activeNodePrerequisiteNode.id}
 			/>
