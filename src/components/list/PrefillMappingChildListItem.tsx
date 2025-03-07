@@ -14,6 +14,10 @@ import {
 	setActivePrefillingNodeId,
 } from '@/redux/features/ui/flow';
 import {
+	selectPrefillingNodeByActiveNode,
+	selectPrefillingPropertyKeyByActiveNode,
+} from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import {
 	selectActiveNode,
 	selectActivePrefillingNode,
 } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
@@ -83,6 +87,12 @@ function PrefillMappingChildListItemBase({
 	const activePrefillingNodeFormFieldSchemaPropertyKey = useTypedSelector(
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	);
+	const prefillingNodeByActiveNode = useTypedSelector(
+		selectPrefillingNodeByActiveNode,
+	);
+	const prefillingPropertyKeyByActiveNode = useTypedSelector(
+		selectPrefillingPropertyKeyByActiveNode,
+	);
 
 	const handleLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
@@ -125,14 +135,14 @@ function PrefillMappingChildListItemBase({
 	const getNodeFormFieldIsClicked = useCallback((): boolean => {
 		if (
 			activeNode !== undefined &&
-			activeNodePrefillingNode !== undefined &&
-			activePrefillingNodeFormFieldSchemaPropertyKey !== undefined &&
+			prefillingNodeByActiveNode !== undefined &&
+			prefillingPropertyKeyByActiveNode !== undefined &&
 			prerequisiteNode !== undefined &&
 			formFieldSchemaPropertiesArrayValueByPrerequisiteNode !== undefined
 		) {
 			return (
-				activeNodePrefillingNode.id === prerequisiteNode.id &&
-				activePrefillingNodeFormFieldSchemaPropertyKey ===
+				prefillingNodeByActiveNode.id === prerequisiteNode.id &&
+				prefillingPropertyKeyByActiveNode ===
 					formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
 			);
 		}
@@ -140,8 +150,8 @@ function PrefillMappingChildListItemBase({
 		return false;
 	}, [
 		activeNode,
-		activeNodePrefillingNode,
-		activePrefillingNodeFormFieldSchemaPropertyKey,
+		prefillingNodeByActiveNode,
+		prefillingPropertyKeyByActiveNode,
 		formFieldSchemaPropertiesArrayValueByPrerequisiteNode,
 		prerequisiteNode,
 	]);
