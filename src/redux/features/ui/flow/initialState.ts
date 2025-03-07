@@ -53,6 +53,8 @@ const initialState: FlowState = {
 			],
 		},
 	],
+	activePrefillingGlobalDataSubsetKey: undefined,
+	activePrefillingGlobalDataSubsetDataKey: undefined,
 };
 
 export default initialState;

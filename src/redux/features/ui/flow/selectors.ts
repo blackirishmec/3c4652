@@ -60,3 +60,8 @@ export const selectGlobalData = createSelector(
 	[selectFlowState],
 	flow => flow.globalData,
 );
+
+export const selectActivePrefillingGlobalDataSubsetKey = createSelector(
+	[selectFlowState],
+	flow => flow.globalData,
+);

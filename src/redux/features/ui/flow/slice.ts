@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
+import type {
+	GlobalDataSubset,
+	GlobalDataSubsetData,
+} from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -36,6 +40,10 @@ const flowSlice = createSlice({
 			state.availableDataSearchTerm =
 				initialState.availableDataSearchTerm;
 			state.globalData = [...initialState.globalData];
+			state.activePrefillingGlobalDataSubsetKey =
+				initialState.activePrefillingGlobalDataSubsetKey;
+			state.activePrefillingGlobalDataSubsetDataKey =
+				initialState.activePrefillingGlobalDataSubsetDataKey;
 		},
 
 		addNodeFormFieldMapping: (
@@ -87,6 +95,39 @@ const flowSlice = createSlice({
 			state.activePrefillingNodeId = initialState.activePrefillingNodeId;
 			state.activePrefillingNodeFormFieldSchemaPropertyKey =
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+		},
+
+		setPrefillingActiveGlobalDataSubsetKey: (
+			state,
+			{
+				payload: globalDataSubsetKey,
+			}: PayloadAction<GlobalDataSubset['key']>,
+		) => {
+			state.activePrefillingGlobalDataSubsetKey = globalDataSubsetKey;
+
+			state.activePrefillingGlobalDataSubsetDataKey =
+				initialState.activePrefillingGlobalDataSubsetDataKey;
+		},
+		resetPrefillingActiveGlobalDataSubsetKey: state => {
+			state.activePrefillingGlobalDataSubsetKey =
+				initialState.activePrefillingGlobalDataSubsetKey;
+
+			state.activePrefillingGlobalDataSubsetDataKey =
+				initialState.activePrefillingGlobalDataSubsetDataKey;
+		},
+
+		setPrefillingActiveGlobalDataSubsetDataKey: (
+			state,
+			{
+				payload: globalDataSubsetDataKey,
+			}: PayloadAction<GlobalDataSubsetData['key']>,
+		) => {
+			state.activePrefillingGlobalDataSubsetDataKey =
+				globalDataSubsetDataKey;
+		},
+		resetPrefillingActiveGlobalDataSubsetDataKey: state => {
+			state.activePrefillingGlobalDataSubsetDataKey =
+				initialState.activePrefillingGlobalDataSubsetDataKey;
 		},
 
 		setActiveNodeFormFieldPropertyKey: (
@@ -202,6 +243,10 @@ export const {
 	setActivePrefillingNodeId,
 	setAvailableDataSearchTerm,
 	resetAvailableDataSearchTerm,
+	setPrefillingActiveGlobalDataSubsetKey,
+	resetPrefillingActiveGlobalDataSubsetKey,
+	setPrefillingActiveGlobalDataSubsetDataKey,
+	resetPrefillingActiveGlobalDataSubsetDataKey,
 } = flowSlice.actions;
 
 export default flowSlice.reducer;

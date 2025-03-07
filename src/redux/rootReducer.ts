@@ -2,6 +2,7 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 import { edgesReducer } from '@/redux/features/model/edges';
 import { formsReducer } from '@/redux/features/model/forms';
+import { globalDataSubsetsReducer } from '@/redux/features/model/globalDataSubsets';
 import { nodesReducer } from '@/redux/features/model/nodes';
 import { flowReducer } from '@/redux/features/ui/flow';
 
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
 	nodes: nodesReducer,
 	edges: edgesReducer,
 	flow: flowReducer,
+	globalDataSubset: globalDataSubsetsReducer,
 });
 
 export default rootReducer;
