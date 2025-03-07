@@ -13,21 +13,18 @@ import * as flowSlice from '../src/redux/features/ui/flow';
 import * as flowThunks from '../src/redux/features/ui/flow/thunks';
 import * as nodeRelationshipSelectors from '../src/redux/selectors/relationships/nodeRelationshipSelectors';
 
-// Extend the Window interface to include our mock handler
 declare global {
 	interface Window {
 		mockNodeClickHandler?: (event: MouseEvent, node: Node) => void;
 	}
 }
 
-// Mock modules
 jest.mock('../src/redux/features/model/edges');
 jest.mock('../src/redux/features/model/nodes');
 jest.mock('../src/redux/features/ui/flow');
 jest.mock('../src/redux/features/ui/flow/thunks');
 jest.mock('../src/redux/selectors/relationships/nodeRelationshipSelectors');
 
-// Mock the components from ReactFlow
 jest.mock('@xyflow/react', () => {
 	function MockReactFlow({
 		children,
@@ -51,7 +48,6 @@ jest.mock('@xyflow/react', () => {
 	};
 });
 
-// Mock the PrefillModal component
 jest.mock('../src/components/modal/PrefillModal', () => ({
 	__esModule: true,
 	default: ({
@@ -71,7 +67,6 @@ jest.mock('../src/components/modal/PrefillModal', () => ({
 	),
 }));
 
-// Mock Logger utility
 jest.mock('../src/utilities/Logger', () => ({
 	__esModule: true,
 	default: {
@@ -135,7 +130,7 @@ describe('App Component', () => {
 			},
 			middleware: getDefaultMiddleware =>
 				getDefaultMiddleware({
-					serializableCheck: false, // Disable serializable check for testing
+					serializableCheck: false,
 				}),
 		});
 	};
@@ -143,14 +138,12 @@ describe('App Component', () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
 
-		// Setup mock implementations
 		jest.mocked(nodesSlice.selectAllNodes).mockReturnValue(mockNodes);
 		jest.mocked(edgesSlice.selectAllEdges).mockReturnValue(mockEdges);
 		jest.mocked(nodeRelationshipSelectors.selectActiveNode).mockReturnValue(
 			mockActiveNode,
 		);
 
-		// Mock Redux action creators
 		jest.mocked(flowSlice.setActiveNodeId).mockImplementation(id => ({
 			type: 'flow/setActiveNodeId',
 			payload: id,
@@ -160,7 +153,6 @@ describe('App Component', () => {
 			payload: undefined,
 		}));
 
-		// Create a real async thunk for testing
 		const mockFetchFlowData = createAsyncThunk(
 			'flow/fetchFlowData',
 			() => ({
