@@ -11,7 +11,7 @@ import useAppDispatch from '@/hooks/useAppDispatch';
 
 import InputRow from '@/components/form/input/InputRow';
 import { Col, Row } from '@/components/layout/FlexComponents';
-import GlobalDataParentListItems from '@/components/list/GlobalDataParentListItems';
+import ParentListItems from '@/components/list/global-data/ParentListItems';
 import PrerequisiteNodesParentListItems from '@/components/list/PrerequisiteNodesParentListItems';
 
 function ParentListColBase() {
@@ -38,7 +38,7 @@ function ParentListColBase() {
 			</Row>
 			<Row className="pt-1 overflow-y-auto">
 				<ul className="w-full">
-					<GlobalDataParentListItems />
+					<ParentListItems />
 					<PrerequisiteNodesParentListItems />
 				</ul>
 			</Row>

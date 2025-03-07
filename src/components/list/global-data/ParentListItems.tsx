@@ -6,7 +6,7 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 
 import ParentListItem from '@/components/list/prefill-mapping/ParentListItem';
 
-function GlobalDataParentListItemsBase() {
+function ParentListItemsBase() {
 	const globalData = useTypedSelector(selectGlobalData);
 
 	return globalData
@@ -20,6 +20,6 @@ function GlobalDataParentListItemsBase() {
 		.reverse();
 }
 
-const GlobalDataParentListItems = memo(GlobalDataParentListItemsBase);
+const ParentListItems = memo(ParentListItemsBase);
 
-export default GlobalDataParentListItems;
+export default ParentListItems;
