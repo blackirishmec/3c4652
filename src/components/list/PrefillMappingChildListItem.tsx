@@ -28,19 +28,20 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 // // 1. Finish renaming vars from the flow slice
 // // 2. Clean up names of selectors in relationship selector files
 // 3. // // Load nodeFormFieldMappings to the PrefillMappingModal when opening it (if they exist!)
-//	- Fix loading into Active Form Fields (of mappings)
-// !- Fix updating preloaded actions (changing from what is saved, toggling)
+// //	- Fix loading into Active Form Fields (of mappings)
+// !- Fix updating preloaded actions (changing from what is saved, toggling) [45m]
 // // 4. Wire up 'search' bar
-// 5. Wire up 'prefill' toggle
-// 6. Create and implement tests (jest + property based tests?)
-// 7. Handle global data sources
-// 8. Handle new data sources
-// 9. Create documentation (ref M-H-A)
-// 10. Clean up code
+// 5. Wire up 'prefill' toggle [1hr]
+// 6. Wire up 'cancel' button per FormFieldRow. [10m]
+// 7. Create and implement tests (jest + property based tests?) [2h]
+// 8. Handle global data sources [1hr]
+// 9. Handle new data sources [1hr]
+// 10. Create documentation (ref M-H-A) [30m]
+// 11. Clean up code
 //	- Extract from components into thunks
 // ***
-// 11. Augment code
-//	- Simulate 'save updates' thunk for nodeFormFieldMappings
+// 12. Augment code
+//	- Simulate 'save updates' thunk for nodeFormFieldMappings [15m]
 
 const classes = {
 	childRow: `
