@@ -15,13 +15,13 @@ export interface ChildrenListItemsProps {
 }
 
 function ChildrenListItemsBase({ prefillingNode }: ChildrenListItemsProps) {
-	const selectFormFieldSchemaPropertiesArrayByPrerequisiteNode = useMemo(
+	const selectFormFieldSchemaPropertiesArrayByPrefillingNode = useMemo(
 		() =>
 			createSelectFormFieldSchemaPropertiesArrayByNode(prefillingNode.id),
 		[prefillingNode],
 	);
-	const formFieldSchemaPropertiesArrayByPrefilledNode = useTypedSelector(
-		selectFormFieldSchemaPropertiesArrayByPrerequisiteNode,
+	const formFieldSchemaPropertiesArrayByPrefillingNode = useTypedSelector(
+		selectFormFieldSchemaPropertiesArrayByPrefillingNode,
 	);
 
 	const availableDataSearchTerm = useTypedSelector(
@@ -29,9 +29,9 @@ function ChildrenListItemsBase({ prefillingNode }: ChildrenListItemsProps) {
 	);
 
 	return (
-		formFieldSchemaPropertiesArrayByPrefilledNode !== undefined &&
+		formFieldSchemaPropertiesArrayByPrefillingNode !== undefined &&
 		prefillingNode !== undefined &&
-		formFieldSchemaPropertiesArrayByPrefilledNode
+		formFieldSchemaPropertiesArrayByPrefillingNode
 			.filter(
 				(
 					formFieldSchemaPropertiesArrayValueByPrerequisiteNode: FormFieldSchemaPropertiesArrayValue,
