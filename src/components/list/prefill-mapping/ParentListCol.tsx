@@ -11,8 +11,8 @@ import useAppDispatch from '@/hooks/useAppDispatch';
 
 import InputRow from '@/components/form/input/InputRow';
 import { Col, Row } from '@/components/layout/FlexComponents';
-import ParentListItems from '@/components/list/global-data/ParentListItems';
-import PrerequisiteNodesParentListItems from '@/components/list/PrerequisiteNodesParentListItems';
+import GlobalDataParentListItems from '@/components/list/global-data/ParentListItems';
+import PrefillMappingParentListItems from '@/components/list/prefill-mapping/ParentListItems';
 
 function ParentListColBase() {
 	const dispatch = useAppDispatch();
@@ -38,8 +38,8 @@ function ParentListColBase() {
 			</Row>
 			<Row className="pt-1 overflow-y-auto">
 				<ul className="w-full">
-					<ParentListItems />
-					<PrerequisiteNodesParentListItems />
+					<GlobalDataParentListItems />
+					<PrefillMappingParentListItems />
 				</ul>
 			</Row>
 		</Col>

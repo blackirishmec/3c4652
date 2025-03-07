@@ -6,7 +6,7 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 
 import ParentListItem from '@/components/list/prefill-mapping/ParentListItem';
 
-function PrerequisiteNodesParentListItemsBase() {
+function ParentListItemsBase() {
 	const activeNodePrerequisiteNodes = useTypedSelector(
 		selectActiveNodePrerequisiteNodes,
 	);
@@ -21,8 +21,6 @@ function PrerequisiteNodesParentListItemsBase() {
 		.reverse();
 }
 
-const PrerequisiteNodesParentListItems = memo(
-	PrerequisiteNodesParentListItemsBase,
-);
+const ParentListItems = memo(ParentListItemsBase);
 
-export default PrerequisiteNodesParentListItems;
+export default ParentListItems;
