@@ -1,26 +1,25 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 
 import type { ChangeEvent } from 'react';
 
 import {
-	selectAvailableDataSearchTerm,
+	resetAvailableDataSearchTerm,
 	setAvailableDataSearchTerm,
 } from '@/redux/features/ui/flow';
-import { selectActiveNodePrerequisiteNodes } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
-import useTypedSelector from '@/hooks/useTypedSelector';
 
 import InputRow from '@/components/form/input/InputRow';
 import { Col, Row } from '@/components/layout/FlexComponents';
 import PrefillMappingParentListItem from '@/components/list/PrefillMappingParentListItem';
+import PrerequisiteNodesParentListItems from '@/components/list/PrerequisiteNodesParentListItems';
 
 function PrefillMappingParentListColBase() {
 	const dispatch = useAppDispatch();
 
-	const activeNodePrerequisiteNodes = useTypedSelector(
-		selectActiveNodePrerequisiteNodes,
-	);
+	useEffect(() => {
+		dispatch(resetAvailableDataSearchTerm());
+	}, [dispatch]);
 
 	const handleInputRowOnChange = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) =>
@@ -41,14 +40,7 @@ function PrefillMappingParentListColBase() {
 				<ul className="w-full">
 					<PrefillMappingParentListItem label="Action Properties" />
 					<PrefillMappingParentListItem label="Client Organization Properties" />
-					{activeNodePrerequisiteNodes
-						.map(activeNodePrerequisiteNode => (
-							<PrefillMappingParentListItem
-								prerequisiteNode={activeNodePrerequisiteNode}
-								key={activeNodePrerequisiteNode.id}
-							/>
-						))
-						.reverse()}
+					<PrerequisiteNodesParentListItems />
 				</ul>
 			</Row>
 		</Col>
