@@ -3,23 +3,17 @@ import { memo, useCallback, useMemo } from 'react';
 import { PiXFill } from 'react-icons/pi';
 
 import type { ModalProps } from '@/components/modal/Modal';
-import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 
 import {
-	addNodeFormFieldMapping,
 	selectActiveNodeFormFieldPropertyKey,
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 } from '@/redux/features/ui/flow';
+import { saveSelectedPrefillMapping } from '@/redux/features/ui/flow/thunks';
 import {
 	createSelectPrefillingNodeLabelByNodeAndPropertyKey,
 	createSelectPrefillingPropertyKeyLabelByNodeAndPropertyKey,
-	selectNodeFormFieldMappingByActiveNode,
 } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
-import {
-	selectActiveNode,
-	selectActivePrefillingNode,
-} from '@/redux/selectors/relationships/nodeRelationshipSelectors';
-import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
+import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -41,11 +35,6 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	);
 	const activePrefillingNodeFormFieldSchemaPropertyKey = useTypedSelector(
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
-	);
-	const activePrefillingNode = useTypedSelector(selectActivePrefillingNode);
-
-	const nodeFormFieldMappingByActiveNode = useTypedSelector(
-		selectNodeFormFieldMappingByActiveNode,
 	);
 
 	const selectPrefillingNodeLabelByNodeAndPropertyKey = useMemo(
@@ -77,44 +66,10 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	}, [props]);
 
 	const handleSaveSelectedPrefillMapping = useCallback(() => {
-		if (
-			activeNode === undefined ||
-			activeNodeFormFieldPropertyKey === undefined ||
-			activePrefillingNode === undefined ||
-			activePrefillingNodeFormFieldSchemaPropertyKey === undefined
-		)
-			return;
-
-		const tempNodeFormFieldMappingByActiveNode: NodeFormFieldMapping = {
-			nodeId: activeNode.id,
-			nodeFormFieldSchemaPropertyKey: activeNodeFormFieldPropertyKey,
-			prefillingNodeId: activePrefillingNode.id,
-			prefillingNodeFormFieldSchemaPropertyKey:
-				activePrefillingNodeFormFieldSchemaPropertyKey,
-		};
-
-		if (
-			nodeFormFieldMappingByActiveNode === undefined ||
-			!nodeFormFieldsAreEqual(
-				nodeFormFieldMappingByActiveNode,
-				tempNodeFormFieldMappingByActiveNode,
-			)
-		) {
-			dispatch(
-				addNodeFormFieldMapping(tempNodeFormFieldMappingByActiveNode),
-			);
-		}
+		dispatch(saveSelectedPrefillMapping);
 
 		handleCloseModal();
-	}, [
-		activeNode,
-		activeNodeFormFieldPropertyKey,
-		activePrefillingNodeFormFieldSchemaPropertyKey,
-		dispatch,
-		handleCloseModal,
-		nodeFormFieldMappingByActiveNode,
-		activePrefillingNode,
-	]);
+	}, [dispatch, handleCloseModal]);
 
 	if (activeNode === undefined) return null;
 

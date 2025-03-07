@@ -2,17 +2,33 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import type { AvantosApiResponse } from '@/interfaces/AvantosInterfaces';
+import type {
+	AvantosApiResponse,
+	NodeFormFieldMapping,
+} from '@/interfaces/AvantosInterfaces';
 import type { Edge } from '@/interfaces/models/edgeModels';
 import type { Form } from '@/interfaces/models/formModels';
 import type { Node } from '@/interfaces/models/nodeModels';
-import type { AppDispatch } from '@/redux/store';
+import type { AppDispatch, RootState } from '@/redux/store';
 
 import axiosInstance from '@/api/axiosInstance';
 
 import { edgesFetched } from '@/redux/features/model/edges/actions';
 import { formsFetched } from '@/redux/features/model/forms/actions';
 import { nodesFetched } from '@/redux/features/model/nodes/actions';
+import {
+	selectActiveNodeFormFieldPropertyKey,
+	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+} from '@/redux/features/ui/flow/selectors';
+import { addNodeFormFieldMapping } from '@/redux/features/ui/flow/slice';
+import { selectNodeFormFieldMappingByActiveNode } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import {
+	selectActiveNode,
+	selectActivePrefillingNode,
+} from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
+
+import Logger from '@/utilities/Logger';
 
 import { transformEdgeResources } from '@/transformers/edgeTransformers';
 import { transformFlowResource } from '@/transformers/flowTransformers';
@@ -54,5 +70,58 @@ export const fetchFlowData = createAsyncThunk<
 			return rejectWithValue(error.response?.data ?? error.message);
 		}
 		return rejectWithValue((error as Error).message);
+	}
+});
+
+export const saveSelectedPrefillMapping = createAsyncThunk<
+	void,
+	void,
+	{ dispatch: AppDispatch }
+>('flow/fetchFlow', (_, { dispatch, getState }) => {
+	try {
+		const state = getState() as RootState;
+
+		const activeNode = selectActiveNode(state);
+		const activeNodeFormFieldPropertyKey =
+			selectActiveNodeFormFieldPropertyKey(state);
+		const activePrefillingNode = selectActivePrefillingNode(state);
+		const activePrefillingNodeFormFieldSchemaPropertyKey =
+			selectActivePrefillingNodeFormFieldSchemaPropertyKey(state);
+		const nodeFormFieldMappingByActiveNode =
+			selectNodeFormFieldMappingByActiveNode(state);
+
+		if (
+			activeNode === undefined ||
+			activeNodeFormFieldPropertyKey === undefined ||
+			activePrefillingNode === undefined ||
+			activePrefillingNodeFormFieldSchemaPropertyKey === undefined
+		)
+			return;
+
+		const tempNodeFormFieldMappingByActiveNode: NodeFormFieldMapping = {
+			nodeId: activeNode.id,
+			nodeFormFieldSchemaPropertyKey: activeNodeFormFieldPropertyKey,
+			prefillingNodeId: activePrefillingNode.id,
+			prefillingNodeFormFieldSchemaPropertyKey:
+				activePrefillingNodeFormFieldSchemaPropertyKey,
+		};
+
+		if (
+			nodeFormFieldMappingByActiveNode === undefined ||
+			!nodeFormFieldsAreEqual(
+				nodeFormFieldMappingByActiveNode,
+				tempNodeFormFieldMappingByActiveNode,
+			)
+		) {
+			dispatch(
+				addNodeFormFieldMapping(tempNodeFormFieldMappingByActiveNode),
+			);
+		}
+	} catch (error) {
+		Logger.errorObject(
+			'error',
+			error,
+			'src/redux/features/ui/flow/thunks.ts:119',
+		);
 	}
 });
