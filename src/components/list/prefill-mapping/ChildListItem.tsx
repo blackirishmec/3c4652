@@ -27,6 +27,8 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 
 import { Col, Row } from '@/components/layout/FlexComponents';
 
+import classes from '@/styles/childListItemClasses';
+
 // // 1. Finish renaming vars from the flow slice
 // // 2. Clean up names of selectors in relationship selector files
 // // 3. // // Load nodeFormFieldMappings to the PrefillMappingModal when opening it (if they exist!)
@@ -45,26 +47,6 @@ import { Col, Row } from '@/components/layout/FlexComponents';
 // ***
 // 12. Augment code
 //	- Simulate 'save updates' thunk for nodeFormFieldMappings [15m]
-
-const classes = {
-	childRow: `
-		cursor-pointer
-		border 
-		rounded-sm 
-		border-dashed 
-		border-transparent 
-		py-1
-		pl-10
-		hover:border-green-500
-		hover:bg-green-100 
-	`,
-	hasActiveOrSavedMapping: `
-		bg-green-100
-	`,
-	savedButUpdated: `
-		bg-red-100!
-	`,
-} as const;
 
 export interface ChildListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {

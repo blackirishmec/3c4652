@@ -3,7 +3,10 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { PiCaretDownBold, PiCaretRightBold } from 'react-icons/pi';
 
-import type { GlobalDataSubsetData } from '@/interfaces/models/globalDataModels';
+import type {
+	GlobalDataSubset,
+	GlobalDataSubsetData,
+} from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
@@ -35,13 +38,13 @@ const classes = {
 
 export interface ParentListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
-	childrenListItemData?: GlobalDataSubsetData[];
+	globalDataSubset?: GlobalDataSubset;
 	label?: string;
 	prefilledNode?: Node;
 }
 
 function ParentListItemBase({
-	childrenListItemData,
+	globalDataSubset,
 	label: prop_label = 'Parent Label',
 	prefilledNode,
 	...props
@@ -96,7 +99,7 @@ function ParentListItemBase({
 				{childrenListExpanded && (
 					<Row className="bg-[#F6F6F6]">
 						<ChildrenListCol
-							childrenListItemData={childrenListItemData}
+							globalDataSubset={globalDataSubset}
 							prefilledNode={prefilledNode}
 						/>
 					</Row>

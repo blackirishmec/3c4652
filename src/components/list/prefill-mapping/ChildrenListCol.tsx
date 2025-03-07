@@ -1,28 +1,33 @@
 import { memo } from 'react';
 
-import type { GlobalDataSubsetData } from '@/interfaces/models/globalDataModels';
+import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 
 import { Col } from '@/components/layout/FlexComponents';
-import ChildrenListItems from '@/components/list/prefill-mapping/ChildrenListItems';
+import GlobalDataChildrenListItems from '@/components/list/global-data/ChildrenListItems';
+import PrefillMappingChildrenListItems from '@/components/list/prefill-mapping/ChildrenListItems';
 
 export interface ChildrenListColProps {
-	childrenListItemData?: GlobalDataSubsetData[];
+	globalDataSubset?: GlobalDataSubset;
 	prefilledNode?: Node;
 }
 
 function ChildrenListColBase({
-	childrenListItemData,
+	globalDataSubset,
 	prefilledNode,
 }: ChildrenListColProps) {
 	return (
 		prefilledNode !== undefined && (
 			<Col className="flex-1">
 				<ul className="w-full">
-					{childrenListItemData !== undefined ? (
-						<div>test</div>
+					{globalDataSubset !== undefined ? (
+						<GlobalDataChildrenListItems
+							globalDataSubset={globalDataSubset}
+						/>
 					) : (
-						<ChildrenListItems prefilledNode={prefilledNode} />
+						<PrefillMappingChildrenListItems
+							prefilledNode={prefilledNode}
+						/>
 					)}
 				</ul>
 			</Col>

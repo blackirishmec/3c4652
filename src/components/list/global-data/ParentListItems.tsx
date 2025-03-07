@@ -14,7 +14,7 @@ function ParentListItemsBase() {
 			<ParentListItem
 				label={globalDataSubset.key}
 				key={globalDataSubset.key}
-				childrenListItemData={globalDataSubset.subsetData}
+				globalDataSubset={globalDataSubset}
 			/>
 		))
 		.reverse();
