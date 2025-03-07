@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
 	nodes: nodesReducer,
 	edges: edgesReducer,
 	flow: flowReducer,
-	globalDataSubset: globalDataSubsetsReducer,
+	globalDataSubsets: globalDataSubsetsReducer,
 });
 
 export default rootReducer;
