@@ -12,7 +12,7 @@ import {
 	selectActiveNodeFormFieldMappedPropertyKey,
 	selectActiveNodeFormFieldPropertyKey,
 } from '@/redux/features/ui/flow';
-import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -28,7 +28,7 @@ export interface PrefillMappingModalProps
 function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	const dispatch = useAppDispatch();
 
-	const clickedNode = useTypedSelector(selectClickedNode);
+	const clickedNode = useTypedSelector(selectActiveNode);
 	const activeNodeFormFieldPropertyKey = useTypedSelector(
 		selectActiveNodeFormFieldPropertyKey,
 	);

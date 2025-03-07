@@ -10,7 +10,7 @@ import {
 	selectActiveNodeFormFieldMappedPropertyKey,
 	selectNodeFormFieldMappings,
 } from '@/redux/features/ui/flow';
-import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 export const createSelectNodeFormFields = (nodeId: Node['id']) => {
 	const selectNode = (state: RootState) => selectNodeById(state, nodeId);
@@ -28,7 +28,7 @@ export const createSelectNodeFormFields = (nodeId: Node['id']) => {
 };
 
 export const selectClickedNodeFormFields = createSelector(
-	[selectClickedNode, selectNodeFormFieldMappings],
+	[selectActiveNode, selectNodeFormFieldMappings],
 	(clickedNode, nodeFormFieldMappings): NodeFormFieldMapping[] => {
 		if (clickedNode === undefined) return [];
 
@@ -64,7 +64,7 @@ export const createSelectClickedNodeFormField = (
 	nodeFormFieldSchemaPropertyKey: AvantosFieldSchemaPropertiesArrayValue['key'],
 ) => {
 	return createSelector(
-		[selectClickedNode, selectNodeFormFieldMappings],
+		[selectActiveNode, selectNodeFormFieldMappings],
 		(
 			clickedNode,
 			nodeFormFieldMappings,

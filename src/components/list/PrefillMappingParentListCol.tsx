@@ -2,7 +2,7 @@ import { memo, useCallback, useState } from 'react';
 
 import type { ChangeEvent } from 'react';
 
-import { selectClickedNodeParents } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import { selectActiveNodePrerequisiteNodes } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useTypedSelector from '@/hooks/useTypedSelector';
 
@@ -16,7 +16,9 @@ function PrefillMappingParentListColBase() {
 	// {}: PrefillMappingParentListColProps
 	const [searchTerm, setSearchTerm] = useState<string>('');
 
-	const clickedNodeParents = useTypedSelector(selectClickedNodeParents);
+	const clickedNodeParents = useTypedSelector(
+		selectActiveNodePrerequisiteNodes,
+	);
 
 	const handleInputRowOnChange = useCallback(
 		(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),

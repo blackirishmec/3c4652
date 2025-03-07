@@ -18,7 +18,7 @@ import {
 import { onNodesChange, selectAllNodes } from '@/redux/features/model/nodes';
 import { resetActiveNodeId, setActiveNodeId } from '@/redux/features/ui/flow';
 import { fetchFlowData } from '@/redux/features/ui/flow/thunks';
-import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -32,7 +32,7 @@ export default function App() {
 
 	const nodes = useTypedSelector(selectAllNodes);
 	const edges = useTypedSelector(selectAllEdges);
-	const clickedNode = useTypedSelector(selectClickedNode);
+	const clickedNode = useTypedSelector(selectActiveNode);
 
 	useEffect(() => {
 		dispatch(fetchFlowData())

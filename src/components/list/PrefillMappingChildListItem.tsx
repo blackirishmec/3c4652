@@ -13,7 +13,7 @@ import {
 	selectActiveNodeFormFieldPropertyKey,
 	setActiveNodeFormFieldMappedPropertyKey,
 } from '@/redux/features/ui/flow';
-import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
@@ -73,7 +73,7 @@ function PrefillMappingChildListItemBase({
 
 	const dispatch = useAppDispatch();
 
-	const clickedNode = useTypedSelector(selectClickedNode);
+	const clickedNode = useTypedSelector(selectActiveNode);
 	const clickedNodeFormField = useTypedSelector(
 		selectActiveNodeFormFieldMappedPropertyKey,
 	);
