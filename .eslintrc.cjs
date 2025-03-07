@@ -53,8 +53,14 @@ module.exports = {
 			},
 		},
 		{
-			plugins: ['testing-library'],
-			files: ['*.test.ts', '*.test.tsx', '**/__tests__/**/*.{ts,tsx}'],
+			plugins: ['testing-library', 'jest-dom'],
+			files: [
+				'*.test.ts',
+				'*.test.tsx',
+				'**/__tests__/**/*.{ts,tsx}',
+				'jest.setup.ts',
+				'tests/**/*.{ts,tsx}',
+			],
 			extends: [
 				'plugin:testing-library/react',
 				'plugin:jest-dom/recommended',
@@ -67,6 +73,7 @@ module.exports = {
 				'testing-library/prefer-presence-queries': 'error',
 				'testing-library/prefer-screen-queries': 'error',
 				'@typescript-eslint/no-explicit-any': 'off', // TODO: Remove this later (need to kill mixins first?)
+				'import/no-extraneous-dependencies': 'off', // Allow importing dev dependencies in test files
 			},
 		},
 	],
@@ -224,7 +231,13 @@ module.exports = {
 		'import/no-extraneous-dependencies': [
 			'error',
 			{
-				devDependencies: false,
+				devDependencies: [
+					'**/*.test.{ts,tsx}',
+					'**/__tests__/**',
+					'**/jest.setup.ts',
+					'**/jest.config.ts',
+					'**/*.stories.{ts,tsx}',
+				],
 				optionalDependencies: false,
 				peerDependencies: false,
 			},
