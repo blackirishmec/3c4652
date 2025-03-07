@@ -11,6 +11,31 @@ const initialState: FlowState = {
 	activePrefillingNodeId: undefined,
 	activePrefillingNodeFormFieldSchemaPropertyKey: undefined,
 	availableDataSearchTerm: undefined,
+	globalData: [
+		{
+			id: 'Logged User Data',
+			subsetData: [
+				{
+					key: 'name',
+					property: {
+						type: 'string',
+					},
+				},
+				{
+					key: 'email',
+					property: {
+						type: 'string',
+					},
+				},
+				{
+					key: 'title',
+					property: {
+						type: 'string',
+					},
+				},
+			],
+		},
+	],
 };
 
 export default initialState;

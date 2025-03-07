@@ -55,3 +55,8 @@ export const selectAvailableDataSearchTerm = createSelector(
 	[selectFlowState],
 	flow => flow.availableDataSearchTerm,
 );
+
+export const selectGlobalData = createSelector(
+	[selectFlowState],
+	flow => flow.globalData,
+);
