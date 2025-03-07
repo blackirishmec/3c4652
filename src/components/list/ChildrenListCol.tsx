@@ -9,12 +9,12 @@ import PrefillMappingChildrenListItems from '@/components/list/prefill-mapping/C
 
 export interface ChildrenListColProps {
 	globalDataSubset?: GlobalDataSubset;
-	prefilledNode?: Node;
+	prefillingNode?: Node;
 }
 
 function ChildrenListColBase({
 	globalDataSubset,
-	prefilledNode,
+	prefillingNode,
 }: ChildrenListColProps) {
 	return (
 		<Col className="flex-1">
@@ -24,9 +24,9 @@ function ChildrenListColBase({
 						globalDataSubset={globalDataSubset}
 					/>
 				) : (
-					prefilledNode !== undefined && (
+					prefillingNode !== undefined && (
 						<PrefillMappingChildrenListItems
-							prefilledNode={prefilledNode}
+							prefillingNode={prefillingNode}
 						/>
 					)
 				)}

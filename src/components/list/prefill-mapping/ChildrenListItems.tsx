@@ -11,14 +11,14 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 import ChildListItem from '@/components/list/prefill-mapping/ChildListItem';
 
 export interface ChildrenListItemsProps {
-	prefilledNode: Node;
+	prefillingNode: Node;
 }
 
-function ChildrenListItemsBase({ prefilledNode }: ChildrenListItemsProps) {
+function ChildrenListItemsBase({ prefillingNode }: ChildrenListItemsProps) {
 	const selectFormFieldSchemaPropertiesArrayByPrerequisiteNode = useMemo(
 		() =>
-			createSelectFormFieldSchemaPropertiesArrayByNode(prefilledNode.id),
-		[prefilledNode],
+			createSelectFormFieldSchemaPropertiesArrayByNode(prefillingNode.id),
+		[prefillingNode],
 	);
 	const formFieldSchemaPropertiesArrayByPrefilledNode = useTypedSelector(
 		selectFormFieldSchemaPropertiesArrayByPrerequisiteNode,
@@ -30,7 +30,7 @@ function ChildrenListItemsBase({ prefilledNode }: ChildrenListItemsProps) {
 
 	return (
 		formFieldSchemaPropertiesArrayByPrefilledNode !== undefined &&
-		prefilledNode !== undefined &&
+		prefillingNode !== undefined &&
 		formFieldSchemaPropertiesArrayByPrefilledNode
 			.filter(
 				(
@@ -54,7 +54,7 @@ function ChildrenListItemsBase({ prefilledNode }: ChildrenListItemsProps) {
 						prefillingNodeFormFieldSchemaPropertyKey={
 							formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
 						}
-						prefillingNode={prefilledNode}
+						prefillingNode={prefillingNode}
 					/>
 				),
 			)

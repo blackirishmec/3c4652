@@ -37,18 +37,18 @@ export interface ParentListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
 	globalDataSubset?: GlobalDataSubset;
 	label?: string;
-	prefilledNode?: Node;
+	prefillingNode?: Node;
 }
 
 function ParentListItemBase({
 	globalDataSubset,
 	label: prop_label = 'Parent Label',
-	prefilledNode,
+	prefillingNode,
 	...props
 }: ParentListItemProps) {
 	const label = useMemo(
-		() => (prefilledNode ? prefilledNode.data.name : prop_label),
-		[prefilledNode, prop_label],
+		() => (prefillingNode ? prefillingNode.data.name : prop_label),
+		[prefillingNode, prop_label],
 	);
 
 	const prefillingNodeByActiveNode = useTypedSelector(
@@ -58,8 +58,8 @@ function ParentListItemBase({
 	const prefillingNodeIsActive = useMemo(
 		() =>
 			prefillingNodeByActiveNode !== undefined &&
-			prefillingNodeByActiveNode.id === prefilledNode?.id,
-		[prefillingNodeByActiveNode, prefilledNode?.id],
+			prefillingNodeByActiveNode.id === prefillingNode?.id,
+		[prefillingNodeByActiveNode, prefillingNode?.id],
 	);
 
 	const [childrenListExpanded, setChildrenListExpanded] = useState(
@@ -97,7 +97,7 @@ function ParentListItemBase({
 					<Row className="bg-[#F6F6F6]">
 						<ChildrenListCol
 							globalDataSubset={globalDataSubset}
-							prefilledNode={prefilledNode}
+							prefillingNode={prefillingNode}
 						/>
 					</Row>
 				)}
