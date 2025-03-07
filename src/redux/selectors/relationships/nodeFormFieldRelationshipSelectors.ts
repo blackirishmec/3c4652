@@ -649,26 +649,61 @@ export const selectPrefillingChildIdentifierByActiveNode = createSelector(
 	},
 );
 
+// export const selectVirtualActiveNodeFormFieldMapping = createSelector(
+// 	[
+// 		selectActiveNode,
+// 		selectActiveNodeFormFieldPropertyKey,
+// 		selectActivePrefillingNode,
+// 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+// 		selectActivePrefillingModelType,
+// 	],
+// 	(
+// 		activeNode,
+// 		activeNodeFormFieldPropertyKey,
+// 		activePrefillingNode,
+// 		activePrefillingNodeFormFieldSchemaPropertyKey,
+// 		activePrefillingModelType,
+// 	): NodeFormFieldMapping | undefined => {
+// 		if (
+// 			activeNode === undefined ||
+// 			activeNodeFormFieldPropertyKey === undefined ||
+// 			activePrefillingNode === undefined ||
+// 			activePrefillingNodeFormFieldSchemaPropertyKey === undefined ||
+// 			activePrefillingModelType === undefined
+// 		)
+// 			return undefined;
+
+// 		return {
+// 			nodeId: activeNode.id,
+// 			nodeFormFieldSchemaPropertyKey: activeNodeFormFieldPropertyKey,
+// 			prefillingParentIdentifier: activePrefillingNode.id,
+// 			prefillingChildIdentifier:
+// 				activePrefillingNodeFormFieldSchemaPropertyKey,
+// 			prefillingModelType: activePrefillingModelType,
+// 		};
+// 	},
+// );
+
 export const selectVirtualActiveNodeFormFieldMapping = createSelector(
 	[
 		selectActiveNode,
 		selectActiveNodeFormFieldPropertyKey,
-		selectActivePrefillingNode,
-		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+		selectActivePrefillingParentModelByActiveNode,
+		selectActivePrefillingChildIdentifier,
 		selectActivePrefillingModelType,
 	],
 	(
 		activeNode,
 		activeNodeFormFieldPropertyKey,
-		activePrefillingNode,
-		activePrefillingNodeFormFieldSchemaPropertyKey,
+		activePrefillingParentModelByActiveNode,
+		activePrefillingChildIdentifier,
 		activePrefillingModelType,
 	): NodeFormFieldMapping | undefined => {
 		if (
 			activeNode === undefined ||
 			activeNodeFormFieldPropertyKey === undefined ||
-			activePrefillingNode === undefined ||
-			activePrefillingNodeFormFieldSchemaPropertyKey === undefined ||
+			activePrefillingParentModelByActiveNode === undefined ||
+			activePrefillingChildIdentifier === undefined ||
 			activePrefillingModelType === undefined
 		)
 			return undefined;
@@ -676,9 +711,9 @@ export const selectVirtualActiveNodeFormFieldMapping = createSelector(
 		return {
 			nodeId: activeNode.id,
 			nodeFormFieldSchemaPropertyKey: activeNodeFormFieldPropertyKey,
-			prefillingParentIdentifier: activePrefillingNode.id,
-			prefillingChildIdentifier:
-				activePrefillingNodeFormFieldSchemaPropertyKey,
+			prefillingParentIdentifier:
+				activePrefillingParentModelByActiveNode.id,
+			prefillingChildIdentifier: activePrefillingChildIdentifier,
 			prefillingModelType: activePrefillingModelType,
 		};
 	},

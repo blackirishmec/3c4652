@@ -76,17 +76,15 @@ export const saveSelectedPrefillMapping = createAsyncThunk<
 >('flow/fetchFlow', (_, { dispatch, getState }) => {
 	const state = getState() as RootState;
 
-	// ***
-	const savedNodeFormFieldMappingByActiveNode =
-		selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey(state);
 	const savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier =
 		selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier(
 			state,
 		);
-	// ***
 
+	// ***
 	const virtualActiveNodeFormFieldMapping =
 		selectVirtualActiveNodeFormFieldMapping(state);
+	// ***
 
 	if (virtualActiveNodeFormFieldMapping === undefined) {
 		return;
