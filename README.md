@@ -1,54 +1,32 @@
-![](https://github.com/xyflow/web/blob/main/assets/codesandbox-header-ts.png?raw=true)
+# 3c4652
 
-# React Flow starter (Vite + TS)
+## Prerequisites
 
-We've put together this template to serve as a starting point for folks
-interested in React Flow. You can use this both as a base for your own React
-Flow applications, or for small experiments or bug reports.
+- Node.js (16+ recommended)
+- npm
 
-**TypeScript not your thing?** We also have a vanilla JavaScript starter template,
-just for you!
+## Getting Started (macOS, Linux, or using WSL on Windows)
 
-## Getting up and running
+### Virtual Server:
 
-You can get this template without forking/cloning the repo using `degit`:
+#### Clone Repo:
 
-```bash
-npx degit xyflow/vite-react-flow-template your-app-name
-```
+1. `git clone https://github.com/mosaic-avantos/frontendchallengeserver.git`
 
-The template contains mostly the minimum dependencies to get up and running, but
-also includes eslint and some additional rules to help you write React code that
-is less likely to run into issues:
+#### Run Server:
 
-```bash
-npm install # or `pnpm install` or `yarn install`
-```
+1. `cd frontendchallengeserver`
+2. `npm start`
 
-Vite is a great development server and build tool that we recommend our users to
-use. You can start a development server with:
+### Frontend:
 
-```bash
-npm run dev
-```
+#### Clone Repo:
 
-While the development server is running, changes you make to the code will be
-automatically reflected in the browser!
+1. `git clone https://github.com/blackirishmec/3c4652.git`
 
-## Things to try:
+#### Run Frontend:
 
-- Create a new custom node inside `src/nodes/` (don't forget to export it from `src/nodes/index.ts`).
-- Change how things look by [overriding some of the built-in classes](https://reactflow.dev/learn/customization/theming#overriding-built-in-classes).
-- Add a layouting library to [position your nodes automatically](https://reactflow.dev/learn/layouting/layouting)
-
-## Resources
-
-Links:
-
-- [React Flow - Docs](https://reactflow.dev)
-- [React Flow - Discord](https://discord.com/invite/Bqt6xrs)
-
-Learn:
-
-- [React Flow – Custom Nodes](https://reactflow.dev/learn/customization/custom-nodes)
-- [React Flow – Layouting](https://reactflow.dev/learn/layouting/layouting)
+1. `cd 3c4652`
+2. `npm install`
+3. `npm run dev`
+    - Open your browser to the `Local:` url outputted by VITE in your terminal
