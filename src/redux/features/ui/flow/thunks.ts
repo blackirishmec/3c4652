@@ -22,7 +22,6 @@ import {
 } from '@/redux/features/ui/flow/utils';
 import {
 	selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
-	selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
 	selectVirtualActiveNodeFormFieldMapping,
 } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
