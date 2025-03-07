@@ -35,8 +35,8 @@ import { Col, Row } from '@/components/layout/FlexComponents';
 // // 4. Wire up 'search' bar
 // // 5. Wire up 'cancel' button per FormFieldRow. [10m]
 // // 6. Wire up 'prefill' toggle [1hr]
-// 7. Create and implement tests (jest + property based tests?) [2h]
-// 8. Handle global data sources [1hr]
+// 7. Handle global data sources [1hr]
+// 8. Create and implement tests (jest + property based tests?) [2h]
 // 9. Handle new data sources [1hr]
 // 10. Create documentation (ref M-H-A) [30m]
 // 11. Clean up code
