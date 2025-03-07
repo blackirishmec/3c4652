@@ -46,22 +46,37 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 
 const classes = {
 	childRow: `
-		cursor-pointer 
+		cursor-pointer
 		border 
 		rounded-sm 
 		border-dashed 
 		border-transparent 
 		py-1
 		pl-10
-		hover:border-green-500!
+		hover:border-green-500
 		hover:bg-green-100 
 	`,
 	clickedChildRow: `
 		bg-green-100
 		hover:bg-gray-100!
 	`,
-	matchingMappings: `
-		hover:border-red-500!
+	siblingOfSaved: `
+		hover:bg-green-100
+		hover:border-orange-100
+	`,
+	saved: `
+		border-orange-500!
+		hover:border-red-500
+		hover:bg-red-100
+	`,
+	savedButUpdated: `
+		bg-orange-100
+		hover:border-purple-500
+		hover:bg-green-100
+		hover:border-green-100
+	`,
+	savedNotUpdated: `
+		bg-green-100
 	`,
 } as const;
 
@@ -110,15 +125,9 @@ function PrefillMappingChildListItemBase({
 				return;
 
 			if (
-				activeNodePrefillingNode !== undefined &&
-				activePrefillingNodeFormFieldSchemaPropertyKey !== undefined &&
-				activeNodePrefillingNode.id === prerequisiteNode.id &&
-				activePrefillingNodeFormFieldSchemaPropertyKey ===
-					prefillingNodeFormFieldSchemaPropertyKey
+				activePrefillingNodeFormFieldSchemaPropertyKey !==
+				prefillingNodeFormFieldSchemaPropertyKey
 			) {
-				dispatch(resetActivePrefillingNodeId());
-				dispatch(resetActivePrefillingNodeFormFieldMappedPropertyKey());
-			} else {
 				dispatch(setActivePrefillingNodeId(prerequisiteNode.id));
 				dispatch(
 					setActivePrefillingNodeFormFieldMappedPropertyKey(
@@ -130,7 +139,6 @@ function PrefillMappingChildListItemBase({
 			_e.stopPropagation();
 		},
 		[
-			activeNodePrefillingNode,
 			activePrefillingNodeFormFieldSchemaPropertyKey,
 			dispatch,
 			prefillingNodeFormFieldSchemaPropertyKey,
@@ -166,10 +174,33 @@ function PrefillMappingChildListItemBase({
 		[getNodeFormFieldIsMapped],
 	);
 
-	const nodeFormFieldIsMatchingSaved =
-		savedNodeFormFieldMappingByActiveNode !== undefined &&
-		savedNodeFormFieldMappingByActiveNode?.prefillingNodeId ===
-			prerequisiteNode?.id;
+	const prefillingNodeMatchesSaved = useMemo(
+		() =>
+			savedNodeFormFieldMappingByActiveNode !== undefined &&
+			savedNodeFormFieldMappingByActiveNode?.prefillingNodeId ===
+				prerequisiteNode?.id,
+		[prerequisiteNode?.id, savedNodeFormFieldMappingByActiveNode],
+	);
+	const prefillingNodeFormFieldSchemaKeyMatchesSaved = useMemo(
+		() =>
+			savedNodeFormFieldMappingByActiveNode !== undefined &&
+			savedNodeFormFieldMappingByActiveNode?.prefillingNodeFormFieldSchemaPropertyKey ===
+				prefillingNodeFormFieldSchemaPropertyKey,
+		[
+			prefillingNodeFormFieldSchemaPropertyKey,
+			savedNodeFormFieldMappingByActiveNode,
+		],
+	);
+	const activeNodeFormFieldSchemaKeyMatchesSaved = useMemo(
+		() =>
+			savedNodeFormFieldMappingByActiveNode !== undefined &&
+			savedNodeFormFieldMappingByActiveNode?.prefillingNodeFormFieldSchemaPropertyKey ===
+				activePrefillingNodeFormFieldSchemaPropertyKey,
+		[
+			activePrefillingNodeFormFieldSchemaPropertyKey,
+			savedNodeFormFieldMappingByActiveNode,
+		],
+	);
 
 	return (
 		<li
@@ -177,7 +208,20 @@ function PrefillMappingChildListItemBase({
 			className={clsx(
 				classes.childRow,
 				nodeFormFieldIsMapped && classes.clickedChildRow,
-				nodeFormFieldIsMatchingSaved && classes.matchingMappings,
+				prefillingNodeMatchesSaved &&
+					!prefillingNodeFormFieldSchemaKeyMatchesSaved &&
+					classes.siblingOfSaved,
+				prefillingNodeMatchesSaved &&
+					prefillingNodeFormFieldSchemaKeyMatchesSaved &&
+					classes.saved,
+				prefillingNodeMatchesSaved &&
+					prefillingNodeFormFieldSchemaKeyMatchesSaved &&
+					activeNodeFormFieldSchemaKeyMatchesSaved &&
+					classes.savedNotUpdated,
+				prefillingNodeMatchesSaved &&
+					prefillingNodeFormFieldSchemaKeyMatchesSaved &&
+					!activeNodeFormFieldSchemaKeyMatchesSaved &&
+					classes.savedButUpdated,
 			)}
 		>
 			{label}
