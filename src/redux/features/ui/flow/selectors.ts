@@ -11,24 +11,19 @@ export const fetchFlowStatusSelectors = createStatusSelectors(
 	(state: RootState) => state.flow.fetchFlowDataStatus,
 );
 
-export const selectFlowLoaded = createSelector(
+export const selectFlowDataLoaded = createSelector(
 	[selectFlowState],
 	flow => flow.lastFetchFlowData !== undefined,
 );
 
-export const selectFlowIsLoading = createSelector(
+export const selectFlowDataIsLoading = createSelector(
 	[selectFlowState],
 	flow => flow.fetchFlowDataStatus.loading === 'loading',
 );
 
-export const selectLastFetchFlow = createSelector(
+export const selectLastFetchFlowData = createSelector(
 	[selectFlowState],
 	flow => flow.lastFetchFlowData,
-);
-
-export const selectActiveNodeId = createSelector(
-	[selectFlowState],
-	flow => flow.activeNodeId,
 );
 
 export const selectNodeFormFieldMappings = createSelector(
@@ -36,12 +31,22 @@ export const selectNodeFormFieldMappings = createSelector(
 	flow => flow.nodeFormFieldMappings,
 );
 
+export const selectActiveNodeId = createSelector(
+	[selectFlowState],
+	flow => flow.activeNodeId,
+);
 export const selectActiveNodeFormFieldPropertyKey = createSelector(
 	[selectFlowState],
 	flow => flow.activeNodeFormFieldPropertyKey,
 );
 
-export const selectActiveNodeFormFieldMappedPropertyKey = createSelector(
+export const selectActivePrefillingNodeId = createSelector(
 	[selectFlowState],
-	flow => flow.activeNodeFormFieldMappedPropertyKey,
+	flow => flow.activePrefillingNodeId,
 );
+
+export const selectActivePrefillingNodeFormFieldSchemaPropertyKey =
+	createSelector(
+		[selectFlowState],
+		flow => flow.activePrefillingNodeFormFieldSchemaPropertyKey,
+	);

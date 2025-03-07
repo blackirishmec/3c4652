@@ -4,11 +4,9 @@ import clsx from 'clsx';
 import { PiCaretDownBold, PiCaretRightBold } from 'react-icons/pi';
 
 import type { Node } from '@/interfaces/models/nodeModels';
-import type { RootState } from '@/redux/store';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
-import { selectNodeById } from '@/redux/features/model/nodes';
-import { selectActiveNodeFormFieldMappedPropertyKey } from '@/redux/features/ui/flow';
+import { selectActivePrefillingNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useTypedSelector from '@/hooks/useTypedSelector';
 
@@ -52,13 +50,7 @@ function PrefillMappingParentListItemBase({
 		[prerequisiteNode, prop_label],
 	);
 
-	const clickedNodeFormField = useTypedSelector(
-		selectActiveNodeFormFieldMappedPropertyKey,
-	);
-
-	const clickedParentNode = useTypedSelector((state: RootState) =>
-		selectNodeById(state, clickedNodeFormField?.prefillingNodeId ?? ''),
-	);
+	const activePrefillingNode = useTypedSelector(selectActivePrefillingNode);
 
 	const [childrenListExpanded, setChildrenListExpanded] = useState(false);
 
@@ -72,20 +64,13 @@ function PrefillMappingParentListItemBase({
 	);
 
 	return (
-		<li
-			// className={clsx(
-			// 	classes.parentRow,
-			// 	childrenListExpanded && classes.expandedParentRow,
-			// )}
-			onClick={handleParentLIOnClick}
-			{...props}
-		>
+		<li onClick={handleParentLIOnClick} {...props}>
 			<Col className="flex-1">
 				<Row
 					className={clsx(
 						classes.parentRow,
-						clickedParentNode !== undefined &&
-							clickedParentNode.id === prerequisiteNode?.id &&
+						activePrefillingNode !== undefined &&
+							activePrefillingNode.id === prerequisiteNode?.id &&
 							classes.expandedParentRow,
 					)}
 				>

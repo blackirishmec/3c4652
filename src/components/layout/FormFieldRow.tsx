@@ -52,12 +52,12 @@ export interface FormFieldRowProps {
 function FormFieldRowBase({ property }: FormFieldRowProps) {
 	const dispatch = useAppDispatch();
 
-	const selectNodeFormFieldMappingByActiveNode = useMemo(
+	const selectNodeFormFieldMappingsByActiveNode = useMemo(
 		() => createSelectNodeFormFieldMappingByActiveNode(property.key),
 		[property.key],
 	);
 	const nodeFormFieldMappingsByActiveNode = useTypedSelector(
-		selectNodeFormFieldMappingByActiveNode,
+		selectNodeFormFieldMappingsByActiveNode,
 	);
 
 	const prefillingNode = useTypedSelector((state: RootState) =>

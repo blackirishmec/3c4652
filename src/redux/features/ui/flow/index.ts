@@ -6,9 +6,11 @@ export {
 	resetActiveNodeFormFieldMappedPropertyKey,
 	resetActiveNodeFormFieldPropertyKey,
 	resetActiveNodeId,
+	resetActivePrefillingNodeId,
 	resetFlow,
 	setActiveNodeFormFieldMappedPropertyKey,
 	setActiveNodeFormFieldPropertyKey,
 	setActiveNodeId,
+	setActivePrefillingNodeId,
 } from './slice';
 export { default as flowReducer } from './slice';

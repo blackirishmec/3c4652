@@ -6,8 +6,9 @@ import type { Node } from '@xyflow/react';
 export interface FlowState {
 	fetchFlowDataStatus: StatusState;
 	lastFetchFlowData: string | null;
-	activeNodeId?: Node['id'];
 	nodeFormFieldMappings: NodeFormFieldMapping[];
+	activeNodeId?: Node['id'];
 	activeNodeFormFieldPropertyKey?: FormFieldSchemaPropertiesArrayValue['key'];
-	activeNodeFormFieldMappedPropertyKey?: NodeFormFieldMapping;
+	activePrefillingNodeId?: Node['id'];
+	activePrefillingNodeFormFieldSchemaPropertyKey?: FormFieldSchemaPropertiesArrayValue['key'];
 }

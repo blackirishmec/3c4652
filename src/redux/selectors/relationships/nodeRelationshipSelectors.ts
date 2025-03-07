@@ -4,7 +4,10 @@ import { createSelector } from '@reduxjs/toolkit';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
 
-import { selectActiveNodeId } from '@/redux/features/ui/flow';
+import {
+	selectActiveNodeId,
+	selectActivePrefillingNodeId,
+} from '@/redux/features/ui/flow';
 import exploreNodePrerequisites from '@/redux/utilities/exploreNodePrerequisites';
 
 export const selectActiveNode = createSelector(
@@ -12,6 +15,14 @@ export const selectActiveNode = createSelector(
 	(activeNodeId, nodeEntities): Node | undefined =>
 		activeNodeId !== undefined
 			? (nodeEntities[activeNodeId] ?? undefined)
+			: undefined,
+);
+
+export const selectActivePrefillingNode = createSelector(
+	[selectActivePrefillingNodeId, (state: RootState) => state.nodes.entities],
+	(activePrefillingNodeId, nodeEntities): Node | undefined =>
+		activePrefillingNodeId !== undefined
+			? (nodeEntities[activePrefillingNodeId] ?? undefined)
 			: undefined,
 );
 

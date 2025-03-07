@@ -3,16 +3,18 @@ import { memo, useCallback } from 'react';
 import { PiXFill } from 'react-icons/pi';
 
 import type { ModalProps } from '@/components/modal/Modal';
+import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 import type { RootState } from '@/redux/store';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
 import {
 	addNodeFormFieldMapping,
-	resetActiveNodeFormFieldMappedPropertyKey,
-	selectActiveNodeFormFieldMappedPropertyKey,
 	selectActiveNodeFormFieldPropertyKey,
+	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 } from '@/redux/features/ui/flow';
+import { selectNodeFormFieldMappingByActiveNode } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -28,18 +30,21 @@ export interface PrefillMappingModalProps
 function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	const dispatch = useAppDispatch();
 
-	const clickedNode = useTypedSelector(selectActiveNode);
+	const activeNode = useTypedSelector(selectActiveNode);
 	const activeNodeFormFieldPropertyKey = useTypedSelector(
 		selectActiveNodeFormFieldPropertyKey,
 	);
-	const activeNodeFormFieldMappedPropertyKey = useTypedSelector(
-		selectActiveNodeFormFieldMappedPropertyKey,
+	const activePrefillingNodeFormFieldSchemaPropertyKey = useTypedSelector(
+		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	);
 	const prefillingNode = useTypedSelector((state: RootState) =>
 		selectNodeById(
 			state,
-			activeNodeFormFieldMappedPropertyKey?.prefillingNodeId ?? '',
+			activePrefillingNodeFormFieldSchemaPropertyKey ?? '',
 		),
+	);
+	const nodeFormFieldMappingByActiveNode = useTypedSelector(
+		selectNodeFormFieldMappingByActiveNode,
 	);
 
 	const handleCloseModal = useCallback(() => {
@@ -47,17 +52,48 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	}, [props]);
 
 	const handleSaveSelectedPrefillMapping = useCallback(() => {
-		if (activeNodeFormFieldMappedPropertyKey === undefined) return;
+		if (
+			activeNode === undefined ||
+			activeNodeFormFieldPropertyKey === undefined ||
+			prefillingNode === undefined ||
+			activePrefillingNodeFormFieldSchemaPropertyKey === undefined
+		)
+			return;
 
-		dispatch(addNodeFormFieldMapping(activeNodeFormFieldMappedPropertyKey));
-		dispatch(resetActiveNodeFormFieldMappedPropertyKey());
+		const tempNodeFormFieldMappingByActiveNode: NodeFormFieldMapping = {
+			nodeId: activeNode.id,
+			nodeFormFieldSchemaPropertyKey: activeNodeFormFieldPropertyKey,
+			prefillingNodeId: prefillingNode.id,
+			prefillingNodeFormFieldSchemaPropertyKey:
+				activePrefillingNodeFormFieldSchemaPropertyKey,
+		};
+
+		if (
+			nodeFormFieldMappingByActiveNode === undefined ||
+			!nodeFormFieldsAreEqual(
+				nodeFormFieldMappingByActiveNode,
+				tempNodeFormFieldMappingByActiveNode,
+			)
+		) {
+			dispatch(
+				addNodeFormFieldMapping(tempNodeFormFieldMappingByActiveNode),
+			);
+		}
 
 		handleCloseModal();
-	}, [activeNodeFormFieldMappedPropertyKey, dispatch, handleCloseModal]);
+	}, [
+		activeNode,
+		activeNodeFormFieldPropertyKey,
+		activePrefillingNodeFormFieldSchemaPropertyKey,
+		dispatch,
+		handleCloseModal,
+		nodeFormFieldMappingByActiveNode,
+		prefillingNode,
+	]);
 
-	if (clickedNode === undefined) return null;
+	if (activeNode === undefined) return null;
 
-	const clickedNodeName = clickedNode.data.name;
+	const clickedNodeName = activeNode.data.name;
 
 	return (
 		<Modal
@@ -87,9 +123,10 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 							<Col className="bg-blue-100">
 								{prefillingNode?.data.name}
 							</Col>
-							{activeNodeFormFieldMappedPropertyKey && (
+							{activePrefillingNodeFormFieldSchemaPropertyKey !==
+								undefined && (
 								<Col className="bg-green-100">
-									{`.${activeNodeFormFieldMappedPropertyKey?.nodeFormFieldSchemaPropertyKey}`}
+									{`.${activePrefillingNodeFormFieldSchemaPropertyKey}`}
 								</Col>
 							)}
 						</Row>
@@ -117,7 +154,8 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 						className="border border-red-400 text-red-500 py-2 px-3 rounded-sm hover:bg-blue-100!"
 						onClick={handleSaveSelectedPrefillMapping}
 						disabled={
-							activeNodeFormFieldMappedPropertyKey === undefined
+							activePrefillingNodeFormFieldSchemaPropertyKey ===
+							undefined
 						}
 					>
 						Select

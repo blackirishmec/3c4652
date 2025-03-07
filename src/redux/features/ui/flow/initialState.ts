@@ -5,10 +5,11 @@ import statusInitialState from '@/redux/initialStates/statusInitialState';
 const initialState: FlowState = {
 	fetchFlowDataStatus: { ...statusInitialState },
 	lastFetchFlowData: null,
-	activeNodeId: undefined,
 	nodeFormFieldMappings: [],
+	activeNodeId: undefined,
 	activeNodeFormFieldPropertyKey: undefined,
-	activeNodeFormFieldMappedPropertyKey: undefined,
+	activePrefillingNodeId: undefined,
+	activePrefillingNodeFormFieldSchemaPropertyKey: undefined,
 };
 
 export default initialState;

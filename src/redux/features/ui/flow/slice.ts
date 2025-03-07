@@ -17,62 +17,15 @@ const flowSlice = createSlice({
 		resetFlow: state => {
 			state.fetchFlowDataStatus = { ...initialState.fetchFlowDataStatus };
 			state.lastFetchFlowData = initialState.lastFetchFlowData;
-			state.activeNodeId = initialState.activeNodeId;
 			state.nodeFormFieldMappings = [
 				...initialState.nodeFormFieldMappings,
 			];
-			state.activeNodeFormFieldPropertyKey =
-				initialState.activeNodeFormFieldPropertyKey;
-			state.activeNodeFormFieldMappedPropertyKey =
-				initialState.activeNodeFormFieldMappedPropertyKey;
-		},
-
-		setActiveNodeId: (
-			state,
-			{ payload: nodeId }: PayloadAction<Node['id']>,
-		) => {
-			state.activeNodeId = nodeId;
-
-			state.activeNodeFormFieldPropertyKey =
-				initialState.activeNodeFormFieldPropertyKey;
-			state.activeNodeFormFieldMappedPropertyKey =
-				initialState.activeNodeFormFieldMappedPropertyKey;
-		},
-		resetActiveNodeId: state => {
 			state.activeNodeId = initialState.activeNodeId;
-
 			state.activeNodeFormFieldPropertyKey =
 				initialState.activeNodeFormFieldPropertyKey;
-			state.activeNodeFormFieldMappedPropertyKey =
-				initialState.activeNodeFormFieldMappedPropertyKey;
-		},
-
-		setActiveNodeFormFieldPropertyKey: (
-			state,
-			{
-				payload: clickedNodeFormFieldSchemaPropertyKey,
-			}: PayloadAction<FormFieldSchemaPropertiesArrayValue['key']>,
-		) => {
-			state.activeNodeFormFieldPropertyKey =
-				clickedNodeFormFieldSchemaPropertyKey;
-		},
-		resetActiveNodeFormFieldPropertyKey: state => {
-			state.activeNodeFormFieldPropertyKey =
-				initialState.activeNodeFormFieldPropertyKey;
-
-			state.activeNodeFormFieldMappedPropertyKey =
-				initialState.activeNodeFormFieldMappedPropertyKey;
-		},
-
-		setActiveNodeFormFieldMappedPropertyKey: (
-			state,
-			{ payload: nodeFormField }: PayloadAction<NodeFormFieldMapping>,
-		) => {
-			state.activeNodeFormFieldMappedPropertyKey = nodeFormField;
-		},
-		resetActiveNodeFormFieldMappedPropertyKey: state => {
-			state.activeNodeFormFieldMappedPropertyKey =
-				initialState.activeNodeFormFieldMappedPropertyKey;
+			state.activePrefillingNodeId = initialState.activePrefillingNodeId;
+			state.activePrefillingNodeFormFieldSchemaPropertyKey =
+				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
 		},
 
 		addNodeFormFieldMapping: (
@@ -99,6 +52,76 @@ const flowSlice = createSlice({
 				field => field !== nodeFormFieldToRemove,
 			);
 		},
+
+		setActiveNodeId: (
+			state,
+			{ payload: nodeId }: PayloadAction<Node['id']>,
+		) => {
+			state.activeNodeId = nodeId;
+
+			state.activeNodeFormFieldPropertyKey =
+				initialState.activeNodeFormFieldPropertyKey;
+			state.activePrefillingNodeId = initialState.activePrefillingNodeId;
+			state.activePrefillingNodeFormFieldSchemaPropertyKey =
+				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+		},
+		resetActiveNodeId: state => {
+			state.activeNodeId = initialState.activeNodeId;
+
+			state.activeNodeFormFieldPropertyKey =
+				initialState.activeNodeFormFieldPropertyKey;
+			state.activePrefillingNodeId = initialState.activePrefillingNodeId;
+			state.activePrefillingNodeFormFieldSchemaPropertyKey =
+				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+		},
+
+		setActiveNodeFormFieldPropertyKey: (
+			state,
+			{
+				payload: newActiveNodeFormFieldPropertyKey,
+			}: PayloadAction<FormFieldSchemaPropertiesArrayValue['key']>,
+		) => {
+			state.activeNodeFormFieldPropertyKey =
+				newActiveNodeFormFieldPropertyKey;
+		},
+		resetActiveNodeFormFieldPropertyKey: state => {
+			state.activeNodeFormFieldPropertyKey =
+				initialState.activeNodeFormFieldPropertyKey;
+
+			state.activePrefillingNodeId = initialState.activePrefillingNodeId;
+			state.activePrefillingNodeFormFieldSchemaPropertyKey =
+				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+		},
+
+		setActivePrefillingNodeId: (
+			state,
+			{ payload: nodeId }: PayloadAction<Node['id']>,
+		) => {
+			state.activePrefillingNodeId = nodeId;
+
+			state.activePrefillingNodeFormFieldSchemaPropertyKey =
+				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+		},
+		resetActivePrefillingNodeId: state => {
+			state.activePrefillingNodeId = initialState.activePrefillingNodeId;
+
+			state.activePrefillingNodeFormFieldSchemaPropertyKey =
+				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+		},
+
+		setActiveNodeFormFieldMappedPropertyKey: (
+			state,
+			{
+				payload: newActiveNodeFormFieldMappedPropertyKey,
+			}: PayloadAction<FormFieldSchemaPropertiesArrayValue['key']>,
+		) => {
+			state.activePrefillingNodeFormFieldSchemaPropertyKey =
+				newActiveNodeFormFieldMappedPropertyKey;
+		},
+		resetActiveNodeFormFieldMappedPropertyKey: state => {
+			state.activePrefillingNodeFormFieldSchemaPropertyKey =
+				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+		},
 	},
 	extraReducers: builder => {
 		handleAsyncState({
@@ -113,15 +136,17 @@ const flowSlice = createSlice({
 });
 
 export const {
-	resetFlow,
-	setActiveNodeId,
-	resetActiveNodeId,
 	addNodeFormFieldMapping,
 	removeNodeFormFieldMapping,
-	setActiveNodeFormFieldMappedPropertyKey,
 	resetActiveNodeFormFieldMappedPropertyKey,
-	setActiveNodeFormFieldPropertyKey,
 	resetActiveNodeFormFieldPropertyKey,
+	resetActiveNodeId,
+	resetActivePrefillingNodeId,
+	resetFlow,
+	setActiveNodeFormFieldMappedPropertyKey,
+	setActiveNodeFormFieldPropertyKey,
+	setActiveNodeId,
+	setActivePrefillingNodeId,
 } = flowSlice.actions;
 
 export default flowSlice.reducer;
