@@ -38,6 +38,7 @@ function PrefillMappingChildrenListColBase({
 			<ul className="w-full">
 				{formFieldSchemaPropertiesArrayByPrerequisiteNode !==
 					undefined &&
+					prerequisiteNode !== undefined &&
 					formFieldSchemaPropertiesArrayByPrerequisiteNode
 						.filter(
 							(
