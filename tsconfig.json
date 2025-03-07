@@ -23,7 +23,9 @@
 		"baseUrl": "./src",
 		"paths": {
 			"@/*": ["*"]
-		}
+		},
+
+		"esModuleInterop": true
 	},
 	"include": ["src", "tests", "vite.config.ts", "jest.setup.ts"],
 	"references": [{ "path": "./tsconfig.node.json" }]
