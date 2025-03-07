@@ -66,7 +66,9 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	}, [props]);
 
 	const handleSaveSelectedPrefillMapping = useCallback(() => {
-		dispatch(saveSelectedPrefillMapping);
+		dispatch(saveSelectedPrefillMapping())
+			.unwrap()
+			.catch(reason => console.log('reason', reason));
 
 		handleCloseModal();
 	}, [dispatch, handleCloseModal]);
