@@ -31,8 +31,8 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 // //	- Fix loading into Active Form Fields (of mappings)
 // !- Fix updating preloaded actions (changing from what is saved, toggling) [45m]
 // // 4. Wire up 'search' bar
-// 5. Wire up 'prefill' toggle [1hr]
-// 6. Wire up 'cancel' button per FormFieldRow. [10m]
+// 5. Wire up 'cancel' button per FormFieldRow. [10m]
+// 6. Wire up 'prefill' toggle [1hr]
 // 7. Create and implement tests (jest + property based tests?) [2h]
 // 8. Handle global data sources [1hr]
 // 9. Handle new data sources [1hr]
