@@ -1,6 +1,7 @@
 import { memo, useCallback, useMemo } from 'react';
 
 import clsx from 'clsx';
+import { PiXCircleFill } from 'react-icons/pi';
 
 import type {
 	GlobalDataSubset,
@@ -9,10 +10,18 @@ import type {
 import type { MouseEvent } from 'react';
 
 import {
-	selectActivePrefillingGlobalDataSubsetDataKey,
-	setActivePrefillingGlobalDataSubsetDataKey,
-	setActivePrefillingGlobalDataSubsetKey,
+	removeNodeFormFieldMapping,
+	selectActivePrefillingChildIdentifier,
+	setActivePrefillingChildIdentifier,
+	setActivePrefillingParent,
 } from '@/redux/features/ui/flow';
+import {
+	selectActivePrefillingParentModelByActiveNode,
+	selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
+	selectSavedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier,
+	selectSavedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier,
+} from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import { selectPrefillingEnabledByActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -37,64 +46,143 @@ function ChildListItemBase({
 		[globalDataSubsetDataKey],
 	);
 
-	const activePrefillingGlobalDataSubsetDataKey = useTypedSelector(
-		selectActivePrefillingGlobalDataSubsetDataKey,
+	const activePrefillingParentModelByActiveNode = useTypedSelector(
+		selectActivePrefillingParentModelByActiveNode,
+	);
+
+	const activePrefillingChildModelIdentifier = useTypedSelector(
+		selectActivePrefillingChildIdentifier,
+	);
+
+	const savedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier =
+		useTypedSelector(
+			selectSavedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier,
+		);
+
+	const savedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier =
+		useTypedSelector(
+			selectSavedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier,
+		);
+
+	const savedNodeFormFieldMappingByActiveNodeAndActivePropertyKey =
+		useTypedSelector(
+			selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
+		);
+
+	const prefillingEnabledByActiveNode = useTypedSelector(
+		selectPrefillingEnabledByActiveNode,
 	);
 
 	const handleLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
 			if (
-				activePrefillingGlobalDataSubsetDataKey !==
-				globalDataSubsetDataKey
+				activePrefillingChildModelIdentifier !== globalDataSubsetDataKey
 			) {
 				dispatch(
-					setActivePrefillingGlobalDataSubsetKey(globalDataSubsetKey),
+					setActivePrefillingParent({
+						identifier: globalDataSubsetKey,
+						prefillingModelType: 'GlobalDataSubset',
+					}),
 				);
+
 				dispatch(
-					setActivePrefillingGlobalDataSubsetDataKey(
-						globalDataSubsetDataKey,
-					),
+					setActivePrefillingChildIdentifier(globalDataSubsetDataKey),
 				);
 			}
 
 			_e.stopPropagation();
 		},
 		[
-			activePrefillingGlobalDataSubsetDataKey,
+			activePrefillingChildModelIdentifier,
 			dispatch,
 			globalDataSubsetDataKey,
 			globalDataSubsetKey,
 		],
 	);
 
-	// const listItemHasActiveMapping = useMemo(
-	// 	() =>
-	// 		activePrefillingNode?.id === prefillingNode.id &&
-	// 		activePrefillingNodeFormFieldSchemaPropertyKey ===
-	// 			globalDataSubsetDataKey,
-	// 	[
-	// 		activePrefillingNode?.id,
-	// 		activePrefillingNodeFormFieldSchemaPropertyKey,
-	// 		prefillingNode.id,
-	// 		globalDataSubsetDataKey,
-	// 	],
-	// );
+	const listItemHasActiveMapping = useMemo(
+		() =>
+			activePrefillingParentModelByActiveNode?.id ===
+				globalDataSubsetKey &&
+			activePrefillingChildModelIdentifier === globalDataSubsetDataKey,
+		[
+			activePrefillingParentModelByActiveNode?.id,
+			activePrefillingChildModelIdentifier,
+			globalDataSubsetKey,
+			globalDataSubsetDataKey,
+		],
+	);
+
+	const listItemHasSavedMapping = useMemo(
+		() =>
+			savedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier?.id ===
+				globalDataSubsetKey &&
+			savedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier ===
+				globalDataSubsetDataKey,
+		[
+			globalDataSubsetKey,
+			globalDataSubsetDataKey,
+			savedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier,
+			savedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier,
+		],
+	);
+
+	const listItemHasUpdatedSavedMapping = useMemo(
+		() =>
+			listItemHasSavedMapping &&
+			activePrefillingChildModelIdentifier !== undefined &&
+			!listItemHasActiveMapping,
+		[
+			activePrefillingChildModelIdentifier,
+			listItemHasActiveMapping,
+			listItemHasSavedMapping,
+		],
+	);
+
+	const listItemHasActiveOrSavedMapping = useMemo(
+		() => listItemHasSavedMapping || listItemHasActiveMapping,
+		[listItemHasActiveMapping, listItemHasSavedMapping],
+	);
+
+	const listItemHasActiveAndSavedMapping = useMemo(
+		() => listItemHasSavedMapping && listItemHasActiveMapping,
+		[listItemHasActiveMapping, listItemHasSavedMapping],
+	);
+
+	const handleRemoveMappingOnClick = useCallback(
+		(e: MouseEvent<HTMLDivElement>) => {
+			if (
+				savedNodeFormFieldMappingByActiveNodeAndActivePropertyKey ===
+				undefined
+			) {
+				return;
+			}
+
+			dispatch(
+				removeNodeFormFieldMapping(
+					savedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
+				),
+			);
+
+			e.stopPropagation();
+		},
+		[dispatch, savedNodeFormFieldMappingByActiveNodeAndActivePropertyKey],
+	);
 
 	return (
 		<li
 			onClick={handleLIOnClick}
 			className={clsx(
 				classes.childRow,
-				// listItemHasActiveOrSavedMapping &&
-				// 	classes.hasActiveOrSavedMapping,
-				// listItemHasUpdatedSavedMapping && classes.savedButUpdated,
+				listItemHasActiveOrSavedMapping &&
+					classes.hasActiveOrSavedMapping,
+				listItemHasUpdatedSavedMapping && classes.savedButUpdated,
 			)}
 		>
 			<Row className="flex-1">
 				<Col className="flex-1">{label}</Col>
-				{/* {((listItemHasSavedMapping &&
-					activePrefillingNodeFormFieldSchemaPropertyKey ===
-						undefined) ||
+				{((listItemHasSavedMapping &&
+					activePrefillingChildModelIdentifier === undefined) ||
 					listItemHasActiveAndSavedMapping) && (
 					<Col
 						className="pr-1"
@@ -110,7 +198,7 @@ function ChildListItemBase({
 							size={24}
 						/>
 					</Col>
-				)} */}
+				)}
 			</Row>
 		</li>
 	);

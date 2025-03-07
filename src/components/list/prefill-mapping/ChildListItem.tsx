@@ -48,21 +48,19 @@ import classes from '@/styles/childListItemClasses';
 
 export interface ChildListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
-	label?: string;
-	prefillingNodeFormFieldSchemaPropertyKey?: string;
+	prefillingNodeFormFieldSchemaPropertyKey: string;
 	prefillingNode: Node;
 }
 
 function ChildListItemBase({
-	label: prop_label = 'Child Label',
 	prefillingNodeFormFieldSchemaPropertyKey,
 	prefillingNode,
 }: ChildListItemProps) {
 	const dispatch = useAppDispatch();
 
 	const label = useMemo(
-		() => prefillingNodeFormFieldSchemaPropertyKey ?? prop_label,
-		[prefillingNodeFormFieldSchemaPropertyKey, prop_label],
+		() => prefillingNodeFormFieldSchemaPropertyKey,
+		[prefillingNodeFormFieldSchemaPropertyKey],
 	);
 
 	const activePrefillingParentModelByActiveNode = useTypedSelector(
@@ -94,8 +92,6 @@ function ChildListItemBase({
 
 	const handleLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
-			if (prefillingNodeFormFieldSchemaPropertyKey === undefined) return;
-
 			if (
 				activePrefillingChildModelIdentifier !==
 				prefillingNodeFormFieldSchemaPropertyKey
