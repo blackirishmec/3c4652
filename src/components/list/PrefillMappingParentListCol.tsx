@@ -2,27 +2,30 @@ import { memo, useCallback, useState } from 'react';
 
 import type { ChangeEvent } from 'react';
 
+import {
+	selectAvailableDataSearchTerm,
+	setAvailableDataSearchTerm,
+} from '@/redux/features/ui/flow';
 import { selectActiveNodePrerequisiteNodes } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
+import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
 
 import InputRow from '@/components/form/input/InputRow';
 import { Col, Row } from '@/components/layout/FlexComponents';
 import PrefillMappingParentListItem from '@/components/list/PrefillMappingParentListItem';
 
-// export interface PrefillMappingParentListColProps {}
-
 function PrefillMappingParentListColBase() {
-	// {}: PrefillMappingParentListColProps
-	const [searchTerm, setSearchTerm] = useState<string>('');
+	const dispatch = useAppDispatch();
 
 	const activeNodePrerequisiteNodes = useTypedSelector(
 		selectActiveNodePrerequisiteNodes,
 	);
 
 	const handleInputRowOnChange = useCallback(
-		(e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value),
-		[],
+		(e: ChangeEvent<HTMLInputElement>) =>
+			dispatch(setAvailableDataSearchTerm(e.target.value)),
+		[dispatch],
 	);
 
 	return (
@@ -43,7 +46,6 @@ function PrefillMappingParentListColBase() {
 							<PrefillMappingParentListItem
 								prerequisiteNode={activeNodePrerequisiteNode}
 								key={activeNodePrerequisiteNode.id}
-								searchTerm={searchTerm}
 							/>
 						))
 						.reverse()}

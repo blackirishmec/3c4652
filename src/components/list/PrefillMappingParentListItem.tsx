@@ -37,14 +37,12 @@ export interface PrefillMappingParentListItemProps
 	childrenListItemData?: unknown[];
 	label?: string;
 	prerequisiteNode?: Node;
-	searchTerm?: string;
 }
 
 function PrefillMappingParentListItemBase({
 	childrenListItemData,
 	label: prop_label = 'Parent Label',
 	prerequisiteNode,
-	searchTerm,
 	...props
 }: PrefillMappingParentListItemProps) {
 	const label = useMemo(
@@ -98,7 +96,6 @@ function PrefillMappingParentListItemBase({
 					<Row className="bg-[#F6F6F6]">
 						<PrefillMappingChildrenListCol
 							prerequisiteNode={prerequisiteNode}
-							searchTerm={searchTerm}
 						/>
 					</Row>
 				)}

@@ -10,6 +10,7 @@ const initialState: FlowState = {
 	activeNodeFormFieldPropertyKey: undefined,
 	activePrefillingNodeId: undefined,
 	activePrefillingNodeFormFieldSchemaPropertyKey: undefined,
+	availableDataSearchTerm: undefined,
 };
 
 export default initialState;

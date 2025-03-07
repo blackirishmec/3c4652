@@ -27,6 +27,8 @@ const flowSlice = createSlice({
 			state.activePrefillingNodeId = initialState.activePrefillingNodeId;
 			state.activePrefillingNodeFormFieldSchemaPropertyKey =
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+			state.availableDataSearchTerm =
+				initialState.availableDataSearchTerm;
 		},
 
 		addNodeFormFieldMapping: (
@@ -123,6 +125,17 @@ const flowSlice = createSlice({
 			state.activePrefillingNodeFormFieldSchemaPropertyKey =
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
 		},
+
+		setAvailableDataSearchTerm: (
+			state,
+			{ payload: newAvailableDataSearchTerm }: PayloadAction<string>,
+		) => {
+			state.availableDataSearchTerm = newAvailableDataSearchTerm;
+		},
+		resetAvailableDataSearchTerm: state => {
+			state.availableDataSearchTerm =
+				initialState.availableDataSearchTerm;
+		},
 	},
 	extraReducers: builder => {
 		handleAsyncState({
@@ -155,6 +168,8 @@ export const {
 	setActiveNodeFormFieldPropertyKey,
 	setActiveNodeId,
 	setActivePrefillingNodeId,
+	setAvailableDataSearchTerm,
+	resetAvailableDataSearchTerm,
 } = flowSlice.actions;
 
 export default flowSlice.reducer;

@@ -3,6 +3,7 @@ import { memo, useMemo } from 'react';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
+import { selectAvailableDataSearchTerm } from '@/redux/features/ui/flow';
 import { createSelectFormFieldSchemaPropertiesArrayByNode } from '@/redux/selectors/relationships/formRelationshipSelectors';
 
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -12,12 +13,10 @@ import PrefillMappingChildListItem from '@/components/list/PrefillMappingChildLi
 
 export interface PrefillMappingChildrenListColProps {
 	prerequisiteNode?: Node;
-	searchTerm?: string;
 }
 
 function PrefillMappingChildrenListColBase({
 	prerequisiteNode,
-	searchTerm,
 }: PrefillMappingChildrenListColProps) {
 	const selectFormFieldSchemaPropertiesArrayByPrerequisiteNode = useMemo(
 		() =>
@@ -30,6 +29,10 @@ function PrefillMappingChildrenListColBase({
 		selectFormFieldSchemaPropertiesArrayByPrerequisiteNode,
 	);
 
+	const availableDataSearchTerm = useTypedSelector(
+		selectAvailableDataSearchTerm,
+	);
+
 	return (
 		<Col className="flex-1">
 			<ul className="w-full">
@@ -40,10 +43,11 @@ function PrefillMappingChildrenListColBase({
 							(
 								formFieldSchemaPropertiesArrayValueByPrerequisiteNode: FormFieldSchemaPropertiesArrayValue,
 							) => {
-								if (searchTerm === undefined) return true;
+								if (availableDataSearchTerm === undefined)
+									return true;
 
 								return formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key.includes(
-									searchTerm,
+									availableDataSearchTerm,
 								);
 							},
 						)

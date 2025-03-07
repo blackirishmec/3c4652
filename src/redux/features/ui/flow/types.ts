@@ -11,4 +11,5 @@ export interface FlowState {
 	activeNodeFormFieldPropertyKey?: FormFieldSchemaPropertiesArrayValue['key'];
 	activePrefillingNodeId?: Node['id'];
 	activePrefillingNodeFormFieldSchemaPropertyKey?: FormFieldSchemaPropertiesArrayValue['key'];
+	availableDataSearchTerm?: string;
 }

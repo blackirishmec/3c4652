@@ -50,3 +50,8 @@ export const selectActivePrefillingNodeFormFieldSchemaPropertyKey =
 		[selectFlowState],
 		flow => flow.activePrefillingNodeFormFieldSchemaPropertyKey,
 	);
+
+export const selectAvailableDataSearchTerm = createSelector(
+	[selectFlowState],
+	flow => flow.availableDataSearchTerm,
+);
