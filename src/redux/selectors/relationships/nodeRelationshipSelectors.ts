@@ -6,7 +6,7 @@ import type { RootState } from '@/redux/store';
 import {
 	selectActiveNodeId,
 	selectActivePrefillingNodeId,
-} from '@/redux/features/ui/flow';
+} from '@/redux/features/ui/flow/selectors';
 import exploreNodePrerequisites from '@/redux/utilities/exploreNodePrerequisites';
 
 export const selectActiveNode = createSelector(

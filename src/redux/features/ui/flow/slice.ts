@@ -5,6 +5,7 @@ import type { Node } from '@/interfaces/models/nodeModels';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
+import { newNodeFormFieldMappingCreated } from '@/redux/features/ui/flow/actions';
 import initialState from '@/redux/features/ui/flow/initialState';
 import { fetchFlowData } from '@/redux/features/ui/flow/thunks';
 import handleAsyncState from '@/redux/utilities/handleAsyncState';
@@ -132,6 +133,13 @@ const flowSlice = createSlice({
 				state.lastFetchFlowData = new Date().toISOString();
 			},
 		});
+
+		builder.addCase(
+			newNodeFormFieldMappingCreated,
+			(state, { payload: newNodeFormFieldMapping }) => {
+				state.nodeFormFieldMappings.push(newNodeFormFieldMapping);
+			},
+		);
 	},
 });
 

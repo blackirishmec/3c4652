@@ -1,3 +1,7 @@
-// import { createAction } from '@reduxjs/toolkit';
+/* eslint-disable import/prefer-default-export */
+import { createAction } from '@reduxjs/toolkit';
 
-// export const flowActionExample = createAction('flow/actionExample');
+import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
+
+export const newNodeFormFieldMappingCreated =
+	createAction<NodeFormFieldMapping>('flow/newNodeFormFieldMappingCreated');
