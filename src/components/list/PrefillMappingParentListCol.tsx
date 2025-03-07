@@ -38,7 +38,13 @@ function PrefillMappingParentListColBase() {
 			</Row>
 			<Row className="pt-1 overflow-y-auto">
 				<ul className="w-full">
-					<PrefillMappingParentListItem label="Action Properties" />
+					<PrefillMappingParentListItem
+						label="Global"
+						childrenListItemData={[
+							{ label: 'userEmail' },
+							{ value: 'test@email.com' },
+						]}
+					/>
 					<PrefillMappingParentListItem label="Client Organization Properties" />
 					<PrerequisiteNodesParentListItems />
 				</ul>

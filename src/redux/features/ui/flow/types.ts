@@ -1,4 +1,5 @@
 import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
+import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { StatusState } from '@/types/StatusTypes';
 import type { Node } from '@xyflow/react';
@@ -12,4 +13,5 @@ export interface FlowState {
 	activePrefillingNodeId?: Node['id'];
 	activePrefillingNodeFormFieldSchemaPropertyKey?: FormFieldSchemaPropertiesArrayValue['key'];
 	availableDataSearchTerm?: string;
+	globalData: GlobalDataSubset[];
 }
