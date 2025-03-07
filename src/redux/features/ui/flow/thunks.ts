@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
