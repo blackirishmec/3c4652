@@ -10,7 +10,6 @@ import {
 	resetActiveNodeId,
 	selectActiveNodeFormFieldPropertyKey,
 } from '@/redux/features/ui/flow';
-import { selectFormFieldSchemaPropertiesArrayByActiveNode } from '@/redux/selectors/relationships/formRelationshipSelectors';
 import {
 	selectActiveNode,
 	selectPrefillingEnabledByActiveNode,
@@ -20,8 +19,8 @@ import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
 
 import Button from '@/components/button/Button';
+import PrefillModalFormFieldRows from '@/components/form/button/PrefillModalFormFieldRows';
 import { Col, Row } from '@/components/layout/FlexComponents';
-import FormFieldRow from '@/components/layout/FormFieldRow';
 import Modal from '@/components/modal/Modal';
 import PrefillMappingModal from '@/components/modal/PrefillMappingModal';
 
@@ -32,9 +31,6 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 	const dispatch = useAppDispatch();
 
 	const activeNode = useTypedSelector(selectActiveNode);
-	const formFieldSchemaPropertiesArrayByActiveNode = useTypedSelector(
-		selectFormFieldSchemaPropertiesArrayByActiveNode,
-	);
 	const activeNodeFormFieldPropertyKey = useTypedSelector(
 		selectActiveNodeFormFieldPropertyKey,
 	);
@@ -49,15 +45,6 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 	const prefillMappingModalIsVisible = useMemo(
 		() => activeNodeFormFieldPropertyKey !== undefined,
 		[activeNodeFormFieldPropertyKey],
-	);
-
-	const Rows = useMemo(
-		() =>
-			activeNode !== undefined &&
-			formFieldSchemaPropertiesArrayByActiveNode.map(property => {
-				return <FormFieldRow key={property.key} property={property} />;
-			}),
-		[formFieldSchemaPropertiesArrayByActiveNode, activeNode],
 	);
 
 	const handleCloseModal = useCallback(() => {
@@ -130,7 +117,9 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 				</Col>
 			</Row>
 			<Row className="pt-8 px-4">
-				<Col className="flex-1 space-y-4">{Rows}</Col>
+				<Col className="flex-1 space-y-4">
+					<PrefillModalFormFieldRows />
+				</Col>
 			</Row>
 			<Row className="py-3" childrenHorizontalPosition="center">
 				<Button

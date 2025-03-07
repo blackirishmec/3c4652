@@ -3,6 +3,7 @@ import { memo, useCallback, useMemo } from 'react';
 import clsx from 'clsx';
 import { PiDatabase, PiXCircleFill } from 'react-icons/pi';
 
+import type { RowProps } from '../../layout/FlexComponents';
 import type { RootState } from '@/redux/store';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { MouseEvent } from 'react';
@@ -17,7 +18,7 @@ import { createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey } from 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
 
-import { Col, Row } from './FlexComponents';
+import { Col, Row } from '../../layout/FlexComponents';
 
 const classes = {
 	containerRow: `
@@ -51,9 +52,10 @@ const classes = {
 
 export interface FormFieldRowProps {
 	property: FormFieldSchemaPropertiesArrayValue;
+	className?: RowProps['className'];
 }
 
-function FormFieldRowBase({ property }: FormFieldRowProps) {
+function FormFieldRowBase({ property, className }: FormFieldRowProps) {
 	const dispatch = useAppDispatch();
 
 	const selectSavedNodeFormFieldMappingForActiveNodeByPropertyKey = useMemo(
@@ -126,6 +128,7 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 			className={clsx(
 				classes.containerRow,
 				prefilled && classes.prefilledContainerRow,
+				className,
 			)}
 			onClick={handleRowOnClick}
 		>
