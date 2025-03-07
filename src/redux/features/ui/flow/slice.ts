@@ -109,7 +109,7 @@ const flowSlice = createSlice({
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
 		},
 
-		setActiveNodeFormFieldMappedPropertyKey: (
+		setActivePrefillingNodeFormFieldMappedPropertyKey: (
 			state,
 			{
 				payload: newActiveNodeFormFieldMappedPropertyKey,
@@ -118,7 +118,7 @@ const flowSlice = createSlice({
 			state.activePrefillingNodeFormFieldSchemaPropertyKey =
 				newActiveNodeFormFieldMappedPropertyKey;
 		},
-		resetActiveNodeFormFieldMappedPropertyKey: state => {
+		resetActivePrefillingNodeFormFieldMappedPropertyKey: state => {
 			state.activePrefillingNodeFormFieldSchemaPropertyKey =
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
 		},
@@ -138,12 +138,12 @@ const flowSlice = createSlice({
 export const {
 	addNodeFormFieldMapping,
 	removeNodeFormFieldMapping,
-	resetActiveNodeFormFieldMappedPropertyKey,
+	resetActivePrefillingNodeFormFieldMappedPropertyKey,
 	resetActiveNodeFormFieldPropertyKey,
 	resetActiveNodeId,
 	resetActivePrefillingNodeId,
 	resetFlow,
-	setActiveNodeFormFieldMappedPropertyKey,
+	setActivePrefillingNodeFormFieldMappedPropertyKey,
 	setActiveNodeFormFieldPropertyKey,
 	setActiveNodeId,
 	setActivePrefillingNodeId,

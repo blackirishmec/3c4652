@@ -3,14 +3,14 @@ export * from './selectors';
 export {
 	addNodeFormFieldMapping,
 	removeNodeFormFieldMapping,
-	resetActiveNodeFormFieldMappedPropertyKey,
 	resetActiveNodeFormFieldPropertyKey,
 	resetActiveNodeId,
+	resetActivePrefillingNodeFormFieldMappedPropertyKey,
 	resetActivePrefillingNodeId,
 	resetFlow,
-	setActiveNodeFormFieldMappedPropertyKey,
 	setActiveNodeFormFieldPropertyKey,
 	setActiveNodeId,
+	setActivePrefillingNodeFormFieldMappedPropertyKey,
 	setActivePrefillingNodeId,
 } from './slice';
 export { default as flowReducer } from './slice';

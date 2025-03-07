@@ -8,10 +8,11 @@ import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
 import {
-	resetActiveNodeFormFieldMappedPropertyKey,
+	resetActivePrefillingNodeFormFieldMappedPropertyKey,
 	selectActiveNodeFormFieldPropertyKey,
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
-	setActiveNodeFormFieldMappedPropertyKey,
+	setActivePrefillingNodeFormFieldMappedPropertyKey,
+	setActivePrefillingNodeId,
 } from '@/redux/features/ui/flow';
 import { createSelectNodeFormFieldMapping } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
@@ -107,52 +108,24 @@ function PrefillMappingChildListItemBase({
 	const handleLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
 			if (
-				activeNode === undefined ||
-				formFieldSchemaPropertiesArrayValueByPrerequisiteNode ===
-					undefined ||
 				prerequisiteNode === undefined ||
-				activeNodeFormFieldPropertyKey === undefined
+				formFieldSchemaPropertiesArrayValueByPrerequisiteNode ===
+					undefined
 			)
 				return;
 
-			const tempNodeFormFieldMappingByActiveNode: NodeFormFieldMapping = {
-				nodeId: activeNode.id,
-				nodeFormFieldSchemaPropertyKey: activeNodeFormFieldPropertyKey,
-				prefillingNodeId: prerequisiteNode.id,
-				prefillingNodeFormFieldSchemaPropertyKey:
+			dispatch(setActivePrefillingNodeId(prerequisiteNode.id));
+			dispatch(
+				setActivePrefillingNodeFormFieldMappedPropertyKey(
 					formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key,
-			};
-
-			if (
-				activePrefillingNodeFormFieldSchemaPropertyKey !== undefined &&
-				nodeFormFieldMappingByActiveNode !== undefined &&
-				nodeFormFieldsAreEqual(
-					nodeFormFieldMappingByActiveNode,
-					tempNodeFormFieldMappingByActiveNode,
-				)
-			) {
-				dispatch(resetActiveNodeFormFieldMappedPropertyKey());
-			} else {
-				if (
-					activePrefillingNodeFormFieldSchemaPropertyKey === undefined
-				)
-					return;
-				dispatch(
-					setActiveNodeFormFieldMappedPropertyKey(
-						activePrefillingNodeFormFieldSchemaPropertyKey,
-					),
-				);
-			}
+				),
+			);
 
 			_e.stopPropagation();
 		},
 		[
-			activeNode,
-			activePrefillingNodeFormFieldSchemaPropertyKey,
-			activeNodeFormFieldPropertyKey,
 			dispatch,
 			formFieldSchemaPropertiesArrayValueByPrerequisiteNode,
-			nodeFormFieldMappingByActiveNode,
 			prerequisiteNode,
 		],
 	);
