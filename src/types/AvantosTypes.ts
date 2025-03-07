@@ -1,4 +1,4 @@
-import type { AvantosFieldProperty } from '@/interfaces/AvantosInterfaces';
+import type { FormFieldSchemaProperty } from '@/interfaces/AvantosInterfaces';
 import type { EdgeTypes, NodeTypes } from '@xyflow/react';
 
 import { FormNode } from '@/components/react-flow/nodes/FormNode';
@@ -18,11 +18,11 @@ export const edgeTypes = {
 	// Add your custom edge types here!
 } satisfies EdgeTypes;
 
-export type AvantosFieldSchemaProperties = Record<string, AvantosFieldProperty>;
+export type FormFieldSchemaProperties = Record<string, FormFieldSchemaProperty>;
 
-export type AvantosFieldSchemaPropertiesArrayValue = AvantosFieldProperty & {
+export type FormFieldSchemaPropertiesArrayValue = FormFieldSchemaProperty & {
 	key: string;
 };
 
 export type FormFieldSchemaPropertiesArray =
-	AvantosFieldSchemaPropertiesArrayValue[];
+	FormFieldSchemaPropertiesArrayValue[];

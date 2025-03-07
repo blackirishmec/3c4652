@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
-import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
 import {
@@ -54,7 +54,7 @@ const classes = {
 export interface PrefillMappingChildListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
 	label?: string;
-	nodeFormFieldSchemaProperty?: AvantosFieldSchemaPropertiesArrayValue;
+	nodeFormFieldSchemaProperty?: FormFieldSchemaPropertiesArrayValue;
 	parentNode?: Node;
 }
 

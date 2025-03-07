@@ -1,8 +1,8 @@
 import type {
-	AvantosFieldSchemaProperties,
-	AvantosFieldSchemaPropertiesArrayValue,
 	AvantosNodeType,
 	AvantosPayloadField,
+	FormFieldSchemaProperties,
+	FormFieldSchemaPropertiesArrayValue,
 } from '../types/AvantosTypes';
 import type { Edge } from '@/interfaces/models/edgeModels';
 import type { Form } from '@/interfaces/models/formModels';
@@ -33,8 +33,8 @@ export interface AvantosNodeData extends Record<string, unknown> {
 	edgeFrom: boolean;
 }
 
-export interface AvantosFormUiSchema {
-	elements: AvantosUISchemaElement[];
+export interface FormUiSchema {
+	elements: FormUISchemaElement[];
 	type: string;
 }
 
@@ -45,7 +45,7 @@ export interface AvantosField {
 	selector_field: string;
 }
 
-export interface AvantosFieldProperty {
+export interface FormFieldSchemaProperty {
 	avantos_type: string;
 	type: string;
 	enum?: null;
@@ -58,13 +58,13 @@ export interface AvantosFieldProperty {
 	uniqueItems?: boolean;
 }
 
-export interface AvantosFieldSchema {
-	properties: AvantosFieldSchemaProperties;
+export interface FormFieldSchema {
+	properties: FormFieldSchemaProperties;
 	required: string[] | null;
 	type: string;
 }
 
-export interface AvantosUISchemaElement {
+export interface FormUISchemaElement {
 	label: string;
 	scope: string;
 	type: string;
@@ -72,7 +72,7 @@ export interface AvantosUISchemaElement {
 
 export interface NodeFormFieldMapping {
 	nodeId: Node['id'];
-	nodeFormFieldSchemaPropertyKey: AvantosFieldSchemaPropertiesArrayValue['key'];
+	nodeFormFieldSchemaPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
 	prefillingNodeId?: Node['id'];
-	prefillingNodeFormFieldSchemaPropertyKey: AvantosFieldSchemaPropertiesArrayValue['key'];
+	prefillingNodeFormFieldSchemaPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
 }

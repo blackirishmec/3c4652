@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
-import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import initialState from '@/redux/features/ui/flow/initialState';
@@ -51,7 +51,7 @@ const flowSlice = createSlice({
 			state,
 			{
 				payload: clickedNodeFormFieldSchemaPropertyKey,
-			}: PayloadAction<AvantosFieldSchemaPropertiesArrayValue['key']>,
+			}: PayloadAction<FormFieldSchemaPropertiesArrayValue['key']>,
 		) => {
 			state.activeNodeFormFieldPropertyKey =
 				clickedNodeFormFieldSchemaPropertyKey;

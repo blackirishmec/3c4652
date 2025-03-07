@@ -17,11 +17,11 @@ export const selectActiveNode = createSelector(
 
 export const selectActiveNodePrerequisiteNodes = createSelector(
 	[selectActiveNode, (state: RootState) => state.nodes.entities],
-	(clickedNode, nodeEntities): Node[] => {
-		if (clickedNode === undefined) return [];
+	(activeNode, nodeEntities): Node[] => {
+		if (activeNode === undefined) return [];
 
 		const clickedNodeParents = exploreNodePrerequisites({
-			node: clickedNode,
+			node: activeNode,
 			nodeEntities,
 		});
 

@@ -1,7 +1,7 @@
 import type {
 	AvantosField,
-	AvantosFieldSchema,
-	AvantosFormUiSchema,
+	FormFieldSchema,
+	FormUiSchema,
 } from '@/interfaces/AvantosInterfaces';
 
 export interface Form {
@@ -9,9 +9,9 @@ export interface Form {
 	custom_javascript?: string;
 	description: string;
 	dynamic_field_config: Record<string, AvantosField>;
-	field_schema: AvantosFieldSchema;
+	field_schema: FormFieldSchema;
 	id: string;
 	is_reusable: boolean;
 	name: string;
-	ui_schema: AvantosFormUiSchema;
+	ui_schema: FormUiSchema;
 }

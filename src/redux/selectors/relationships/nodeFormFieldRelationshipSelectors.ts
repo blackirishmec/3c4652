@@ -3,7 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
-import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
 import {
@@ -12,7 +12,7 @@ import {
 } from '@/redux/features/ui/flow';
 import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
-export const createSelectNodeFormFields = (nodeId: Node['id']) => {
+export const createSelectNodeFormFieldMappingByNode = (nodeId: Node['id']) => {
 	const selectNode = (state: RootState) => selectNodeById(state, nodeId);
 
 	return createSelector(
@@ -27,7 +27,7 @@ export const createSelectNodeFormFields = (nodeId: Node['id']) => {
 	);
 };
 
-export const selectClickedNodeFormFields = createSelector(
+export const selectNodeFormFieldMappingByActiveNode = createSelector(
 	[selectActiveNode, selectNodeFormFieldMappings],
 	(clickedNode, nodeFormFieldMappings): NodeFormFieldMapping[] => {
 		if (clickedNode === undefined) return [];
@@ -40,7 +40,7 @@ export const selectClickedNodeFormFields = createSelector(
 
 export const createSelectNodeFormField = (
 	nodeId: Node['id'],
-	nodeFormFieldSchemaPropertyKey: AvantosFieldSchemaPropertiesArrayValue['key'],
+	nodeFormFieldSchemaPropertyKey: FormFieldSchemaPropertiesArrayValue['key'],
 ) => {
 	const selectNode = (state: RootState) => selectNodeById(state, nodeId);
 
@@ -61,7 +61,7 @@ export const createSelectNodeFormField = (
 };
 
 export const createSelectClickedNodeFormField = (
-	nodeFormFieldSchemaPropertyKey: AvantosFieldSchemaPropertiesArrayValue['key'],
+	nodeFormFieldSchemaPropertyKey: FormFieldSchemaPropertiesArrayValue['key'],
 ) => {
 	return createSelector(
 		[selectActiveNode, selectNodeFormFieldMappings],
@@ -85,7 +85,7 @@ export const createSelectClickedNodeFormField = (
 // TODO: {Thu, 03/06/25 @16:10} => Handle globals!
 export const selectSelectedClickedNodeFormFieldPrefillingNode = createSelector(
 	[
-		selectClickedNodeFormFields,
+		selectNodeFormFieldMappingByActiveNode,
 		selectActiveNodeFormFieldMappedPropertyKey,
 		(state: RootState) => state.nodes.entities,
 	],

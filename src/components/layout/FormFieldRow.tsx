@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { PiDatabase, PiXCircleFill } from 'react-icons/pi';
 
 import type { RootState } from '@/redux/store';
-import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
 import { setActiveNodeFormFieldPropertyKey } from '@/redux/features/ui/flow';
@@ -46,7 +46,7 @@ const classes = {
 } as const;
 
 export interface FormFieldRowProps {
-	property: AvantosFieldSchemaPropertiesArrayValue;
+	property: FormFieldSchemaPropertiesArrayValue;
 }
 
 function FormFieldRowBase({ property }: FormFieldRowProps) {
