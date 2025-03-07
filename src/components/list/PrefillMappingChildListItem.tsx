@@ -29,15 +29,16 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 // // 2. Clean up names of selectors in relationship selector files
 // 3. Load nodeFormFieldMappings to the PrefillMappingModal when opening it (if they exist!)
 //	- Fix loading into Active Form Fields (of mappings)
-// 4. Wire up 'prefill' toggle
-// 5. Create and implement tests (jest + property based tests?)
-// 6. Handle global data sources
-// 7. Handle new data sources
-// 8. Create documentation (ref M-H-A)
-// 9. Clean up code
+// 4. Wire up 'search' bar
+// 5. Wire up 'prefill' toggle
+// 6. Create and implement tests (jest + property based tests?)
+// 7. Handle global data sources
+// 8. Handle new data sources
+// 9. Create documentation (ref M-H-A)
+// 10. Clean up code
 //	- Extract from components into thunks
 // ***
-// 10. Augment code
+// 11. Augment code
 //	- Simulate 'save updates' thunk for nodeFormFieldMappings
 
 const classes = {
