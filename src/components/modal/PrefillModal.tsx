@@ -101,13 +101,13 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 						<Col>
 							{prefillingEnabledByActiveNode ? (
 								<PiToggleRightFill
-									className="text-blue-500 hover:text-gray-500 rounded-xl cursor-pointer"
+									className="text-blue-500 hover:opacity-60 rounded-xl cursor-pointer"
 									size={40}
 									onClick={handlePrefillToggleOnClick}
 								/>
 							) : (
 								<PiToggleLeft
-									className="text-gray-500 hover:text-blue-500 rounded-xl cursor-pointer"
+									className="text-red-500 hover:opacity-60 rounded-xl cursor-pointer"
 									size={40}
 									onClick={handlePrefillToggleOnClick}
 								/>

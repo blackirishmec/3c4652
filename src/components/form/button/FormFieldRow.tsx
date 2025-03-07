@@ -14,6 +14,7 @@ import {
 	setActiveNodeFormFieldPropertyKey,
 } from '@/redux/features/ui/flow';
 import { createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import { selectPrefillingEnabledByActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -76,6 +77,9 @@ function FormFieldRowBase({ property, className }: FormFieldRowProps) {
 			savedNodeFormFieldMappingForActiveNodeByPropertyKey?.prefillingNodeId ??
 				'',
 		),
+	);
+	const prefillingEnabledByActiveNode = useTypedSelector(
+		selectPrefillingEnabledByActiveNode,
 	);
 
 	const handleRowOnClick = useCallback(() => {
@@ -151,7 +155,11 @@ function FormFieldRowBase({ property, className }: FormFieldRowProps) {
 					childrenVerticalPosition="center"
 				>
 					<PiXCircleFill
-						className="text-gray-400 hover:text-gray-500 hover:bg-red-300 rounded-full"
+						className={clsx(
+							'text-gray-400 hover:text-gray-500 hover:bg-red-300 rounded-full',
+							!prefillingEnabledByActiveNode &&
+								'pointer-events-none',
+						)}
 						size={24}
 					/>
 				</Col>
