@@ -24,5 +24,5 @@ export type AvantosFieldSchemaPropertiesArrayValue = AvantosFieldProperty & {
 	key: string;
 };
 
-export type AvantosFieldSchemaPropertiesArray =
+export type FormFieldSchemaPropertiesArray =
 	AvantosFieldSchemaPropertiesArrayValue[];

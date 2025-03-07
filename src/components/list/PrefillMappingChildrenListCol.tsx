@@ -2,8 +2,8 @@ import { memo } from 'react';
 
 import type { Node } from '@/interfaces/models/nodeModels';
 import type {
-	AvantosFieldSchemaPropertiesArray,
 	AvantosFieldSchemaPropertiesArrayValue,
+	FormFieldSchemaPropertiesArray,
 } from '@/types/AvantosTypes';
 
 import { Col } from '@/components/layout/FlexComponents';
@@ -11,7 +11,7 @@ import PrefillMappingChildListItem from '@/components/list/PrefillMappingChildLi
 
 export interface PrefillMappingChildrenListColProps {
 	parentNode?: Node;
-	nodeFormFieldSchemaPropertiesArray?: AvantosFieldSchemaPropertiesArray;
+	nodeFormFieldSchemaPropertiesArray?: FormFieldSchemaPropertiesArray;
 }
 
 function PrefillMappingChildrenListColBase({

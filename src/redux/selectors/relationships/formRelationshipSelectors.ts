@@ -10,7 +10,7 @@ import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
 import type {
 	AvantosFieldSchemaProperties,
-	AvantosFieldSchemaPropertiesArray,
+	FormFieldSchemaPropertiesArray,
 } from '@/types/AvantosTypes';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
@@ -37,7 +37,7 @@ export const createSelectFormByNode = (nodeId: Node['id']) => {
 	);
 };
 
-export const selectFormByClickedNode = createSelector(
+export const selectFormByActiveNode = createSelector(
 	[
 		selectActiveNodeId,
 		(state: RootState) => state.nodes.entities,
@@ -54,8 +54,8 @@ export const selectFormByClickedNode = createSelector(
 	},
 );
 
-export const selectClickedFormUiSchema = createSelector(
-	[selectFormByClickedNode],
+export const selectFormUiSchemaByActiveNode = createSelector(
+	[selectFormByActiveNode],
 	(formByClickedNode): AvantosFormUiSchema | undefined => {
 		if (formByClickedNode === undefined) return undefined;
 
@@ -63,17 +63,17 @@ export const selectClickedFormUiSchema = createSelector(
 	},
 );
 
-export const selectClickedFormUiSchemaElements = createSelector(
-	[selectFormByClickedNode],
-	(formByClickedNode): AvantosUISchemaElement[] => {
-		if (formByClickedNode === undefined) return [];
+export const selectFormUISchemaElementsByActiveNode = createSelector(
+	[selectFormUiSchemaByActiveNode],
+	(clickedFormUiSchema): AvantosUISchemaElement[] => {
+		if (clickedFormUiSchema === undefined) return [];
 
-		return formByClickedNode.ui_schema.elements;
+		return clickedFormUiSchema.elements;
 	},
 );
 
-export const selectClickedFormFieldSchema = createSelector(
-	[selectFormByClickedNode],
+export const selectFormFieldSchemaByActiveNode = createSelector(
+	[selectFormByActiveNode],
 	(formByClickedNode): AvantosFieldSchema | undefined => {
 		if (formByClickedNode === undefined) return undefined;
 
@@ -81,7 +81,7 @@ export const selectClickedFormFieldSchema = createSelector(
 	},
 );
 
-export const createSelectNodeFormFieldSchema = (nodeId: Node['id']) => {
+export const createSelectFormFieldSchemaByNode = (nodeId: Node['id']) => {
 	const selectNode = (state: RootState) => selectNodeById(state, nodeId);
 	const selectFormByNode = createSelectFormByNode(nodeId);
 
@@ -97,19 +97,17 @@ export const createSelectNodeFormFieldSchema = (nodeId: Node['id']) => {
 	);
 };
 
-export const selectClickedFormFieldSchemaProperties = createSelector(
-	[selectFormByClickedNode],
-	(formByClickedNode): AvantosFieldSchemaProperties => {
-		if (formByClickedNode === undefined) return {};
+export const selectFormFieldSchemaPropertiesByActiveNode = createSelector(
+	[selectFormFieldSchemaByActiveNode],
+	(formFieldSchemaByActiveNode): AvantosFieldSchemaProperties => {
+		if (formFieldSchemaByActiveNode === undefined) return {};
 
-		return formByClickedNode.field_schema.properties;
+		return formFieldSchemaByActiveNode.properties;
 	},
 );
 
-export const createSelectNodeFormFieldSchemaProperties = (
-	nodeId: Node['id'],
-) => {
-	const selectNodeFormFieldSchema = createSelectNodeFormFieldSchema(nodeId);
+export const createFormFieldSchemaPropertiesByNode = (nodeId: Node['id']) => {
+	const selectNodeFormFieldSchema = createSelectFormFieldSchemaByNode(nodeId);
 
 	return createSelector(
 		[selectNodeFormFieldSchema],
@@ -123,12 +121,12 @@ export const createSelectNodeFormFieldSchemaProperties = (
 	);
 };
 
-export const selectClickedFormFieldSchemaPropertiesArray = createSelector(
-	[selectClickedFormFieldSchemaProperties],
-	(clickedFormFieldSchemaProperties): AvantosFieldSchemaPropertiesArray =>
+export const selectFormFieldSchemaPropertiesArrayByActiveNode = createSelector(
+	[selectFormFieldSchemaPropertiesByActiveNode],
+	(clickedFormFieldSchemaProperties): FormFieldSchemaPropertiesArray =>
 		Object.entries(
 			clickedFormFieldSchemaProperties,
-		).reduce<AvantosFieldSchemaPropertiesArray>((acc, [propertyId]) => {
+		).reduce<FormFieldSchemaPropertiesArray>((acc, [propertyId]) => {
 			const property = clickedFormFieldSchemaProperties[propertyId];
 
 			if (property !== undefined)
@@ -138,18 +136,18 @@ export const selectClickedFormFieldSchemaPropertiesArray = createSelector(
 		}, []),
 );
 
-export const createSelectNodeFormFieldSchemaPropertiesArray = (
+export const createSelectFormFieldSchemaPropertiesArrayByNode = (
 	nodeId: Node['id'],
 ) => {
 	const selectNodeFormFieldSchemaProperties =
-		createSelectNodeFormFieldSchemaProperties(nodeId);
+		createFormFieldSchemaPropertiesByNode(nodeId);
 
 	return createSelector(
 		[selectNodeFormFieldSchemaProperties],
-		(nodeFormFieldSchemaProperties): AvantosFieldSchemaPropertiesArray =>
+		(nodeFormFieldSchemaProperties): FormFieldSchemaPropertiesArray =>
 			Object.entries(
 				nodeFormFieldSchemaProperties,
-			).reduce<AvantosFieldSchemaPropertiesArray>((acc, [propertyId]) => {
+			).reduce<FormFieldSchemaPropertiesArray>((acc, [propertyId]) => {
 				const property = nodeFormFieldSchemaProperties[propertyId];
 
 				if (property !== undefined)

@@ -9,7 +9,7 @@ import {
 	resetActiveNodeId,
 	selectActiveNodeFormFieldPropertyKey,
 } from '@/redux/features/ui/flow';
-import { selectClickedFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
+import { selectFormFieldSchemaPropertiesArrayByActiveNode } from '@/redux/selectors/relationships/formRelationshipSelectors';
 import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
@@ -29,7 +29,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 
 	const clickedNode = useTypedSelector(selectActiveNode);
 	const clickedFormFieldSchemaPropertiesArray = useTypedSelector(
-		selectClickedFormFieldSchemaPropertiesArray,
+		selectFormFieldSchemaPropertiesArrayByActiveNode,
 	);
 
 	const activeNodeFormFieldPropertyKey = useTypedSelector(
