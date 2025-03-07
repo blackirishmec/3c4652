@@ -17,21 +17,21 @@ function ChildrenListColBase({
 	prefilledNode,
 }: ChildrenListColProps) {
 	return (
-		prefilledNode !== undefined && (
-			<Col className="flex-1">
-				<ul className="w-full">
-					{globalDataSubset !== undefined ? (
-						<GlobalDataChildrenListItems
-							globalDataSubset={globalDataSubset}
-						/>
-					) : (
+		<Col className="flex-1">
+			<ul className="w-full">
+				{globalDataSubset !== undefined ? (
+					<GlobalDataChildrenListItems
+						globalDataSubset={globalDataSubset}
+					/>
+				) : (
+					prefilledNode !== undefined && (
 						<PrefillMappingChildrenListItems
 							prefilledNode={prefilledNode}
 						/>
-					)}
-				</ul>
-			</Col>
-		)
+					)
+				)}
+			</ul>
+		</Col>
 	);
 }
 

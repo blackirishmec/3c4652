@@ -12,7 +12,7 @@ import { selectPrefillingNodeByActiveNode } from '@/redux/selectors/relationship
 import useTypedSelector from '@/hooks/useTypedSelector';
 
 import { Col, Row } from '@/components/layout/FlexComponents';
-import ChildrenListCol from '@/components/list/prefill-mapping/ChildrenListCol';
+import ChildrenListCol from '@/components/list/ChildrenListCol';
 
 const classes = {
 	parentRow: `
