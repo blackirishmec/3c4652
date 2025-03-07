@@ -97,17 +97,7 @@ function PrefillMappingChildListItemBase({
 		useTypedSelector(
 			selectSavedPrefillingNodeFormFieldSchemaPropertyKeyByActiveNodeAndActivePropertyKey,
 		);
-	// const selectSavedNodeFormFieldMappingForActiveNodeByPropertyKey = useMemo(
-	// 	() =>
-	// 		createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey(
-	// 			prefillingNodeFormFieldSchemaPropertyKey ?? '',
-	// 		),
-	// 	[prefillingNodeFormFieldSchemaPropertyKey],
-	// );
-	// const savedNodeFormFieldMappingForActiveNodeByPropertyKey =
-	// 	useTypedSelector(
-	// 		selectSavedNodeFormFieldMappingForActiveNodeByPropertyKey,
-	// 	);
+
 	const savedNodeFormFieldMappingByActiveNodeAndActivePropertyKey =
 		useTypedSelector(
 			selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
