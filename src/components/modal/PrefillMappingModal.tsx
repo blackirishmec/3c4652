@@ -4,16 +4,17 @@ import { PiXFill } from 'react-icons/pi';
 
 import type { ModalProps } from '@/components/modal/Modal';
 import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
-import type { RootState } from '@/redux/store';
 
-import { selectNodeById } from '@/redux/features/model/nodes';
 import {
 	addNodeFormFieldMapping,
 	selectActiveNodeFormFieldPropertyKey,
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 } from '@/redux/features/ui/flow';
 import { selectNodeFormFieldMappingByActiveNode } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
-import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import {
+	selectActiveNode,
+	selectActivePrefillingNode,
+} from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
@@ -37,12 +38,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	const activePrefillingNodeFormFieldSchemaPropertyKey = useTypedSelector(
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	);
-	const prefillingNode = useTypedSelector((state: RootState) =>
-		selectNodeById(
-			state,
-			activePrefillingNodeFormFieldSchemaPropertyKey ?? '',
-		),
-	);
+	const activePrefillingNode = useTypedSelector(selectActivePrefillingNode);
 	const nodeFormFieldMappingByActiveNode = useTypedSelector(
 		selectNodeFormFieldMappingByActiveNode,
 	);
@@ -55,7 +51,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 		if (
 			activeNode === undefined ||
 			activeNodeFormFieldPropertyKey === undefined ||
-			prefillingNode === undefined ||
+			activePrefillingNode === undefined ||
 			activePrefillingNodeFormFieldSchemaPropertyKey === undefined
 		)
 			return;
@@ -63,7 +59,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 		const tempNodeFormFieldMappingByActiveNode: NodeFormFieldMapping = {
 			nodeId: activeNode.id,
 			nodeFormFieldSchemaPropertyKey: activeNodeFormFieldPropertyKey,
-			prefillingNodeId: prefillingNode.id,
+			prefillingNodeId: activePrefillingNode.id,
 			prefillingNodeFormFieldSchemaPropertyKey:
 				activePrefillingNodeFormFieldSchemaPropertyKey,
 		};
@@ -88,7 +84,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 		dispatch,
 		handleCloseModal,
 		nodeFormFieldMappingByActiveNode,
-		prefillingNode,
+		activePrefillingNode,
 	]);
 
 	if (activeNode === undefined) return null;
@@ -117,11 +113,11 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 			</Row>
 			<Row className="py-3 px-4 border-b border-gray-300 font-medium">
 				<Col className="flex-1">Select data element to map</Col>
-				{prefillingNode !== undefined && (
+				{activePrefillingNode !== undefined && (
 					<Col>
 						<Row className="flex-1">
 							<Col className="bg-blue-100">
-								{prefillingNode?.data.name}
+								{activePrefillingNode?.data.name}
 							</Col>
 							{activePrefillingNodeFormFieldSchemaPropertyKey !==
 								undefined && (

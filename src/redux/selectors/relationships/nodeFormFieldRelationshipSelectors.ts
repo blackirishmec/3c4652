@@ -46,20 +46,21 @@ export const createSelectNodeFormFieldMappingByActiveNode = (
 	formFieldSchemaPropertyKey: FormFieldSchemaPropertiesArrayValue['key'],
 ) => {
 	return createSelector(
-		[selectActiveNode, selectNodeFormFieldMappings],
+		[selectNodeFormFieldMappingsByActiveNode],
 		(
-			clickedNode,
-			nodeFormFieldMappings,
+			nodeFormFieldMappingsByActiveNode,
 		): NodeFormFieldMapping | undefined => {
-			if (clickedNode === undefined) return undefined;
+			if (nodeFormFieldMappingsByActiveNode.length === 0)
+				return undefined;
 
-			return nodeFormFieldMappings.find(nodeFormField => {
-				return (
-					nodeFormField.nodeId === clickedNode.id &&
-					nodeFormField.nodeFormFieldSchemaPropertyKey ===
+			return nodeFormFieldMappingsByActiveNode.find(
+				nodeFormFieldMappingByActiveNode => {
+					return (
+						nodeFormFieldMappingByActiveNode.nodeFormFieldSchemaPropertyKey ===
 						formFieldSchemaPropertyKey
-				);
-			});
+					);
+				},
+			);
 		},
 	);
 };

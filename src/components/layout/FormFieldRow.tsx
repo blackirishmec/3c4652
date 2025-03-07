@@ -52,18 +52,18 @@ export interface FormFieldRowProps {
 function FormFieldRowBase({ property }: FormFieldRowProps) {
 	const dispatch = useAppDispatch();
 
-	const selectNodeFormFieldMappingsByActiveNode = useMemo(
+	const selectNodeFormFieldMappingByActiveNode = useMemo(
 		() => createSelectNodeFormFieldMappingByActiveNode(property.key),
 		[property.key],
 	);
-	const nodeFormFieldMappingsByActiveNode = useTypedSelector(
-		selectNodeFormFieldMappingsByActiveNode,
+	const nodeFormFieldMappingByActiveNode = useTypedSelector(
+		selectNodeFormFieldMappingByActiveNode,
 	);
 
 	const prefillingNode = useTypedSelector((state: RootState) =>
 		selectNodeById(
 			state,
-			nodeFormFieldMappingsByActiveNode?.prefillingNodeId ?? '',
+			nodeFormFieldMappingByActiveNode?.prefillingNodeId ?? '',
 		),
 	);
 
@@ -71,7 +71,7 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 		dispatch(setActiveNodeFormFieldPropertyKey(property.key));
 	}, [dispatch, property.key]);
 
-	const prefilled = nodeFormFieldMappingsByActiveNode !== undefined;
+	const prefilled = nodeFormFieldMappingByActiveNode !== undefined;
 
 	return (
 		<Row
@@ -94,8 +94,8 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 			>
 				{`${property.key}${
 					prefillingNode !== undefined &&
-					nodeFormFieldMappingsByActiveNode !== undefined
-						? `: ${prefillingNode.data.name}.${nodeFormFieldMappingsByActiveNode.nodeFormFieldSchemaPropertyKey}`
+					nodeFormFieldMappingByActiveNode !== undefined
+						? `: ${prefillingNode.data.name}.${nodeFormFieldMappingByActiveNode.prefillingNodeFormFieldSchemaPropertyKey}`
 						: ''
 				}`}
 			</Col>
