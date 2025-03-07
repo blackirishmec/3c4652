@@ -12,7 +12,6 @@ import useAppDispatch from '@/hooks/useAppDispatch';
 import InputRow from '@/components/form/input/InputRow';
 import { Col, Row } from '@/components/layout/FlexComponents';
 import GlobalDataParentListItems from '@/components/list/GlobalDataParentListItems';
-import PrefillMappingParentListItem from '@/components/list/PrefillMappingParentListItem';
 import PrerequisiteNodesParentListItems from '@/components/list/PrerequisiteNodesParentListItems';
 
 function PrefillMappingParentListColBase() {
@@ -39,14 +38,6 @@ function PrefillMappingParentListColBase() {
 			</Row>
 			<Row className="pt-1 overflow-y-auto">
 				<ul className="w-full">
-					<PrefillMappingParentListItem
-						label="Global"
-						childrenListItemData={[
-							{ label: 'userEmail' },
-							{ value: 'test@email.com' },
-						]}
-					/>
-					<PrefillMappingParentListItem label="Client Organization Properties" />
 					<GlobalDataParentListItems />
 					<PrerequisiteNodesParentListItems />
 				</ul>

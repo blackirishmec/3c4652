@@ -13,7 +13,7 @@ const initialState: FlowState = {
 	availableDataSearchTerm: undefined,
 	globalData: [
 		{
-			key: 'Logged User Data',
+			key: 'Logged User',
 			subsetData: [
 				{
 					key: 'name',
@@ -36,7 +36,7 @@ const initialState: FlowState = {
 			],
 		},
 		{
-			key: 'Org Data',
+			key: 'Organization',
 			subsetData: [
 				{
 					key: 'name',

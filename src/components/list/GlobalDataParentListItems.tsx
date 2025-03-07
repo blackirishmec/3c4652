@@ -12,8 +12,8 @@ function GlobalDataParentListItemsBase() {
 	return globalData
 		.map(globalDataSubset => (
 			<PrefillMappingParentListItem
-				label={globalDataSubset.id}
-				key={globalDataSubset.id}
+				label={globalDataSubset.key}
+				key={globalDataSubset.key}
 				childrenListItemData={globalDataSubset.subsetData}
 			/>
 		))
