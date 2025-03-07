@@ -13,10 +13,11 @@ export interface FlowState {
 	nodeFormFieldMappings: NodeFormFieldMapping[];
 	activeNodeId?: Node['id'];
 	activeNodeFormFieldPropertyKey?: FormFieldSchemaPropertiesArrayValue['key'];
+	availableDataSearchTerm?: string;
 	activePrefillingNodeId?: Node['id'];
 	activePrefillingNodeFormFieldSchemaPropertyKey?: FormFieldSchemaPropertiesArrayValue['key'];
-	availableDataSearchTerm?: string;
-	// Custom data sources will best live as separate redux features in prod:
-	activePrefillingGlobalDataSubsetKey?: GlobalDataSubset['key'];
-	activePrefillingGlobalDataSubsetDataKey?: GlobalDataSubsetData['key'];
+	activePrefillingGlobalDataSubsetId?: GlobalDataSubset['id'];
+	activePrefillingGlobalDataSubsetDataKey?: GlobalDataSubsetData['id'];
+	activePrefillingParentIdentifier?: string;
+	activePrefillingChildIdentifier?: string;
 }

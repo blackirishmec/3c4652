@@ -11,7 +11,7 @@ const initialState: FlowState = {
 	activePrefillingNodeId: undefined,
 	activePrefillingNodeFormFieldSchemaPropertyKey: undefined,
 	availableDataSearchTerm: undefined,
-	activePrefillingGlobalDataSubsetKey: undefined,
+	activePrefillingGlobalDataSubsetId: undefined,
 	activePrefillingGlobalDataSubsetDataKey: undefined,
 };
 

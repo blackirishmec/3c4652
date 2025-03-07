@@ -18,12 +18,12 @@ export const selectActivePrefillingGlobalDataSubset = createSelector(
 		(state: RootState) => state.globalDataSubsets.entities,
 	],
 	(
-		activePrefillingGlobalDataSubsetKey,
+		activePrefillingGlobalDataSubsetId,
 		globalDataSubsetEntities,
 	): GlobalDataSubset | undefined => {
-		if (activePrefillingGlobalDataSubsetKey === undefined) return undefined;
+		if (activePrefillingGlobalDataSubsetId === undefined) return undefined;
 
-		return globalDataSubsetEntities[activePrefillingGlobalDataSubsetKey];
+		return globalDataSubsetEntities[activePrefillingGlobalDataSubsetId];
 	},
 );
 
@@ -34,17 +34,17 @@ export const selectActivePrefillingGlobalDataSubsetData = createSelector(
 	],
 	(
 		activePrefillingGlobalDataSubset,
-		activePrefillingGlobalDataSubsetKey,
+		activePrefillingGlobalDataSubsetId,
 	): GlobalDataSubsetData | undefined => {
 		if (
 			activePrefillingGlobalDataSubset === undefined ||
-			activePrefillingGlobalDataSubsetKey === undefined
+			activePrefillingGlobalDataSubsetId === undefined
 		)
 			return undefined;
 
 		return activePrefillingGlobalDataSubset.subsetData.find(
 			(subsetData: GlobalDataSubsetData) => {
-				return subsetData.key === activePrefillingGlobalDataSubsetKey;
+				return subsetData.id === activePrefillingGlobalDataSubsetId;
 			},
 		);
 	},

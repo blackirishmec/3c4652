@@ -39,8 +39,8 @@ const flowSlice = createSlice({
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
 			state.availableDataSearchTerm =
 				initialState.availableDataSearchTerm;
-			state.activePrefillingGlobalDataSubsetKey =
-				initialState.activePrefillingGlobalDataSubsetKey;
+			state.activePrefillingGlobalDataSubsetId =
+				initialState.activePrefillingGlobalDataSubsetId;
 			state.activePrefillingGlobalDataSubsetDataKey =
 				initialState.activePrefillingGlobalDataSubsetDataKey;
 		},
@@ -96,30 +96,30 @@ const flowSlice = createSlice({
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
 		},
 
-		setPrefillingActiveGlobalDataSubsetKey: (
+		setActivePrefillingGlobalDataSubsetKey: (
 			state,
 			{
 				payload: globalDataSubsetKey,
-			}: PayloadAction<GlobalDataSubset['key']>,
+			}: PayloadAction<GlobalDataSubset['id']>,
 		) => {
-			state.activePrefillingGlobalDataSubsetKey = globalDataSubsetKey;
+			state.activePrefillingGlobalDataSubsetId = globalDataSubsetKey;
 
 			state.activePrefillingGlobalDataSubsetDataKey =
 				initialState.activePrefillingGlobalDataSubsetDataKey;
 		},
 		resetPrefillingActiveGlobalDataSubsetKey: state => {
-			state.activePrefillingGlobalDataSubsetKey =
-				initialState.activePrefillingGlobalDataSubsetKey;
+			state.activePrefillingGlobalDataSubsetId =
+				initialState.activePrefillingGlobalDataSubsetId;
 
 			state.activePrefillingGlobalDataSubsetDataKey =
 				initialState.activePrefillingGlobalDataSubsetDataKey;
 		},
 
-		setPrefillingActiveGlobalDataSubsetDataKey: (
+		setActivePrefillingGlobalDataSubsetDataKey: (
 			state,
 			{
 				payload: globalDataSubsetDataKey,
-			}: PayloadAction<GlobalDataSubsetData['key']>,
+			}: PayloadAction<GlobalDataSubsetData['id']>,
 		) => {
 			state.activePrefillingGlobalDataSubsetDataKey =
 				globalDataSubsetDataKey;
@@ -242,9 +242,9 @@ export const {
 	setActivePrefillingNodeId,
 	setAvailableDataSearchTerm,
 	resetAvailableDataSearchTerm,
-	setPrefillingActiveGlobalDataSubsetKey,
+	setActivePrefillingGlobalDataSubsetKey,
 	resetPrefillingActiveGlobalDataSubsetKey,
-	setPrefillingActiveGlobalDataSubsetDataKey,
+	setActivePrefillingGlobalDataSubsetDataKey,
 	resetPrefillingActiveGlobalDataSubsetDataKey,
 } = flowSlice.actions;
 

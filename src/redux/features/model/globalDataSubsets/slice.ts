@@ -25,7 +25,7 @@ const globalDataSubsetsSlice = createSlice({
 		},
 		removeGlobalDataSubset: (
 			state,
-			action: PayloadAction<GlobalDataSubset['key']>,
+			action: PayloadAction<GlobalDataSubset['id']>,
 		) => {
 			globalDataSubsetsAdapter.removeOne(state, action.payload);
 		},
@@ -37,7 +37,7 @@ const globalDataSubsetsSlice = createSlice({
 		},
 		removeManyGlobalDataSubsets: (
 			state,
-			action: PayloadAction<GlobalDataSubset['key'][]>,
+			action: PayloadAction<GlobalDataSubset['id'][]>,
 		) => {
 			globalDataSubsetsAdapter.removeMany(state, action.payload);
 		},

@@ -1,32 +1,84 @@
 import { memo, useCallback, useMemo } from 'react';
 
 import clsx from 'clsx';
-import { PiXCircleFill } from 'react-icons/pi';
 
+import type {
+	GlobalDataSubset,
+	GlobalDataSubsetData,
+} from '@/interfaces/models/globalDataModels';
 import type { MouseEvent } from 'react';
+
+import {
+	selectActivePrefillingGlobalDataSubsetDataKey,
+	setActivePrefillingGlobalDataSubsetDataKey,
+	setActivePrefillingGlobalDataSubsetKey,
+} from '@/redux/features/ui/flow';
+
+import useAppDispatch from '@/hooks/useAppDispatch';
+import useTypedSelector from '@/hooks/useTypedSelector';
 
 import { Col, Row } from '@/components/layout/FlexComponents';
 
 import classes from '@/styles/childListItemClasses';
 
 export interface ChildListItemProps {
-	prefillingNodeFormFieldSchemaPropertyKey: string;
+	globalDataSubsetKey: GlobalDataSubset['id'];
+	globalDataSubsetDataKey: GlobalDataSubsetData['id'];
 }
 
 function ChildListItemBase({
-	prefillingNodeFormFieldSchemaPropertyKey,
+	globalDataSubsetKey,
+	globalDataSubsetDataKey,
 }: ChildListItemProps) {
+	const dispatch = useAppDispatch();
+
 	const label = useMemo(
-		() => prefillingNodeFormFieldSchemaPropertyKey,
-		[prefillingNodeFormFieldSchemaPropertyKey],
+		() => globalDataSubsetDataKey,
+		[globalDataSubsetDataKey],
+	);
+
+	const activePrefillingGlobalDataSubsetDataKey = useTypedSelector(
+		selectActivePrefillingGlobalDataSubsetDataKey,
 	);
 
 	const handleLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
+			if (
+				activePrefillingGlobalDataSubsetDataKey !==
+				globalDataSubsetDataKey
+			) {
+				dispatch(
+					setActivePrefillingGlobalDataSubsetKey(globalDataSubsetKey),
+				);
+				dispatch(
+					setActivePrefillingGlobalDataSubsetDataKey(
+						globalDataSubsetDataKey,
+					),
+				);
+			}
+
 			_e.stopPropagation();
 		},
-		[],
+		[
+			activePrefillingGlobalDataSubsetDataKey,
+			dispatch,
+			globalDataSubsetDataKey,
+			globalDataSubsetKey,
+		],
 	);
+
+	// const listItemHasActiveMapping = useMemo(
+	// 	() =>
+	// 		activePrefillingNode?.id === prefillingNode.id &&
+	// 		activePrefillingNodeFormFieldSchemaPropertyKey ===
+	// 			globalDataSubsetDataKey,
+	// 	[
+	// 		activePrefillingNode?.id,
+	// 		activePrefillingNodeFormFieldSchemaPropertyKey,
+	// 		prefillingNode.id,
+	// 		globalDataSubsetDataKey,
+	// 	],
+	// );
 
 	return (
 		<li

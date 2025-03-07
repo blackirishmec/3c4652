@@ -21,14 +21,13 @@ function ChildrenListItemsBase({ globalDataSubset }: ChildrenListItemsProps) {
 		.filter(globalDataSubsetData => {
 			if (availableDataSearchTerm === undefined) return true;
 
-			return globalDataSubsetData.key.includes(availableDataSearchTerm);
+			return globalDataSubsetData.id.includes(availableDataSearchTerm);
 		})
 		.map(globalDataSubsetData => (
 			<ChildListItem
-				key={globalDataSubsetData.key}
-				prefillingNodeFormFieldSchemaPropertyKey={
-					globalDataSubsetData.key
-				}
+				key={globalDataSubsetData.id}
+				globalDataSubsetKey={globalDataSubset.id}
+				globalDataSubsetDataKey={globalDataSubsetData.id}
 			/>
 		));
 }

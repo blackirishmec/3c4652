@@ -1,11 +1,11 @@
 import type { FormFieldSchemaProperty } from '@/interfaces/AvantosInterfaces';
 
 export interface GlobalDataSubsetData {
-	key: string;
+	id: string;
 	property?: Partial<FormFieldSchemaProperty>;
 }
 
 export interface GlobalDataSubset {
-	key: string;
+	id: string;
 	subsetData: GlobalDataSubsetData[];
 }

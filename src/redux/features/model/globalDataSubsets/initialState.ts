@@ -5,22 +5,22 @@ import globalDataSubsetsAdapter from '@/redux/features/model/globalDataSubsets/g
 
 const seededEntities: GlobalDataSubset[] = [
 	{
-		key: 'Logged User',
+		id: 'Logged User',
 		subsetData: [
 			{
-				key: 'name',
+				id: 'name',
 				property: {
 					type: 'string',
 				},
 			},
 			{
-				key: 'email',
+				id: 'email',
 				property: {
 					type: 'string',
 				},
 			},
 			{
-				key: 'title',
+				id: 'title',
 				property: {
 					type: 'string',
 				},
@@ -28,16 +28,16 @@ const seededEntities: GlobalDataSubset[] = [
 		],
 	},
 	{
-		key: 'Organization',
+		id: 'Organization',
 		subsetData: [
 			{
-				key: 'name',
+				id: 'name',
 				property: {
 					type: 'string',
 				},
 			},
 			{
-				key: 'email',
+				id: 'email',
 				property: {
 					type: 'string',
 				},

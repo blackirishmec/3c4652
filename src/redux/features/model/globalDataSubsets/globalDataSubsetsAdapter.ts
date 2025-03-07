@@ -4,9 +4,9 @@ import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
 
 const globalDataSubsetsAdapter = createEntityAdapter<
 	GlobalDataSubset,
-	GlobalDataSubset['key']
+	GlobalDataSubset['id']
 >({
-	selectId: globalDataSubset => globalDataSubset.key,
+	selectId: globalDataSubset => globalDataSubset.id,
 	sortComparer: false,
 });
 

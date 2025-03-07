@@ -58,7 +58,7 @@ export const selectAvailableDataSearchTerm = createSelector(
 
 export const selectActivePrefillingGlobalDataSubsetKey = createSelector(
 	[selectFlowState],
-	flow => flow.activePrefillingGlobalDataSubsetKey,
+	flow => flow.activePrefillingGlobalDataSubsetId,
 );
 
 export const selectActivePrefillingGlobalDataSubsetDataKey = createSelector(

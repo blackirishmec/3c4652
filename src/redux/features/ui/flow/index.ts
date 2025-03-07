@@ -13,10 +13,10 @@ export {
 	resetPrefillingActiveGlobalDataSubsetKey,
 	setActiveNodeFormFieldPropertyKey,
 	setActiveNodeId,
+	setActivePrefillingGlobalDataSubsetDataKey,
+	setActivePrefillingGlobalDataSubsetKey,
 	setActivePrefillingNodeFormFieldMappedPropertyKey,
 	setActivePrefillingNodeId,
 	setAvailableDataSearchTerm,
-	setPrefillingActiveGlobalDataSubsetDataKey,
-	setPrefillingActiveGlobalDataSubsetKey,
 } from './slice';
 export { default as flowReducer } from './slice';

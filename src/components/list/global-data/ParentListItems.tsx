@@ -1,19 +1,19 @@
 import { memo } from 'react';
 
-import { selectGlobalData } from '@/redux/features/ui/flow';
+import { selectAllGlobalDataSubsets } from '@/redux/features/model/globalDataSubsets/selectors';
 
 import useTypedSelector from '@/hooks/useTypedSelector';
 
 import ParentListItem from '@/components/list/ParentListItem';
 
 function ParentListItemsBase() {
-	const globalData = useTypedSelector(selectGlobalData);
+	const globalData = useTypedSelector(selectAllGlobalDataSubsets);
 
 	return globalData
 		.map(globalDataSubset => (
 			<ParentListItem
-				label={globalDataSubset.key}
-				key={globalDataSubset.key}
+				label={globalDataSubset.id}
+				key={globalDataSubset.id}
 				globalDataSubset={globalDataSubset}
 			/>
 		))
