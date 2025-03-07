@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, createAsyncThunk } from '@reduxjs/toolkit';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
@@ -133,7 +133,10 @@ describe('App Component', () => {
 				edges: () => ({ edges: mockEdges }),
 				ui: () => ({}),
 			},
-			middleware: getDefaultMiddleware => getDefaultMiddleware(),
+			middleware: getDefaultMiddleware =>
+				getDefaultMiddleware({
+					serializableCheck: false, // Disable serializable check for testing
+				}),
 		});
 	};
 
@@ -145,6 +148,29 @@ describe('App Component', () => {
 		jest.mocked(edgesSlice.selectAllEdges).mockReturnValue(mockEdges);
 		jest.mocked(nodeRelationshipSelectors.selectActiveNode).mockReturnValue(
 			mockActiveNode,
+		);
+
+		// Mock Redux action creators
+		jest.mocked(flowSlice.setActiveNodeId).mockImplementation(id => ({
+			type: 'flow/setActiveNodeId',
+			payload: id,
+		}));
+		jest.mocked(flowSlice.resetActiveNodeId).mockImplementation(() => ({
+			type: 'flow/resetActiveNodeId',
+			payload: undefined,
+		}));
+
+		// Create a real async thunk for testing
+		const mockFetchFlowData = createAsyncThunk(
+			'flow/fetchFlowData',
+			() => ({
+				edges: mockEdges,
+				nodes: mockNodes,
+				forms: [],
+			}),
+		);
+		jest.mocked(flowThunks.fetchFlowData).mockImplementation(() =>
+			mockFetchFlowData(),
 		);
 
 		window.mockNodeClickHandler = undefined;

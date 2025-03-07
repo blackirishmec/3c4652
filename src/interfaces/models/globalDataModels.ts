@@ -6,6 +6,6 @@ export interface GlobalDataSubsetData {
 }
 
 export interface GlobalDataSubset {
-	id: string;
+	key: string;
 	subsetData: GlobalDataSubsetData[];
 }
