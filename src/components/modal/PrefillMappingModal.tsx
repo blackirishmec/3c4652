@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 
 import { PiXFill } from 'react-icons/pi';
 
@@ -10,7 +10,11 @@ import {
 	selectActiveNodeFormFieldPropertyKey,
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 } from '@/redux/features/ui/flow';
-import { selectNodeFormFieldMappingByActiveNode } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import {
+	createSelectPrefillingNodeLabelByNodeAndPropertyKey,
+	createSelectPrefillingPropertyKeyLabelByNodeAndPropertyKey,
+	selectNodeFormFieldMappingByActiveNode,
+} from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import {
 	selectActiveNode,
 	selectActivePrefillingNode,
@@ -39,8 +43,33 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	);
 	const activePrefillingNode = useTypedSelector(selectActivePrefillingNode);
+
 	const nodeFormFieldMappingByActiveNode = useTypedSelector(
 		selectNodeFormFieldMappingByActiveNode,
+	);
+
+	const selectPrefillingNodeLabelByNodeAndPropertyKey = useMemo(
+		() =>
+			createSelectPrefillingNodeLabelByNodeAndPropertyKey({
+				nodeId: activeNode?.id ?? '',
+				nodeFormFieldPropertyKey: activeNodeFormFieldPropertyKey ?? '',
+			}),
+		[activeNode?.id, activeNodeFormFieldPropertyKey],
+	);
+	const prefillingNodeLabelByNodeAndPropertyKey = useTypedSelector(
+		selectPrefillingNodeLabelByNodeAndPropertyKey,
+	);
+
+	const selectPrefillingPropertyKeyLabelByNodeAndPropertyKey = useMemo(
+		() =>
+			createSelectPrefillingPropertyKeyLabelByNodeAndPropertyKey({
+				nodeId: activeNode?.id ?? '',
+				nodeFormFieldPropertyKey: activeNodeFormFieldPropertyKey ?? '',
+			}),
+		[activeNode?.id, activeNodeFormFieldPropertyKey],
+	);
+	const prefillingPropertyKeyLabelByNodeAndPropertyKey = useTypedSelector(
+		selectPrefillingPropertyKeyLabelByNodeAndPropertyKey,
 	);
 
 	const handleCloseModal = useCallback(() => {
@@ -113,16 +142,16 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 			</Row>
 			<Row className="py-3 px-4 border-b border-gray-300 font-medium">
 				<Col className="flex-1">Select data element to map</Col>
-				{activePrefillingNode !== undefined && (
+				{prefillingNodeLabelByNodeAndPropertyKey !== undefined && (
 					<Col>
 						<Row className="flex-1">
 							<Col className="bg-blue-100">
-								{activePrefillingNode?.data.name}
+								{prefillingNodeLabelByNodeAndPropertyKey}
 							</Col>
-							{activePrefillingNodeFormFieldSchemaPropertyKey !==
+							{prefillingPropertyKeyLabelByNodeAndPropertyKey !==
 								undefined && (
 								<Col className="bg-green-100">
-									{`.${activePrefillingNodeFormFieldSchemaPropertyKey}`}
+									{`.${prefillingPropertyKeyLabelByNodeAndPropertyKey}`}
 								</Col>
 							)}
 						</Row>

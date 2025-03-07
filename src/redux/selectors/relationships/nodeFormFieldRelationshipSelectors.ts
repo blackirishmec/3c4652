@@ -68,39 +68,131 @@ export const createSelectNodeFormFieldMappingByActiveNode = (
 export const createSelectNodeFormFieldMapping = ({
 	nodeId,
 	nodeFormFieldPropertyKey,
-	prerequisiteNodeId,
-	prerequisiteNodeFormFieldPropertyKey,
 }: {
 	nodeId: Node['id'];
 	nodeFormFieldPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
-	prerequisiteNodeId: Node['id'];
-	prerequisiteNodeFormFieldPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
 }) => {
 	const selectNode = (state: RootState) => selectNodeById(state, nodeId);
-	const selectPrerequisiteNode = (state: RootState) =>
-		selectNodeById(state, prerequisiteNodeId);
 
 	return createSelector(
-		[selectNode, selectPrerequisiteNode, selectNodeFormFieldMappings],
-		(
-			node,
-			prerequisiteNode,
-			nodeFormFieldMappings,
-		): NodeFormFieldMapping | undefined => {
-			if (prerequisiteNode === undefined || node === undefined)
-				return undefined;
+		[selectNode, selectNodeFormFieldMappings],
+		(node, nodeFormFieldMappings): NodeFormFieldMapping | undefined => {
+			if (node === undefined) return undefined;
 
 			return nodeFormFieldMappings.find(nodeFormFieldMapping => {
 				return (
 					node.id === nodeFormFieldMapping.nodeId &&
 					nodeFormFieldPropertyKey ===
-						nodeFormFieldMapping.nodeFormFieldSchemaPropertyKey &&
-					prerequisiteNodeFormFieldPropertyKey ===
-						nodeFormFieldMapping.prefillingNodeFormFieldSchemaPropertyKey &&
-					prerequisiteNode.id ===
-						nodeFormFieldMapping.prefillingNodeId
+						nodeFormFieldMapping.nodeFormFieldSchemaPropertyKey
 				);
 			});
+		},
+	);
+};
+
+export const createSelectSavedNodeFormFieldMappingByNodeAndPropertyKey = ({
+	nodeId,
+	nodeFormFieldPropertyKey,
+}: {
+	nodeId: Node['id'];
+	nodeFormFieldPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
+}) => {
+	const selectNode = (state: RootState) => selectNodeById(state, nodeId);
+
+	return createSelector(
+		[selectNode, selectNodeFormFieldMappings],
+		(node, nodeFormFieldMappings): NodeFormFieldMapping | undefined => {
+			if (node === undefined) return undefined;
+
+			return nodeFormFieldMappings.find(nodeFormFieldMapping => {
+				return (
+					node.id === nodeFormFieldMapping.nodeId &&
+					nodeFormFieldPropertyKey ===
+						nodeFormFieldMapping.nodeFormFieldSchemaPropertyKey
+				);
+			});
+		},
+	);
+};
+
+export const createSelectPrefillingNodeLabelByNodeAndPropertyKey = ({
+	nodeId,
+	nodeFormFieldPropertyKey,
+}: {
+	nodeId: Node['id'];
+	nodeFormFieldPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
+}) => {
+	const selectSavedNodeFormFieldMappingByNodeAndPropertyKey =
+		createSelectSavedNodeFormFieldMappingByNodeAndPropertyKey({
+			nodeId,
+			nodeFormFieldPropertyKey,
+		});
+
+	return createSelector(
+		[
+			selectSavedNodeFormFieldMappingByNodeAndPropertyKey,
+			(state: RootState) => state.nodes.entities,
+			selectActivePrefillingNode,
+		],
+		(
+			savedNodeFormFieldMappingByNodeAndPropertyKey,
+			nodeEntities,
+			activePrefillingNode,
+		): string | undefined => {
+			if (activePrefillingNode !== undefined) {
+				return activePrefillingNode.data.name;
+			}
+
+			if (savedNodeFormFieldMappingByNodeAndPropertyKey === undefined) {
+				return undefined;
+			}
+
+			const prefillingNode =
+				nodeEntities[
+					savedNodeFormFieldMappingByNodeAndPropertyKey?.prefillingNodeId ??
+						''
+				];
+
+			if (prefillingNode === undefined) {
+				return undefined;
+			}
+
+			return prefillingNode.data.name;
+		},
+	);
+};
+
+export const createSelectPrefillingPropertyKeyLabelByNodeAndPropertyKey = ({
+	nodeId,
+	nodeFormFieldPropertyKey,
+}: {
+	nodeId: Node['id'];
+	nodeFormFieldPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
+}) => {
+	const selectSavedNodeFormFieldMappingByNodeAndPropertyKey =
+		createSelectSavedNodeFormFieldMappingByNodeAndPropertyKey({
+			nodeId,
+			nodeFormFieldPropertyKey,
+		});
+
+	return createSelector(
+		[
+			selectSavedNodeFormFieldMappingByNodeAndPropertyKey,
+			selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+		],
+		(
+			savedNodeFormFieldMappingByNodeAndPropertyKey,
+			activePrefillingNodeFormFieldSchemaPropertyKey,
+		): string | undefined => {
+			if (activePrefillingNodeFormFieldSchemaPropertyKey !== undefined) {
+				return activePrefillingNodeFormFieldSchemaPropertyKey;
+			}
+
+			if (savedNodeFormFieldMappingByNodeAndPropertyKey === undefined) {
+				return undefined;
+			}
+
+			return savedNodeFormFieldMappingByNodeAndPropertyKey?.prefillingNodeFormFieldSchemaPropertyKey;
 		},
 	);
 };
@@ -138,5 +230,54 @@ export const selectNodeFormFieldMappingByActiveNode = createSelector(
 				);
 			},
 		);
+	},
+);
+
+export const selectPrefillMappingModalPrefillingNodeName = createSelector(
+	[
+		(state: RootState) => state.nodes.entities,
+		selectNodeFormFieldMappingByActiveNode,
+		selectActivePrefillingNode,
+	],
+	(
+		nodeEntities,
+		nodeFormFieldMappingByActiveNode,
+		activePrefillingNode,
+	): string | undefined => {
+		if (activePrefillingNode !== undefined) {
+			return activePrefillingNode.data.name;
+		}
+
+		const savedPrefillingNode =
+			nodeEntities[
+				nodeFormFieldMappingByActiveNode?.prefillingNodeId ?? ''
+			];
+
+		if (savedPrefillingNode !== undefined) {
+			return savedPrefillingNode.data.name;
+		}
+
+		return undefined;
+	},
+);
+
+export const selectPrefillMappingModalPrefillingPropertyKey = createSelector(
+	[
+		selectNodeFormFieldMappingByActiveNode,
+		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+	],
+	(
+		nodeFormFieldMappingByActiveNode,
+		activePrefillingNodeFormFieldSchemaPropertyKey,
+	): string | undefined => {
+		if (activePrefillingNodeFormFieldSchemaPropertyKey !== undefined) {
+			return activePrefillingNodeFormFieldSchemaPropertyKey;
+		}
+
+		if (nodeFormFieldMappingByActiveNode !== undefined) {
+			return nodeFormFieldMappingByActiveNode.prefillingNodeFormFieldSchemaPropertyKey;
+		}
+
+		return undefined;
 	},
 );
