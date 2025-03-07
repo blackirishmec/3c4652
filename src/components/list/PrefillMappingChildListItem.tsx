@@ -27,9 +27,10 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 
 // // 1. Finish renaming vars from the flow slice
 // // 2. Clean up names of selectors in relationship selector files
-// 3. Load nodeFormFieldMappings to the PrefillMappingModal when opening it (if they exist!)
+// 3. // // Load nodeFormFieldMappings to the PrefillMappingModal when opening it (if they exist!)
 //	- Fix loading into Active Form Fields (of mappings)
-// 4. Wire up 'search' bar
+// !- Fix updating preloaded actions (changing from what is saved, toggling)
+// // 4. Wire up 'search' bar
 // 5. Wire up 'prefill' toggle
 // 6. Create and implement tests (jest + property based tests?)
 // 7. Handle global data sources
