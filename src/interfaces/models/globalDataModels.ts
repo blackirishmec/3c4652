@@ -8,4 +8,5 @@ export interface GlobalDataSubsetData {
 export interface GlobalDataSubset {
 	id: string;
 	subsetData: GlobalDataSubsetData[];
+	discriminant: 'GlobalDataSubset';
 }

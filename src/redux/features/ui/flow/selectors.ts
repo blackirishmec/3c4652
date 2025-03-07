@@ -75,3 +75,8 @@ export const selectActivePrefillingChildIdentifier = createSelector(
 	[selectFlowState],
 	flow => flow.activePrefillingChildIdentifier,
 );
+
+export const selectActivePrefillingModelType = createSelector(
+	[selectFlowState],
+	flow => flow.activePrefillingModelType,
+);

@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
+import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
@@ -8,7 +9,9 @@ import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import { selectNodeById } from '@/redux/features/model/nodes';
 import {
 	selectActiveNodeFormFieldPropertyKey,
+	selectActivePrefillingModelType,
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+	selectActivePrefillingParentIdentifier,
 	selectNodeFormFieldMappings,
 } from '@/redux/features/ui/flow/selectors';
 import { nodeFormFieldMappingsAreEqual } from '@/redux/features/ui/flow/utils';
@@ -16,6 +19,9 @@ import {
 	selectActiveNode,
 	selectActivePrefillingNode,
 } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+
+import isGlobalDataSubset from '@/utilities/type_guards/GlobalDataSubsetTypeGuards';
+import isNode from '@/utilities/type_guards/NodeTypeGuards';
 
 export const createSelectNodeFormFieldMappingByNode = (nodeId: Node['id']) => {
 	const selectNode = (state: RootState) => selectNodeById(state, nodeId);
@@ -134,6 +140,30 @@ export const selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey =
 				return (
 					activeNode.id === nodeFormFieldMapping.nodeId &&
 					activeNodeFormFieldPropertyKey ===
+						nodeFormFieldMapping.nodeFormFieldSchemaPropertyKey
+				);
+			});
+		},
+	);
+
+export const selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier =
+	createSelector(
+		[
+			selectActiveNode,
+			selectActivePrefillingParentIdentifier,
+			selectNodeFormFieldMappings,
+		],
+		(
+			activeNode,
+			activePrefillingParentIdentifier,
+			savedNodeFormFieldMappings,
+		): NodeFormFieldMapping | undefined => {
+			if (activeNode === undefined) return undefined;
+
+			return savedNodeFormFieldMappings.find(nodeFormFieldMapping => {
+				return (
+					activeNode.id === nodeFormFieldMapping.nodeId &&
+					activePrefillingParentIdentifier ===
 						nodeFormFieldMapping.nodeFormFieldSchemaPropertyKey
 				);
 			});
@@ -324,6 +354,92 @@ export const selectPrefillingNodeLabelByActiveNode = createSelector(
 		if (prefillingNodeByActiveNode === undefined) return undefined;
 
 		return prefillingNodeByActiveNode.data.name;
+	},
+);
+
+export const selectActivePrefillingParentModelByActiveNode = createSelector(
+	[
+		selectActivePrefillingParentIdentifier,
+		selectActivePrefillingModelType,
+		(state: RootState) => state.nodes.entities,
+		(state: RootState) => state.globalDataSubsets.entities,
+	],
+	(
+		activePrefillingParentIdentifier,
+		activePrefillingModelType,
+		nodeEntities,
+		globalDataSubsetEntities,
+	): Node | GlobalDataSubset | undefined => {
+		if (
+			activePrefillingParentIdentifier === undefined ||
+			activePrefillingModelType === undefined
+		) {
+			return undefined;
+		}
+
+		if (activePrefillingModelType === 'Node') {
+			return nodeEntities[activePrefillingParentIdentifier];
+		}
+
+		if (activePrefillingModelType === 'GlobalDataSubset') {
+			return globalDataSubsetEntities[activePrefillingParentIdentifier];
+		}
+
+		return undefined;
+	},
+);
+
+export const selectPrefillingParentModelByActiveNode = createSelector(
+	[
+		selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
+		(state: RootState) => state.nodes.entities,
+		selectActivePrefillingParentModelByActiveNode,
+	],
+	(
+		savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
+		nodeEntities,
+		activePrefillingParentModelByActiveNode,
+	): Node | GlobalDataSubset | undefined => {
+		if (activePrefillingParentModelByActiveNode !== undefined) {
+			return activePrefillingParentModelByActiveNode;
+		}
+
+		if (
+			savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier ===
+			undefined
+		) {
+			return undefined;
+		}
+
+		const prefillingNode =
+			nodeEntities[
+				savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier?.prefillingNodeId ??
+					''
+			];
+
+		if (prefillingNode === undefined) {
+			return undefined;
+		}
+
+		return prefillingNode;
+	},
+);
+
+export const selectPrefillingParentLabelByActiveNode = createSelector(
+	[selectActivePrefillingParentModelByActiveNode],
+	(activePrefillingParentModelByActiveNode): string | undefined => {
+		if (activePrefillingParentModelByActiveNode === undefined)
+			return undefined;
+
+		if (isNode(activePrefillingParentModelByActiveNode)) {
+			return activePrefillingParentModelByActiveNode.data.name;
+		}
+
+		if (isGlobalDataSubset(activePrefillingParentModelByActiveNode)) {
+			return activePrefillingParentModelByActiveNode.id;
+		}
+
+		return undefined;
 	},
 );
 

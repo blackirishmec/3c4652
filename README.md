@@ -30,3 +30,10 @@
 2. `npm install`
 3. `npm run dev`
     - Open your browser to the `Local:` url outputted by VITE in your terminal
+
+## Notes:
+
+- With more time (I'm at the 4 day mark) I'd:
+    - Assassinate these heinously long variable/function names. Needed them explicit to build fast, dying to refactor them.
+    - Build out tests (add property based testing)
+    - Integrate Type Guards for Parent Model Type

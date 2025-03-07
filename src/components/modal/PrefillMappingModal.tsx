@@ -6,11 +6,14 @@ import type { ModalProps } from '@/components/modal/Modal';
 
 import {
 	selectActiveNodeFormFieldPropertyKey,
+	selectActivePrefillingModelType,
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+	selectActivePrefillingParentIdentifier,
 } from '@/redux/features/ui/flow';
 import { saveSelectedPrefillMapping } from '@/redux/features/ui/flow/thunks';
 import {
 	selectPrefillingNodeLabelByActiveNode,
+	selectPrefillingParentLabelByActiveNode,
 	selectPrefillingPropertyKeyByActiveNode,
 } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
@@ -33,12 +36,23 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	const activeNodeFormFieldPropertyKey = useTypedSelector(
 		selectActiveNodeFormFieldPropertyKey,
 	);
-	const activePrefillingNodeFormFieldSchemaPropertyKey = useTypedSelector(
-		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+
+	const activePrefillingParentIdentifier = useTypedSelector(
+		selectActivePrefillingParentIdentifier,
 	);
+	const activePrefillingModelType = useTypedSelector(
+		selectActivePrefillingModelType,
+	);
+
+	// const activePrefillingNodeFormFieldSchemaPropertyKey = useTypedSelector(
+	// 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+	// );
 
 	const prefillingNodeLabelByActiveNode = useTypedSelector(
 		selectPrefillingNodeLabelByActiveNode,
+	);
+	const prefillingParentLabelByActiveNode = useTypedSelector(
+		selectPrefillingParentLabelByActiveNode,
 	);
 
 	const prefillingPropertyKeyLabelByActiveNode = useTypedSelector(
@@ -120,8 +134,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 						className="border border-red-400 text-red-500 py-2 px-3 rounded-sm hover:bg-blue-100!"
 						onClick={handleSaveSelectedPrefillMapping}
 						disabled={
-							activePrefillingNodeFormFieldSchemaPropertyKey ===
-							undefined
+							activePrefillingParentIdentifier === undefined
 						}
 					>
 						Select
