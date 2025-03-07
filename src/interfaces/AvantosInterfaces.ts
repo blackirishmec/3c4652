@@ -1,8 +1,8 @@
 import type {
-	AvantosNodeType,
-	AvantosPayloadField,
 	FormFieldSchemaProperties,
 	FormFieldSchemaPropertiesArrayValue,
+	NodeType,
+	PayloadField,
 } from '../types/AvantosTypes';
 import type { Edge } from '@/interfaces/models/edgeModels';
 import type { Form } from '@/interfaces/models/formModels';
@@ -14,12 +14,12 @@ export interface AvantosApiResponse {
 	forms: Form[];
 }
 
-export interface AvantosNodeData extends Record<string, unknown> {
+export interface NodeData extends Record<string, unknown> {
 	approval_required: boolean;
 	approval_roles: string[];
 	component_id: string;
 	component_key: string;
-	component_type: AvantosNodeType;
+	component_type: NodeType;
 	id: string;
 	input_mapping: Record<string, object>;
 	name: string;
@@ -38,10 +38,10 @@ export interface FormUiSchema {
 	type: string;
 }
 
-export interface AvantosField {
+export interface FormField {
 	endpoint_id: string;
 	output_key?: string;
-	payload_fields: Record<string, AvantosPayloadField>;
+	payload_fields: Record<string, PayloadField>;
 	selector_field: string;
 }
 
