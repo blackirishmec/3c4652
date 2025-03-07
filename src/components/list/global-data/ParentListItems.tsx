@@ -12,7 +12,6 @@ function ParentListItemsBase() {
 	return globalData
 		.map(globalDataSubset => (
 			<ParentListItem
-				label={globalDataSubset.id}
 				key={globalDataSubset.id}
 				globalDataSubset={globalDataSubset}
 			/>

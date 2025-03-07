@@ -36,19 +36,20 @@ const classes = {
 export interface ParentListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
 	globalDataSubset?: GlobalDataSubset;
-	label?: string;
 	prefillingNode?: Node;
 }
 
 function ParentListItemBase({
 	globalDataSubset,
-	label: prop_label = 'Parent Label',
 	prefillingNode,
 	...props
 }: ParentListItemProps) {
 	const label = useMemo(
-		() => (prefillingNode ? prefillingNode.data.name : prop_label),
-		[prefillingNode, prop_label],
+		() =>
+			prefillingNode
+				? prefillingNode.data.name
+				: (globalDataSubset?.id ?? 'Label'),
+		[globalDataSubset?.id, prefillingNode],
 	);
 
 	const prefillingNodeByActiveNode = useTypedSelector(

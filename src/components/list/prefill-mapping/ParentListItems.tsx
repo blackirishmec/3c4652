@@ -14,8 +14,8 @@ function ParentListItemsBase() {
 	return activeNodePrerequisiteNodes
 		.map(activeNodePrerequisiteNode => (
 			<ParentListItem
-				prefillingNode={activeNodePrerequisiteNode}
 				key={activeNodePrerequisiteNode.id}
+				prefillingNode={activeNodePrerequisiteNode}
 			/>
 		))
 		.reverse();
