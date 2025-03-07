@@ -3,10 +3,7 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { PiCaretDownBold, PiCaretRightBold } from 'react-icons/pi';
 
-import type {
-	GlobalDataSubset,
-	GlobalDataSubsetData,
-} from '@/interfaces/models/globalDataModels';
+import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { HTMLAttributes, MouseEvent } from 'react';
 

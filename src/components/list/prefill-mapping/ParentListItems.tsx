@@ -4,7 +4,7 @@ import { selectActiveNodePrerequisiteNodes } from '@/redux/selectors/relationshi
 
 import useTypedSelector from '@/hooks/useTypedSelector';
 
-import ParentListItem from '@/components/list/prefill-mapping/ParentListItem';
+import ParentListItem from '@/components/list/ParentListItem';
 
 function ParentListItemsBase() {
 	const activeNodePrerequisiteNodes = useTypedSelector(
