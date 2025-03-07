@@ -1,35 +1,45 @@
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import type { Node } from '@/interfaces/models/nodeModels';
-import type {
-	FormFieldSchemaPropertiesArray,
-	FormFieldSchemaPropertiesArrayValue,
-} from '@/types/AvantosTypes';
+import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+
+import { createSelectFormFieldSchemaPropertiesArrayByNode } from '@/redux/selectors/relationships/formRelationshipSelectors';
+
+import useTypedSelector from '@/hooks/useTypedSelector';
 
 import { Col } from '@/components/layout/FlexComponents';
 import PrefillMappingChildListItem from '@/components/list/PrefillMappingChildListItem';
 
 export interface PrefillMappingChildrenListColProps {
 	parentNode?: Node;
-	nodeFormFieldSchemaPropertiesArray?: FormFieldSchemaPropertiesArray;
 }
 
 function PrefillMappingChildrenListColBase({
-	nodeFormFieldSchemaPropertiesArray,
 	parentNode,
 }: PrefillMappingChildrenListColProps) {
+	const selectFormFieldSchemaPropertiesArrayByNode = useMemo(
+		() =>
+			createSelectFormFieldSchemaPropertiesArrayByNode(
+				parentNode ? parentNode.id : '',
+			),
+		[parentNode],
+	);
+	const formFieldSchemaPropertiesArrayByNode = useTypedSelector(
+		selectFormFieldSchemaPropertiesArrayByNode,
+	);
+
 	return (
 		<Col className="flex-1">
 			<ul className="w-full">
-				{nodeFormFieldSchemaPropertiesArray !== undefined &&
-					nodeFormFieldSchemaPropertiesArray.map(
+				{formFieldSchemaPropertiesArrayByNode !== undefined &&
+					formFieldSchemaPropertiesArrayByNode.map(
 						(
-							nodeFormFieldSchemaProperty: FormFieldSchemaPropertiesArrayValue,
+							formFieldSchemaPropertiesArrayValue: FormFieldSchemaPropertiesArrayValue,
 						) => (
 							<PrefillMappingChildListItem
-								key={nodeFormFieldSchemaProperty.key}
-								nodeFormFieldSchemaProperty={
-									nodeFormFieldSchemaProperty
+								key={formFieldSchemaPropertiesArrayValue.key}
+								formFieldSchemaPropertiesArrayValue={
+									formFieldSchemaPropertiesArrayValue
 								}
 								parentNode={parentNode}
 							/>

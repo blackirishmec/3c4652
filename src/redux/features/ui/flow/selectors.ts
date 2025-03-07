@@ -36,12 +36,12 @@ export const selectNodeFormFieldMappings = createSelector(
 	flow => flow.nodeFormFieldMappings,
 );
 
-export const selectActiveNodeFormFieldMappedPropertyKey = createSelector(
-	[selectFlowState],
-	flow => flow.activeNodeFormFieldMappedPropertyKey,
-);
-
 export const selectActiveNodeFormFieldPropertyKey = createSelector(
 	[selectFlowState],
 	flow => flow.activeNodeFormFieldPropertyKey,
+);
+
+export const selectActiveNodeFormFieldMappedPropertyKey = createSelector(
+	[selectFlowState],
+	flow => flow.activeNodeFormFieldMappedPropertyKey,
 );

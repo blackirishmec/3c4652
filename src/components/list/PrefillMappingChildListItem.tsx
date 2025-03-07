@@ -54,56 +54,57 @@ const classes = {
 export interface PrefillMappingChildListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
 	label?: string;
-	nodeFormFieldSchemaProperty?: FormFieldSchemaPropertiesArrayValue;
+	formFieldSchemaPropertiesArrayValue?: FormFieldSchemaPropertiesArrayValue;
 	parentNode?: Node;
 }
 
 function PrefillMappingChildListItemBase({
 	label: prop_label = 'Child Label',
-	nodeFormFieldSchemaProperty,
+	formFieldSchemaPropertiesArrayValue,
 	parentNode,
 }: PrefillMappingChildListItemProps) {
 	const label = useMemo(
 		() =>
-			nodeFormFieldSchemaProperty
-				? nodeFormFieldSchemaProperty.key
+			formFieldSchemaPropertiesArrayValue
+				? formFieldSchemaPropertiesArrayValue.key
 				: prop_label,
-		[nodeFormFieldSchemaProperty, prop_label],
+		[formFieldSchemaPropertiesArrayValue, prop_label],
 	);
 
 	const dispatch = useAppDispatch();
 
-	const clickedNode = useTypedSelector(selectActiveNode);
-	const clickedNodeFormField = useTypedSelector(
-		selectActiveNodeFormFieldMappedPropertyKey,
-	);
-	const clickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
+	const activeNode = useTypedSelector(selectActiveNode);
+	const activeNodeFormFieldPropertyKey = useTypedSelector(
 		selectActiveNodeFormFieldPropertyKey,
+	);
+	const activeNodeFormFieldMappedPropertyKey = useTypedSelector(
+		selectActiveNodeFormFieldMappedPropertyKey,
 	);
 
 	const handleLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
 			if (
-				clickedNode === undefined ||
-				nodeFormFieldSchemaProperty === undefined ||
+				activeNode === undefined ||
+				formFieldSchemaPropertiesArrayValue === undefined ||
 				parentNode === undefined ||
-				clickedNodeFormFieldSchemaPropertyKey === undefined
+				activeNodeFormFieldPropertyKey === undefined
 			)
 				return;
 
 			const tempClickedNodeFormField: NodeFormFieldMapping = {
-				nodeId: clickedNode.id,
-				nodeFormFieldSchemaPropertyKey: nodeFormFieldSchemaProperty.key,
+				nodeId: activeNode.id,
+				nodeFormFieldSchemaPropertyKey:
+					formFieldSchemaPropertiesArrayValue.key,
 				prefillingNodeId: parentNode.id,
 				prefillingNodeFormFieldSchemaPropertyKey:
-					clickedNodeFormFieldSchemaPropertyKey,
+					activeNodeFormFieldPropertyKey,
 			};
 
 			if (
-				clickedNodeFormField !== undefined &&
+				activeNodeFormFieldMappedPropertyKey !== undefined &&
 				nodeFormFieldsAreEqual(
 					tempClickedNodeFormField,
-					clickedNodeFormField,
+					activeNodeFormFieldMappedPropertyKey,
 				)
 			) {
 				dispatch(resetActiveNodeFormFieldMappedPropertyKey());
@@ -118,35 +119,36 @@ function PrefillMappingChildListItemBase({
 			_e.stopPropagation();
 		},
 		[
-			clickedNode,
-			clickedNodeFormField,
-			clickedNodeFormFieldSchemaPropertyKey,
+			activeNode,
+			activeNodeFormFieldMappedPropertyKey,
+			activeNodeFormFieldPropertyKey,
 			dispatch,
-			nodeFormFieldSchemaProperty,
+			formFieldSchemaPropertiesArrayValue,
 			parentNode,
 		],
 	);
 
 	const getNodeFormFieldIsClicked = useCallback((): boolean => {
 		if (
-			clickedNodeFormField !== undefined &&
-			nodeFormFieldSchemaProperty !== undefined &&
+			activeNodeFormFieldMappedPropertyKey !== undefined &&
+			formFieldSchemaPropertiesArrayValue !== undefined &&
 			parentNode !== undefined &&
-			clickedNode !== undefined
+			activeNode !== undefined
 		) {
 			return (
-				clickedNodeFormField.nodeFormFieldSchemaPropertyKey ===
-					nodeFormFieldSchemaProperty.key &&
-				clickedNodeFormField.prefillingNodeId === parentNode.id &&
-				clickedNodeFormField.nodeId === clickedNode.id
+				activeNodeFormFieldMappedPropertyKey.nodeFormFieldSchemaPropertyKey ===
+					formFieldSchemaPropertiesArrayValue.key &&
+				activeNodeFormFieldMappedPropertyKey.prefillingNodeId ===
+					parentNode.id &&
+				activeNodeFormFieldMappedPropertyKey.nodeId === activeNode.id
 			);
 		}
 
 		return false;
 	}, [
-		clickedNode,
-		clickedNodeFormField,
-		nodeFormFieldSchemaProperty,
+		activeNode,
+		activeNodeFormFieldMappedPropertyKey,
+		formFieldSchemaPropertiesArrayValue,
 		parentNode,
 	]);
 	const nodeFormFieldIsClicked = useMemo(
