@@ -11,9 +11,11 @@ import {
 } from '@/redux/features/ui/flow/actions';
 import initialState from '@/redux/features/ui/flow/initialState';
 import { fetchFlowData } from '@/redux/features/ui/flow/thunks';
-import { nodeFormFieldMappingIsUpdate } from '@/redux/features/ui/flow/utils';
+import {
+	nodeFormFieldMappingIsUpdate,
+	nodeFormFieldMappingsAreEqual,
+} from '@/redux/features/ui/flow/utils';
 import handleAsyncState from '@/redux/utilities/handleAsyncState';
-import nodeFormFieldMappingsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
 
 const flowSlice = createSlice({
 	name: 'flow',

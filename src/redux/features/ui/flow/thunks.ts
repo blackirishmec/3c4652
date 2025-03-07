@@ -1,10 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import type {
-	AvantosApiResponse,
-	NodeFormFieldMapping,
-} from '@/interfaces/AvantosInterfaces';
+import type { AvantosApiResponse } from '@/interfaces/AvantosInterfaces';
 import type { Edge } from '@/interfaces/models/edgeModels';
 import type { Form } from '@/interfaces/models/formModels';
 import type { Node } from '@/interfaces/models/nodeModels';
@@ -20,18 +17,13 @@ import {
 	newNodeFormFieldMappingCreated,
 } from '@/redux/features/ui/flow/actions';
 import {
-	selectActiveNodeFormFieldPropertyKey,
-	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
-} from '@/redux/features/ui/flow/selectors';
-import {
 	nodeFormFieldMappingIsUpdate,
 	nodeFormFieldMappingsAreEqual,
 } from '@/redux/features/ui/flow/utils';
-import { selectSavedNodeFormFieldMappingByActiveNode } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import {
-	selectActiveNode,
-	selectActivePrefillingNode,
-} from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+	selectSavedNodeFormFieldMappingByActiveNode,
+	selectVirtualActiveNodeFormFieldMapping,
+} from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
 import { transformEdgeResources } from '@/transformers/edgeTransformers';
 import { transformFlowResource } from '@/transformers/flowTransformers';
@@ -83,58 +75,39 @@ export const saveSelectedPrefillMapping = createAsyncThunk<
 >('flow/fetchFlow', (_, { dispatch, getState }) => {
 	const state = getState() as RootState;
 
-	const activeNode = selectActiveNode(state);
-	const activeNodeFormFieldPropertyKey =
-		selectActiveNodeFormFieldPropertyKey(state);
-	const activePrefillingNode = selectActivePrefillingNode(state);
-	const activePrefillingNodeFormFieldSchemaPropertyKey =
-		selectActivePrefillingNodeFormFieldSchemaPropertyKey(state);
 	const savedNodeFormFieldMappingByActiveNode =
 		selectSavedNodeFormFieldMappingByActiveNode(state);
 
-	if (
-		activeNode === undefined ||
-		activeNodeFormFieldPropertyKey === undefined ||
-		activePrefillingNode === undefined ||
-		activePrefillingNodeFormFieldSchemaPropertyKey === undefined
-	)
-		return;
+	const virtualActiveNodeFormFieldMapping =
+		selectVirtualActiveNodeFormFieldMapping(state);
 
-	const tempNodeFormFieldMappingByActiveNode: NodeFormFieldMapping = {
-		nodeId: activeNode.id,
-		nodeFormFieldSchemaPropertyKey: activeNodeFormFieldPropertyKey,
-		prefillingNodeId: activePrefillingNode.id,
-		prefillingNodeFormFieldSchemaPropertyKey:
-			activePrefillingNodeFormFieldSchemaPropertyKey,
-	};
+	if (virtualActiveNodeFormFieldMapping === undefined) {
+		return;
+	}
 
 	if (savedNodeFormFieldMappingByActiveNode === undefined) {
 		dispatch(
-			newNodeFormFieldMappingCreated(
-				tempNodeFormFieldMappingByActiveNode,
-			),
+			newNodeFormFieldMappingCreated(virtualActiveNodeFormFieldMapping),
 		);
 	} else if (
 		nodeFormFieldMappingIsUpdate(
 			savedNodeFormFieldMappingByActiveNode,
-			tempNodeFormFieldMappingByActiveNode,
+			virtualActiveNodeFormFieldMapping,
 		)
 	) {
 		dispatch(
 			existingNodeFormFieldMappingUpdated(
-				tempNodeFormFieldMappingByActiveNode,
+				virtualActiveNodeFormFieldMapping,
 			),
 		);
 	} else if (
 		!nodeFormFieldMappingsAreEqual(
 			savedNodeFormFieldMappingByActiveNode,
-			tempNodeFormFieldMappingByActiveNode,
+			virtualActiveNodeFormFieldMapping,
 		)
 	) {
 		dispatch(
-			newNodeFormFieldMappingCreated(
-				tempNodeFormFieldMappingByActiveNode,
-			),
+			newNodeFormFieldMappingCreated(virtualActiveNodeFormFieldMapping),
 		);
 	}
 });

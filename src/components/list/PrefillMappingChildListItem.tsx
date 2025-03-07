@@ -60,26 +60,26 @@ const classes = {
 		bg-green-100
 		hover:bg-gray-100!
 	`,
+	matchingMappings: `
+		hover:border-red-500!
+	`,
 } as const;
 
 export interface PrefillMappingChildListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
 	label?: string;
-	formFieldSchemaPropertiesArrayValueByPrerequisiteNode?: FormFieldSchemaPropertiesArrayValue;
+	prefillingNodeFormFieldSchemaPropertyKey?: string;
 	prerequisiteNode?: Node;
 }
 
 function PrefillMappingChildListItemBase({
 	label: prop_label = 'Child Label',
-	formFieldSchemaPropertiesArrayValueByPrerequisiteNode,
+	prefillingNodeFormFieldSchemaPropertyKey,
 	prerequisiteNode,
 }: PrefillMappingChildListItemProps) {
 	const label = useMemo(
-		() =>
-			formFieldSchemaPropertiesArrayValueByPrerequisiteNode
-				? formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
-				: prop_label,
-		[formFieldSchemaPropertiesArrayValueByPrerequisiteNode, prop_label],
+		() => prefillingNodeFormFieldSchemaPropertyKey ?? prop_label,
+		[prefillingNodeFormFieldSchemaPropertyKey, prop_label],
 	);
 
 	const dispatch = useAppDispatch();
@@ -101,15 +101,11 @@ function PrefillMappingChildListItemBase({
 		selectSavedNodeFormFieldMappingByActiveNode,
 	);
 
-	const activeMappingMatchesSavedMapping =
-		savedNodeFormFieldMappingByActiveNode;
-
 	const handleLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
 			if (
 				prerequisiteNode === undefined ||
-				formFieldSchemaPropertiesArrayValueByPrerequisiteNode ===
-					undefined
+				prefillingNodeFormFieldSchemaPropertyKey === undefined
 			)
 				return;
 
@@ -118,7 +114,7 @@ function PrefillMappingChildListItemBase({
 				activePrefillingNodeFormFieldSchemaPropertyKey !== undefined &&
 				activeNodePrefillingNode.id === prerequisiteNode.id &&
 				activePrefillingNodeFormFieldSchemaPropertyKey ===
-					formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
+					prefillingNodeFormFieldSchemaPropertyKey
 			) {
 				dispatch(resetActivePrefillingNodeId());
 				dispatch(resetActivePrefillingNodeFormFieldMappedPropertyKey());
@@ -126,7 +122,7 @@ function PrefillMappingChildListItemBase({
 				dispatch(setActivePrefillingNodeId(prerequisiteNode.id));
 				dispatch(
 					setActivePrefillingNodeFormFieldMappedPropertyKey(
-						formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key,
+						prefillingNodeFormFieldSchemaPropertyKey,
 					),
 				);
 			}
@@ -137,7 +133,7 @@ function PrefillMappingChildListItemBase({
 			activeNodePrefillingNode,
 			activePrefillingNodeFormFieldSchemaPropertyKey,
 			dispatch,
-			formFieldSchemaPropertiesArrayValueByPrerequisiteNode,
+			prefillingNodeFormFieldSchemaPropertyKey,
 			prerequisiteNode,
 		],
 	);
@@ -148,12 +144,12 @@ function PrefillMappingChildListItemBase({
 			prefillingNodeByActiveNode !== undefined &&
 			prefillingPropertyKeyByActiveNode !== undefined &&
 			prerequisiteNode !== undefined &&
-			formFieldSchemaPropertiesArrayValueByPrerequisiteNode !== undefined
+			prefillingNodeFormFieldSchemaPropertyKey !== undefined
 		) {
 			return (
 				prefillingNodeByActiveNode.id === prerequisiteNode.id &&
 				prefillingPropertyKeyByActiveNode ===
-					formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
+					prefillingNodeFormFieldSchemaPropertyKey
 			);
 		}
 
@@ -162,20 +158,26 @@ function PrefillMappingChildListItemBase({
 		activeNode,
 		prefillingNodeByActiveNode,
 		prefillingPropertyKeyByActiveNode,
-		formFieldSchemaPropertiesArrayValueByPrerequisiteNode,
+		prefillingNodeFormFieldSchemaPropertyKey,
 		prerequisiteNode,
 	]);
-	const nodeFormFieldIsClicked = useMemo(
+	const nodeFormFieldIsMapped = useMemo(
 		() => getNodeFormFieldIsMapped(),
 		[getNodeFormFieldIsMapped],
 	);
+
+	const nodeFormFieldIsMatchingSaved =
+		savedNodeFormFieldMappingByActiveNode !== undefined &&
+		savedNodeFormFieldMappingByActiveNode?.prefillingNodeId ===
+			prerequisiteNode?.id;
 
 	return (
 		<li
 			onClick={handleLIOnClick}
 			className={clsx(
 				classes.childRow,
-				nodeFormFieldIsClicked && classes.clickedChildRow,
+				nodeFormFieldIsMapped && classes.clickedChildRow,
+				nodeFormFieldIsMatchingSaved && classes.matchingMappings,
 			)}
 		>
 			{label}

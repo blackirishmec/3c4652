@@ -12,6 +12,10 @@ import {
 	selectNodeFormFieldMappings,
 } from '@/redux/features/ui/flow/selectors';
 import {
+	nodeFormFieldMappingIsUpdate,
+	nodeFormFieldMappingsAreEqual,
+} from '@/redux/features/ui/flow/utils';
+import {
 	selectActiveNode,
 	selectActivePrefillingNode,
 } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
@@ -332,51 +336,99 @@ export const selectPrefillingPropertyKeyByActiveNode = createSelector(
 	},
 );
 
-export const selectNodeFormFieldMappingByActiveNode = createSelector(
+export const selectVirtualActiveNodeFormFieldMapping = createSelector(
 	[
-		selectSavedNodeFormFieldMappingsByActiveNode,
+		selectActiveNode,
 		selectActiveNodeFormFieldPropertyKey,
 		selectActivePrefillingNode,
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	],
 	(
-		savedNodeFormFieldMappingsByActiveNode,
+		activeNode,
 		activeNodeFormFieldPropertyKey,
 		activePrefillingNode,
 		activePrefillingNodeFormFieldSchemaPropertyKey,
 	): NodeFormFieldMapping | undefined => {
 		if (
-			savedNodeFormFieldMappingsByActiveNode.length === 0 ||
+			activeNode === undefined ||
 			activeNodeFormFieldPropertyKey === undefined ||
 			activePrefillingNode === undefined ||
 			activePrefillingNodeFormFieldSchemaPropertyKey === undefined
 		)
 			return undefined;
 
-		return savedNodeFormFieldMappingsByActiveNode.find(
-			savedNodeFormFieldMappingByActiveNode => {
-				return (
-					savedNodeFormFieldMappingByActiveNode.nodeFormFieldSchemaPropertyKey ===
-						activeNodeFormFieldPropertyKey &&
-					savedNodeFormFieldMappingByActiveNode.prefillingNodeId ===
-						activePrefillingNode.id &&
-					savedNodeFormFieldMappingByActiveNode.prefillingNodeFormFieldSchemaPropertyKey ===
-						activePrefillingNodeFormFieldSchemaPropertyKey
-				);
-			},
-		);
+		return {
+			nodeId: activeNode.id,
+			nodeFormFieldSchemaPropertyKey: activeNodeFormFieldPropertyKey,
+			prefillingNodeId: activePrefillingNode.id,
+			prefillingNodeFormFieldSchemaPropertyKey:
+				activePrefillingNodeFormFieldSchemaPropertyKey,
+		};
 	},
 );
+
+export const selectSavedAndVirtualActiveNodeFormFieldMappingsAreEqual =
+	createSelector(
+		[
+			selectSavedNodeFormFieldMappingByActiveNode,
+			selectVirtualActiveNodeFormFieldMapping,
+		],
+		(
+			savedNodeFormFieldMappingByActiveNode,
+			virtualActiveNodeFormFieldMapping,
+		) => {
+			if (
+				savedNodeFormFieldMappingByActiveNode === undefined ||
+				virtualActiveNodeFormFieldMapping === undefined
+			) {
+				return false;
+			}
+
+			return nodeFormFieldMappingsAreEqual(
+				savedNodeFormFieldMappingByActiveNode,
+				virtualActiveNodeFormFieldMapping,
+			);
+		},
+	);
+
+// export const selectSavedAndVirtualActiveNodeFormFieldMappingsIsUpdate =
+// 	createSelector(
+// 		[
+// 			selectSavedNodeFormFieldMappingByActiveNode,
+// 			selectActiveNode,
+// 			selectActivePrefillingNode,
+// 		],
+// 		(
+// 			savedNodeFormFieldMappingByActiveNode,
+// 			activeNode,
+// 			activePrefillingNode,
+// 		) => {
+// 			if (
+// 				savedNodeFormFieldMappingByActiveNode === undefined ||
+// 				activeNode === undefined ||
+// 				activePrefillingNode === undefined
+// 			) {
+// 				return false;
+// 			}
+
+// 			return (
+// 				savedNodeFormFieldMappingByActiveNode.nodeId ===
+// 					activeNode.id &&
+// 				savedNodeFormFieldMappingByActiveNode.prefillingNodeId ===
+// 					activePrefillingNode.id
+// 			);
+// 		},
+// 	);
 
 export const selectPrefillMappingModalPrefillingNodeName = createSelector(
 	[
 		(state: RootState) => state.nodes.entities,
-		selectNodeFormFieldMappingByActiveNode,
+		selectSavedNodeFormFieldMappingByActiveNode,
 		selectActivePrefillingNode,
 	],
 	(
 		nodeEntities,
-		nodeFormFieldMappingByActiveNode,
+		savedNodeFormFieldMappingByActiveNode,
 		activePrefillingNode,
 	): string | undefined => {
 		if (activePrefillingNode !== undefined) {
@@ -385,7 +437,7 @@ export const selectPrefillMappingModalPrefillingNodeName = createSelector(
 
 		const savedPrefillingNode =
 			nodeEntities[
-				nodeFormFieldMappingByActiveNode?.prefillingNodeId ?? ''
+				savedNodeFormFieldMappingByActiveNode?.prefillingNodeId ?? ''
 			];
 
 		if (savedPrefillingNode !== undefined) {
@@ -398,19 +450,19 @@ export const selectPrefillMappingModalPrefillingNodeName = createSelector(
 
 export const selectPrefillMappingModalPrefillingPropertyKey = createSelector(
 	[
-		selectNodeFormFieldMappingByActiveNode,
+		selectSavedNodeFormFieldMappingByActiveNode,
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	],
 	(
-		nodeFormFieldMappingByActiveNode,
+		savedNodeFormFieldMappingByActiveNode,
 		activePrefillingNodeFormFieldSchemaPropertyKey,
 	): string | undefined => {
 		if (activePrefillingNodeFormFieldSchemaPropertyKey !== undefined) {
 			return activePrefillingNodeFormFieldSchemaPropertyKey;
 		}
 
-		if (nodeFormFieldMappingByActiveNode !== undefined) {
-			return nodeFormFieldMappingByActiveNode.prefillingNodeFormFieldSchemaPropertyKey;
+		if (savedNodeFormFieldMappingByActiveNode !== undefined) {
+			return savedNodeFormFieldMappingByActiveNode.prefillingNodeFormFieldSchemaPropertyKey;
 		}
 
 		return undefined;
