@@ -38,18 +38,18 @@ export interface PrefillMappingParentListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
 	childrenListItemData?: unknown[];
 	label?: string;
-	parentNode?: Node;
+	prerequisiteNode?: Node;
 }
 
 function PrefillMappingParentListItemBase({
 	childrenListItemData,
 	label: prop_label = 'Parent Label',
-	parentNode,
+	prerequisiteNode,
 	...props
 }: PrefillMappingParentListItemProps) {
 	const label = useMemo(
-		() => (parentNode ? parentNode.data.name : prop_label),
-		[parentNode, prop_label],
+		() => (prerequisiteNode ? prerequisiteNode.data.name : prop_label),
+		[prerequisiteNode, prop_label],
 	);
 
 	const clickedNodeFormField = useTypedSelector(
@@ -85,7 +85,7 @@ function PrefillMappingParentListItemBase({
 					className={clsx(
 						classes.parentRow,
 						clickedParentNode !== undefined &&
-							clickedParentNode.id === parentNode?.id &&
+							clickedParentNode.id === prerequisiteNode?.id &&
 							classes.expandedParentRow,
 					)}
 				>
@@ -101,7 +101,7 @@ function PrefillMappingParentListItemBase({
 				{childrenListExpanded && (
 					<Row className="bg-[#F6F6F6]">
 						<PrefillMappingChildrenListCol
-							parentNode={parentNode}
+							prerequisiteNode={prerequisiteNode}
 						/>
 					</Row>
 				)}

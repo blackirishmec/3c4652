@@ -16,7 +16,7 @@ function PrefillMappingParentListColBase() {
 	// {}: PrefillMappingParentListColProps
 	const [searchTerm, setSearchTerm] = useState<string>('');
 
-	const clickedNodeParents = useTypedSelector(
+	const activeNodePrerequisiteNodes = useTypedSelector(
 		selectActiveNodePrerequisiteNodes,
 	);
 
@@ -38,11 +38,11 @@ function PrefillMappingParentListColBase() {
 				<ul className="w-full">
 					<PrefillMappingParentListItem label="Action Properties" />
 					<PrefillMappingParentListItem label="Client Organization Properties" />
-					{clickedNodeParents
-						.map(clickedNodeParent => (
+					{activeNodePrerequisiteNodes
+						.map(activeNodePrerequisiteNode => (
 							<PrefillMappingParentListItem
-								parentNode={clickedNodeParent}
-								key={clickedNodeParent.id}
+								prerequisiteNode={activeNodePrerequisiteNode}
+								key={activeNodePrerequisiteNode.id}
 							/>
 						))
 						.reverse()}

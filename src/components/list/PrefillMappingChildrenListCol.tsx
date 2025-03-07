@@ -11,37 +11,40 @@ import { Col } from '@/components/layout/FlexComponents';
 import PrefillMappingChildListItem from '@/components/list/PrefillMappingChildListItem';
 
 export interface PrefillMappingChildrenListColProps {
-	parentNode?: Node;
+	prerequisiteNode?: Node;
 }
 
 function PrefillMappingChildrenListColBase({
-	parentNode,
+	prerequisiteNode,
 }: PrefillMappingChildrenListColProps) {
-	const selectFormFieldSchemaPropertiesArrayByNode = useMemo(
+	const selectFormFieldSchemaPropertiesArrayByPrerequisiteNode = useMemo(
 		() =>
 			createSelectFormFieldSchemaPropertiesArrayByNode(
-				parentNode ? parentNode.id : '',
+				prerequisiteNode ? prerequisiteNode.id : '',
 			),
-		[parentNode],
+		[prerequisiteNode],
 	);
-	const formFieldSchemaPropertiesArrayByNode = useTypedSelector(
-		selectFormFieldSchemaPropertiesArrayByNode,
+	const formFieldSchemaPropertiesArrayByPrerequisiteNode = useTypedSelector(
+		selectFormFieldSchemaPropertiesArrayByPrerequisiteNode,
 	);
 
 	return (
 		<Col className="flex-1">
 			<ul className="w-full">
-				{formFieldSchemaPropertiesArrayByNode !== undefined &&
-					formFieldSchemaPropertiesArrayByNode.map(
+				{formFieldSchemaPropertiesArrayByPrerequisiteNode !==
+					undefined &&
+					formFieldSchemaPropertiesArrayByPrerequisiteNode.map(
 						(
-							formFieldSchemaPropertiesArrayValue: FormFieldSchemaPropertiesArrayValue,
+							formFieldSchemaPropertiesArrayValueByPrerequisiteNode: FormFieldSchemaPropertiesArrayValue,
 						) => (
 							<PrefillMappingChildListItem
-								key={formFieldSchemaPropertiesArrayValue.key}
-								formFieldSchemaPropertiesArrayValue={
-									formFieldSchemaPropertiesArrayValue
+								key={
+									formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
 								}
-								parentNode={parentNode}
+								formFieldSchemaPropertiesArrayValueByPrerequisiteNode={
+									formFieldSchemaPropertiesArrayValueByPrerequisiteNode
+								}
+								prerequisiteNode={prerequisiteNode}
 							/>
 						),
 					)}

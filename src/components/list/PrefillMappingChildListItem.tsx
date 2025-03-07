@@ -54,21 +54,21 @@ const classes = {
 export interface PrefillMappingChildListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
 	label?: string;
-	formFieldSchemaPropertiesArrayValue?: FormFieldSchemaPropertiesArrayValue;
-	parentNode?: Node;
+	formFieldSchemaPropertiesArrayValueByPrerequisiteNode?: FormFieldSchemaPropertiesArrayValue;
+	prerequisiteNode?: Node;
 }
 
 function PrefillMappingChildListItemBase({
 	label: prop_label = 'Child Label',
-	formFieldSchemaPropertiesArrayValue,
-	parentNode,
+	formFieldSchemaPropertiesArrayValueByPrerequisiteNode,
+	prerequisiteNode,
 }: PrefillMappingChildListItemProps) {
 	const label = useMemo(
 		() =>
-			formFieldSchemaPropertiesArrayValue
-				? formFieldSchemaPropertiesArrayValue.key
+			formFieldSchemaPropertiesArrayValueByPrerequisiteNode
+				? formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
 				: prop_label,
-		[formFieldSchemaPropertiesArrayValue, prop_label],
+		[formFieldSchemaPropertiesArrayValueByPrerequisiteNode, prop_label],
 	);
 
 	const dispatch = useAppDispatch();
@@ -85,25 +85,25 @@ function PrefillMappingChildListItemBase({
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
 			if (
 				activeNode === undefined ||
-				formFieldSchemaPropertiesArrayValue === undefined ||
-				parentNode === undefined ||
+				formFieldSchemaPropertiesArrayValueByPrerequisiteNode ===
+					undefined ||
+				prerequisiteNode === undefined ||
 				activeNodeFormFieldPropertyKey === undefined
 			)
 				return;
 
-			const tempClickedNodeFormField: NodeFormFieldMapping = {
+			const tempNodeFormFieldMappingByActiveNode: NodeFormFieldMapping = {
 				nodeId: activeNode.id,
-				nodeFormFieldSchemaPropertyKey:
-					formFieldSchemaPropertiesArrayValue.key,
-				prefillingNodeId: parentNode.id,
+				nodeFormFieldSchemaPropertyKey: activeNodeFormFieldPropertyKey,
+				prefillingNodeId: prerequisiteNode.id,
 				prefillingNodeFormFieldSchemaPropertyKey:
-					activeNodeFormFieldPropertyKey,
+					formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key,
 			};
 
 			if (
 				activeNodeFormFieldMappedPropertyKey !== undefined &&
 				nodeFormFieldsAreEqual(
-					tempClickedNodeFormField,
+					tempNodeFormFieldMappingByActiveNode,
 					activeNodeFormFieldMappedPropertyKey,
 				)
 			) {
@@ -111,7 +111,7 @@ function PrefillMappingChildListItemBase({
 			} else {
 				dispatch(
 					setActiveNodeFormFieldMappedPropertyKey(
-						tempClickedNodeFormField,
+						tempNodeFormFieldMappingByActiveNode,
 					),
 				);
 			}
@@ -123,23 +123,24 @@ function PrefillMappingChildListItemBase({
 			activeNodeFormFieldMappedPropertyKey,
 			activeNodeFormFieldPropertyKey,
 			dispatch,
-			formFieldSchemaPropertiesArrayValue,
-			parentNode,
+			formFieldSchemaPropertiesArrayValueByPrerequisiteNode,
+			prerequisiteNode,
 		],
 	);
 
 	const getNodeFormFieldIsClicked = useCallback((): boolean => {
 		if (
 			activeNodeFormFieldMappedPropertyKey !== undefined &&
-			formFieldSchemaPropertiesArrayValue !== undefined &&
-			parentNode !== undefined &&
+			formFieldSchemaPropertiesArrayValueByPrerequisiteNode !==
+				undefined &&
+			prerequisiteNode !== undefined &&
 			activeNode !== undefined
 		) {
 			return (
 				activeNodeFormFieldMappedPropertyKey.nodeFormFieldSchemaPropertyKey ===
-					formFieldSchemaPropertiesArrayValue.key &&
+					formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key &&
 				activeNodeFormFieldMappedPropertyKey.prefillingNodeId ===
-					parentNode.id &&
+					prerequisiteNode.id &&
 				activeNodeFormFieldMappedPropertyKey.nodeId === activeNode.id
 			);
 		}
@@ -148,8 +149,8 @@ function PrefillMappingChildListItemBase({
 	}, [
 		activeNode,
 		activeNodeFormFieldMappedPropertyKey,
-		formFieldSchemaPropertiesArrayValue,
-		parentNode,
+		formFieldSchemaPropertiesArrayValueByPrerequisiteNode,
+		prerequisiteNode,
 	]);
 	const nodeFormFieldIsClicked = useMemo(
 		() => getNodeFormFieldIsClicked(),
