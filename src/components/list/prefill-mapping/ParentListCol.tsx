@@ -14,7 +14,7 @@ import { Col, Row } from '@/components/layout/FlexComponents';
 import GlobalDataParentListItems from '@/components/list/GlobalDataParentListItems';
 import PrerequisiteNodesParentListItems from '@/components/list/PrerequisiteNodesParentListItems';
 
-function PrefillMappingParentListColBase() {
+function ParentListColBase() {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -46,6 +46,6 @@ function PrefillMappingParentListColBase() {
 	);
 }
 
-const PrefillMappingParentListCol = memo(PrefillMappingParentListColBase);
+const ParentListCol = memo(ParentListColBase);
 
-export default PrefillMappingParentListCol;
+export default ParentListCol;

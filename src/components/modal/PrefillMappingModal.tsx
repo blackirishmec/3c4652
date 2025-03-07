@@ -20,7 +20,7 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 
 import Button from '@/components/button/Button';
 import { Col, Row } from '@/components/layout/FlexComponents';
-import PrefillMappingParentListCol from '@/components/list/PrefillMappingParentListCol';
+import ParentListCol from '@/components/list/prefill-mapping/ParentListCol';
 import Modal from '@/components/modal/Modal';
 
 export interface PrefillMappingModalProps
@@ -100,7 +100,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 				)}
 			</Row>
 			<Row className="flex-1 min-h-0">
-				<PrefillMappingParentListCol />
+				<ParentListCol />
 				<Col className="flex-1 w-50" />
 			</Row>
 			<Row
