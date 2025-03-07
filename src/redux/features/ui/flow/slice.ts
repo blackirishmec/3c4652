@@ -39,7 +39,6 @@ const flowSlice = createSlice({
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
 			state.availableDataSearchTerm =
 				initialState.availableDataSearchTerm;
-			state.globalData = [...initialState.globalData];
 			state.activePrefillingGlobalDataSubsetKey =
 				initialState.activePrefillingGlobalDataSubsetKey;
 			state.activePrefillingGlobalDataSubsetDataKey =

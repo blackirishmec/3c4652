@@ -17,7 +17,6 @@ export interface FlowState {
 	activePrefillingNodeFormFieldSchemaPropertyKey?: FormFieldSchemaPropertiesArrayValue['key'];
 	availableDataSearchTerm?: string;
 	// Custom data sources will best live as separate redux features in prod:
-	globalData: GlobalDataSubset[];
 	activePrefillingGlobalDataSubsetKey?: GlobalDataSubset['key'];
 	activePrefillingGlobalDataSubsetDataKey?: GlobalDataSubsetData['key'];
 }

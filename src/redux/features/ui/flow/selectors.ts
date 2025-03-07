@@ -56,12 +56,12 @@ export const selectAvailableDataSearchTerm = createSelector(
 	flow => flow.availableDataSearchTerm,
 );
 
-export const selectGlobalData = createSelector(
-	[selectFlowState],
-	flow => flow.globalData,
-);
-
 export const selectActivePrefillingGlobalDataSubsetKey = createSelector(
 	[selectFlowState],
-	flow => flow.globalData,
+	flow => flow.activePrefillingGlobalDataSubsetKey,
+);
+
+export const selectActivePrefillingGlobalDataSubsetDataKey = createSelector(
+	[selectFlowState],
+	flow => flow.activePrefillingGlobalDataSubsetDataKey,
 );
