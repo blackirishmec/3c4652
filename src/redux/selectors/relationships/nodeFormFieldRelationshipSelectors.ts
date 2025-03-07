@@ -257,7 +257,7 @@ export const createSelectPrefillingNodeLabelByActiveNodeAndPropertyKey = ({
 	);
 };
 
-export const selectPrefillingNodeLabelByActiveNode = createSelector(
+export const selectPrefillingNodeByActiveNode = createSelector(
 	[
 		selectSavedNodeFormFieldMappingByActiveNode,
 		(state: RootState) => state.nodes.entities,
@@ -267,9 +267,9 @@ export const selectPrefillingNodeLabelByActiveNode = createSelector(
 		savedNodeFormFieldMappingByActiveNode,
 		nodeEntities,
 		activePrefillingNode,
-	): string | undefined => {
+	): Node | undefined => {
 		if (activePrefillingNode !== undefined) {
-			return activePrefillingNode.data.name;
+			return activePrefillingNode;
 		}
 
 		if (savedNodeFormFieldMappingByActiveNode === undefined) {
@@ -285,7 +285,16 @@ export const selectPrefillingNodeLabelByActiveNode = createSelector(
 			return undefined;
 		}
 
-		return prefillingNode.data.name;
+		return prefillingNode;
+	},
+);
+
+export const selectPrefillingNodeLabelByActiveNode = createSelector(
+	[selectPrefillingNodeByActiveNode],
+	(prefillingNodeByActiveNode): string | undefined => {
+		if (prefillingNodeByActiveNode === undefined) return undefined;
+
+		return prefillingNodeByActiveNode.data.name;
 	},
 );
 
@@ -327,7 +336,7 @@ export const createSelectPrefillingPropertyKeyLabelByActiveNodeAndPropertyKey =
 		);
 	};
 
-export const selectPrefillingPropertyKeyLabelByActiveNode = createSelector(
+export const selectPrefillingPropertyKeyByActiveNode = createSelector(
 	[
 		selectSavedNodeFormFieldMappingByActiveNode,
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,

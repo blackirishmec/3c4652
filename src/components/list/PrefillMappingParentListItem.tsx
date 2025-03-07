@@ -6,7 +6,7 @@ import { PiCaretDownBold, PiCaretRightBold } from 'react-icons/pi';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
-import { selectActivePrefillingNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import { selectPrefillingNodeByActiveNode } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
 import useTypedSelector from '@/hooks/useTypedSelector';
 
@@ -50,9 +50,20 @@ function PrefillMappingParentListItemBase({
 		[prerequisiteNode, prop_label],
 	);
 
-	const activePrefillingNode = useTypedSelector(selectActivePrefillingNode);
+	const prefillingNodeByActiveNode = useTypedSelector(
+		selectPrefillingNodeByActiveNode,
+	);
 
-	const [childrenListExpanded, setChildrenListExpanded] = useState(false);
+	const prefillingNodeIsActive = useMemo(
+		() =>
+			prefillingNodeByActiveNode !== undefined &&
+			prefillingNodeByActiveNode.id === prerequisiteNode?.id,
+		[prefillingNodeByActiveNode, prerequisiteNode?.id],
+	);
+
+	const [childrenListExpanded, setChildrenListExpanded] = useState(
+		prefillingNodeIsActive,
+	);
 
 	const handleParentLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
@@ -69,9 +80,7 @@ function PrefillMappingParentListItemBase({
 				<Row
 					className={clsx(
 						classes.parentRow,
-						activePrefillingNode !== undefined &&
-							activePrefillingNode.id === prerequisiteNode?.id &&
-							classes.expandedParentRow,
+						prefillingNodeIsActive && classes.expandedParentRow,
 					)}
 				>
 					<Col className="px-2" childrenVerticalPosition="center">

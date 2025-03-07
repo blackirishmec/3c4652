@@ -11,7 +11,7 @@ import {
 import { saveSelectedPrefillMapping } from '@/redux/features/ui/flow/thunks';
 import {
 	selectPrefillingNodeLabelByActiveNode,
-	selectPrefillingPropertyKeyLabelByActiveNode,
+	selectPrefillingPropertyKeyByActiveNode,
 } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
@@ -42,7 +42,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	);
 
 	const prefillingPropertyKeyLabelByActiveNode = useTypedSelector(
-		selectPrefillingPropertyKeyLabelByActiveNode,
+		selectPrefillingPropertyKeyByActiveNode,
 	);
 
 	const handleCloseModal = useCallback(() => {
