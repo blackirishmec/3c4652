@@ -147,7 +147,10 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 					onClick={handleRemoveMappingOnClick}
 					childrenVerticalPosition="center"
 				>
-					<PiXCircleFill color="gray" />
+					<PiXCircleFill
+						className="text-gray-400 hover:text-gray-500 hover:bg-red-300 rounded-full"
+						size={24}
+					/>
 				</Col>
 			)}
 		</Row>
