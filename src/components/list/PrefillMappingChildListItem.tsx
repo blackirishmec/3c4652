@@ -21,18 +21,19 @@ import {
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
 
-// 1. Finish renaming vars from the flow slice
-// 2. Clean up names of selectors in relationship selector files
+// // 1. Finish renaming vars from the flow slice
+// // 2. Clean up names of selectors in relationship selector files
 // 3. Load nodeFormFieldMappings to the PrefillMappingModal when opening it (if they exist!)
 //	- Fix loading into Active Form Fields (of mappings)
 // 4. Wire up 'prefill' toggle
 // 5. Create and implement tests (jest + property based tests?)
-// 6. Handle new data sources
-// 7. Create documentation (ref M-H-A)
-// 8. Clean up code
+// 6. Handle global data sources
+// 7. Handle new data sources
+// 8. Create documentation (ref M-H-A)
+// 9. Clean up code
 //	- Extract from components into thunks
 // ***
-// 9. Augment code
+// 10. Augment code
 //	- Simulate 'save updates' thunk for nodeFormFieldMappings
 
 const classes = {
