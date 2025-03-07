@@ -21,7 +21,7 @@ import {
 	nodeFormFieldMappingsAreEqual,
 } from '@/redux/features/ui/flow/utils';
 import {
-	selectSavedNodeFormFieldMappingByActiveNode,
+	selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
 	selectVirtualActiveNodeFormFieldMapping,
 } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
@@ -76,7 +76,7 @@ export const saveSelectedPrefillMapping = createAsyncThunk<
 	const state = getState() as RootState;
 
 	const savedNodeFormFieldMappingByActiveNode =
-		selectSavedNodeFormFieldMappingByActiveNode(state);
+		selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey(state);
 
 	const virtualActiveNodeFormFieldMapping =
 		selectVirtualActiveNodeFormFieldMapping(state);

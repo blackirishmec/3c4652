@@ -1,30 +1,32 @@
 import { memo, useCallback, useMemo } from 'react';
 
 import clsx from 'clsx';
+import { PiXCircleFill } from 'react-icons/pi';
 
 import type { Node } from '@/interfaces/models/nodeModels';
-import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
 import {
-	resetActivePrefillingNodeFormFieldMappedPropertyKey,
-	resetActivePrefillingNodeId,
+	removeNodeFormFieldMapping,
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	setActivePrefillingNodeFormFieldMappedPropertyKey,
 	setActivePrefillingNodeId,
 } from '@/redux/features/ui/flow';
 import {
+	createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey,
 	selectPrefillingNodeByActiveNode,
 	selectPrefillingPropertyKeyByActiveNode,
-	selectSavedNodeFormFieldMappingByActiveNode,
+	selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
 } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import {
 	selectActiveNode,
-	selectActivePrefillingNode,
+	selectPrefillingEnabledByActiveNode,
 } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
+
+import { Col, Row } from '@/components/layout/FlexComponents';
 
 // // 1. Finish renaming vars from the flow slice
 // // 2. Clean up names of selectors in relationship selector files
@@ -56,27 +58,15 @@ const classes = {
 		hover:border-green-500
 		hover:bg-green-100 
 	`,
-	clickedChildRow: `
+	mappedChildRow: `
 		bg-green-100
 		hover:bg-gray-100!
 	`,
-	siblingOfSaved: `
-		hover:bg-green-100
-		hover:border-orange-100
-	`,
 	saved: `
-		border-orange-500!
-		hover:border-red-500
-		hover:bg-red-100
+		bg-green-100
 	`,
 	savedButUpdated: `
-		bg-orange-100
-		hover:border-purple-500
-		hover:bg-green-100
-		hover:border-green-100
-	`,
-	savedNotUpdated: `
-		bg-green-100
+		bg-red-100
 	`,
 } as const;
 
@@ -84,13 +74,13 @@ export interface PrefillMappingChildListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
 	label?: string;
 	prefillingNodeFormFieldSchemaPropertyKey?: string;
-	prerequisiteNode?: Node;
+	prefillingNode: Node;
 }
 
 function PrefillMappingChildListItemBase({
 	label: prop_label = 'Child Label',
 	prefillingNodeFormFieldSchemaPropertyKey,
-	prerequisiteNode,
+	prefillingNode,
 }: PrefillMappingChildListItemProps) {
 	const label = useMemo(
 		() => prefillingNodeFormFieldSchemaPropertyKey ?? prop_label,
@@ -100,9 +90,6 @@ function PrefillMappingChildListItemBase({
 	const dispatch = useAppDispatch();
 
 	const activeNode = useTypedSelector(selectActiveNode);
-	const activeNodePrefillingNode = useTypedSelector(
-		selectActivePrefillingNode,
-	);
 	const activePrefillingNodeFormFieldSchemaPropertyKey = useTypedSelector(
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	);
@@ -113,22 +100,34 @@ function PrefillMappingChildListItemBase({
 		selectPrefillingPropertyKeyByActiveNode,
 	);
 	const savedNodeFormFieldMappingByActiveNode = useTypedSelector(
-		selectSavedNodeFormFieldMappingByActiveNode,
+		selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
+	);
+
+	const selectSavedNodeFormFieldMappingForActiveNodeByPropertyKey = useMemo(
+		() =>
+			createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey(
+				prefillingNodeFormFieldSchemaPropertyKey ?? '',
+			),
+		[prefillingNodeFormFieldSchemaPropertyKey],
+	);
+	const savedNodeFormFieldMappingForActiveNodeByPropertyKey =
+		useTypedSelector(
+			selectSavedNodeFormFieldMappingForActiveNodeByPropertyKey,
+		);
+
+	const prefillingEnabledByActiveNode = useTypedSelector(
+		selectPrefillingEnabledByActiveNode,
 	);
 
 	const handleLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
-			if (
-				prerequisiteNode === undefined ||
-				prefillingNodeFormFieldSchemaPropertyKey === undefined
-			)
-				return;
+			if (prefillingNodeFormFieldSchemaPropertyKey === undefined) return;
 
 			if (
 				activePrefillingNodeFormFieldSchemaPropertyKey !==
 				prefillingNodeFormFieldSchemaPropertyKey
 			) {
-				dispatch(setActivePrefillingNodeId(prerequisiteNode.id));
+				dispatch(setActivePrefillingNodeId(prefillingNode.id));
 				dispatch(
 					setActivePrefillingNodeFormFieldMappedPropertyKey(
 						prefillingNodeFormFieldSchemaPropertyKey,
@@ -142,7 +141,7 @@ function PrefillMappingChildListItemBase({
 			activePrefillingNodeFormFieldSchemaPropertyKey,
 			dispatch,
 			prefillingNodeFormFieldSchemaPropertyKey,
-			prerequisiteNode,
+			prefillingNode,
 		],
 	);
 
@@ -151,11 +150,10 @@ function PrefillMappingChildListItemBase({
 			activeNode !== undefined &&
 			prefillingNodeByActiveNode !== undefined &&
 			prefillingPropertyKeyByActiveNode !== undefined &&
-			prerequisiteNode !== undefined &&
 			prefillingNodeFormFieldSchemaPropertyKey !== undefined
 		) {
 			return (
-				prefillingNodeByActiveNode.id === prerequisiteNode.id &&
+				prefillingNodeByActiveNode.id === prefillingNode.id &&
 				prefillingPropertyKeyByActiveNode ===
 					prefillingNodeFormFieldSchemaPropertyKey
 			);
@@ -167,20 +165,21 @@ function PrefillMappingChildListItemBase({
 		prefillingNodeByActiveNode,
 		prefillingPropertyKeyByActiveNode,
 		prefillingNodeFormFieldSchemaPropertyKey,
-		prerequisiteNode,
+		prefillingNode,
 	]);
-	const nodeFormFieldIsMapped = useMemo(
+	const listItemIsMapped = useMemo(
 		() => getNodeFormFieldIsMapped(),
 		[getNodeFormFieldIsMapped],
 	);
 
-	const prefillingNodeMatchesSaved = useMemo(
+	const listItemMatchesSaved = useMemo(
 		() =>
 			savedNodeFormFieldMappingByActiveNode !== undefined &&
 			savedNodeFormFieldMappingByActiveNode?.prefillingNodeId ===
-				prerequisiteNode?.id,
-		[prerequisiteNode?.id, savedNodeFormFieldMappingByActiveNode],
+				prefillingNode.id,
+		[prefillingNode.id, savedNodeFormFieldMappingByActiveNode],
 	);
+
 	const prefillingNodeFormFieldSchemaKeyMatchesSaved = useMemo(
 		() =>
 			savedNodeFormFieldMappingByActiveNode !== undefined &&
@@ -191,6 +190,7 @@ function PrefillMappingChildListItemBase({
 			savedNodeFormFieldMappingByActiveNode,
 		],
 	);
+
 	const activeNodeFormFieldSchemaKeyMatchesSaved = useMemo(
 		() =>
 			savedNodeFormFieldMappingByActiveNode !== undefined &&
@@ -202,29 +202,81 @@ function PrefillMappingChildListItemBase({
 		],
 	);
 
+	const isUpdatedSavedListItem = useMemo(
+		() =>
+			listItemMatchesSaved &&
+			prefillingNodeFormFieldSchemaKeyMatchesSaved &&
+			!activeNodeFormFieldSchemaKeyMatchesSaved,
+		[
+			activeNodeFormFieldSchemaKeyMatchesSaved,
+			prefillingNodeFormFieldSchemaKeyMatchesSaved,
+			listItemMatchesSaved,
+		],
+	);
+
+	const isSavedListItem = useMemo(
+		() =>
+			listItemMatchesSaved &&
+			prefillingNodeFormFieldSchemaKeyMatchesSaved &&
+			activeNodeFormFieldSchemaKeyMatchesSaved,
+		[
+			prefillingNodeFormFieldSchemaKeyMatchesSaved,
+			listItemMatchesSaved,
+			activeNodeFormFieldSchemaKeyMatchesSaved,
+		],
+	);
+
+	const handleRemoveMappingOnClick = useCallback(
+		(e: MouseEvent<HTMLDivElement>) => {
+			if (
+				savedNodeFormFieldMappingForActiveNodeByPropertyKey ===
+				undefined
+			) {
+				return;
+			}
+
+			dispatch(
+				removeNodeFormFieldMapping(
+					savedNodeFormFieldMappingForActiveNodeByPropertyKey,
+				),
+			);
+
+			e.stopPropagation();
+		},
+		[dispatch, savedNodeFormFieldMappingForActiveNodeByPropertyKey],
+	);
+
 	return (
 		<li
 			onClick={handleLIOnClick}
 			className={clsx(
 				classes.childRow,
-				nodeFormFieldIsMapped && classes.clickedChildRow,
-				prefillingNodeMatchesSaved &&
-					!prefillingNodeFormFieldSchemaKeyMatchesSaved &&
-					classes.siblingOfSaved,
-				prefillingNodeMatchesSaved &&
-					prefillingNodeFormFieldSchemaKeyMatchesSaved &&
-					classes.saved,
-				prefillingNodeMatchesSaved &&
-					prefillingNodeFormFieldSchemaKeyMatchesSaved &&
-					activeNodeFormFieldSchemaKeyMatchesSaved &&
-					classes.savedNotUpdated,
-				prefillingNodeMatchesSaved &&
-					prefillingNodeFormFieldSchemaKeyMatchesSaved &&
-					!activeNodeFormFieldSchemaKeyMatchesSaved &&
-					classes.savedButUpdated,
+				listItemIsMapped && classes.mappedChildRow,
+				isSavedListItem && classes.saved,
+				isUpdatedSavedListItem && classes.savedButUpdated,
 			)}
 		>
-			{label}
+			<Row className="flex-1">
+				<Col className="flex-1">{label}</Col>
+				{listItemIsMapped &&
+					listItemMatchesSaved &&
+					activeNodeFormFieldSchemaKeyMatchesSaved && (
+						<Col
+							className="pr-1"
+							onClick={handleRemoveMappingOnClick}
+							childrenVerticalPosition="center"
+						>
+							<PiXCircleFill
+								className={clsx(
+									'text-gray-400 hover:text-gray-500 hover:bg-red-300 rounded-full',
+									!prefillingEnabledByActiveNode &&
+										'pointer-events-none',
+								)}
+								size={24}
+							/>
+						</Col>
+					)}
+			</Row>
 		</li>
 	);
 }

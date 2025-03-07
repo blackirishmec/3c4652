@@ -62,7 +62,7 @@ function PrefillMappingChildrenListColBase({
 									prefillingNodeFormFieldSchemaPropertyKey={
 										formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
 									}
-									prerequisiteNode={prerequisiteNode}
+									prefillingNode={prerequisiteNode}
 								/>
 							),
 						)}
