@@ -15,17 +15,23 @@ import axiosInstance from '@/api/axiosInstance';
 import { edgesFetched } from '@/redux/features/model/edges/actions';
 import { formsFetched } from '@/redux/features/model/forms/actions';
 import { nodesFetched } from '@/redux/features/model/nodes/actions';
-import { newNodeFormFieldMappingCreated } from '@/redux/features/ui/flow/actions';
+import {
+	existingNodeFormFieldMappingUpdated,
+	newNodeFormFieldMappingCreated,
+} from '@/redux/features/ui/flow/actions';
 import {
 	selectActiveNodeFormFieldPropertyKey,
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 } from '@/redux/features/ui/flow/selectors';
-import { selectNodeFormFieldMappingByActiveNode } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import {
+	nodeFormFieldMappingIsUpdate,
+	nodeFormFieldMappingsAreEqual,
+} from '@/redux/features/ui/flow/utils';
+import { selectSavedNodeFormFieldMappingByActiveNode } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import {
 	selectActiveNode,
 	selectActivePrefillingNode,
 } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
-import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
 
 import { transformEdgeResources } from '@/transformers/edgeTransformers';
 import { transformFlowResource } from '@/transformers/flowTransformers';
@@ -83,8 +89,8 @@ export const saveSelectedPrefillMapping = createAsyncThunk<
 	const activePrefillingNode = selectActivePrefillingNode(state);
 	const activePrefillingNodeFormFieldSchemaPropertyKey =
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey(state);
-	const nodeFormFieldMappingByActiveNode =
-		selectNodeFormFieldMappingByActiveNode(state);
+	const savedNodeFormFieldMappingByActiveNode =
+		selectSavedNodeFormFieldMappingByActiveNode(state);
 
 	if (
 		activeNode === undefined ||
@@ -102,10 +108,26 @@ export const saveSelectedPrefillMapping = createAsyncThunk<
 			activePrefillingNodeFormFieldSchemaPropertyKey,
 	};
 
-	if (
-		nodeFormFieldMappingByActiveNode === undefined ||
-		!nodeFormFieldsAreEqual(
-			nodeFormFieldMappingByActiveNode,
+	if (savedNodeFormFieldMappingByActiveNode === undefined) {
+		dispatch(
+			newNodeFormFieldMappingCreated(
+				tempNodeFormFieldMappingByActiveNode,
+			),
+		);
+	} else if (
+		nodeFormFieldMappingIsUpdate(
+			savedNodeFormFieldMappingByActiveNode,
+			tempNodeFormFieldMappingByActiveNode,
+		)
+	) {
+		dispatch(
+			existingNodeFormFieldMappingUpdated(
+				tempNodeFormFieldMappingByActiveNode,
+			),
+		);
+	} else if (
+		!nodeFormFieldMappingsAreEqual(
+			savedNodeFormFieldMappingByActiveNode,
 			tempNodeFormFieldMappingByActiveNode,
 		)
 	) {

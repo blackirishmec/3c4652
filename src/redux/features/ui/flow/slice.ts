@@ -5,11 +5,15 @@ import type { Node } from '@/interfaces/models/nodeModels';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { newNodeFormFieldMappingCreated } from '@/redux/features/ui/flow/actions';
+import {
+	existingNodeFormFieldMappingUpdated,
+	newNodeFormFieldMappingCreated,
+} from '@/redux/features/ui/flow/actions';
 import initialState from '@/redux/features/ui/flow/initialState';
 import { fetchFlowData } from '@/redux/features/ui/flow/thunks';
+import { nodeFormFieldMappingIsUpdate } from '@/redux/features/ui/flow/utils';
 import handleAsyncState from '@/redux/utilities/handleAsyncState';
-import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
+import nodeFormFieldMappingsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
 
 const flowSlice = createSlice({
 	name: 'flow',
@@ -39,7 +43,7 @@ const flowSlice = createSlice({
 		) => {
 			if (
 				!state.nodeFormFieldMappings.some(field =>
-					nodeFormFieldsAreEqual(field, nodeFormFieldToAdd),
+					nodeFormFieldMappingsAreEqual(field, nodeFormFieldToAdd),
 				)
 			) {
 				state.nodeFormFieldMappings.push(nodeFormFieldToAdd);
@@ -52,7 +56,11 @@ const flowSlice = createSlice({
 			}: PayloadAction<NodeFormFieldMapping>,
 		) => {
 			state.nodeFormFieldMappings = state.nodeFormFieldMappings.filter(
-				field => !nodeFormFieldsAreEqual(field, nodeFormFieldToRemove),
+				field =>
+					!nodeFormFieldMappingsAreEqual(
+						field,
+						nodeFormFieldToRemove,
+					),
 			);
 		},
 
@@ -147,12 +155,33 @@ const flowSlice = createSlice({
 			},
 		});
 
-		builder.addCase(
-			newNodeFormFieldMappingCreated,
-			(state, { payload: newNodeFormFieldMapping }) => {
-				state.nodeFormFieldMappings.push(newNodeFormFieldMapping);
-			},
-		);
+		builder
+			.addCase(
+				newNodeFormFieldMappingCreated,
+				(state, { payload: newNodeFormFieldMapping }) => {
+					state.nodeFormFieldMappings.push(newNodeFormFieldMapping);
+				},
+			)
+			.addCase(
+				existingNodeFormFieldMappingUpdated,
+				(state, { payload: updatedNodeFormFieldMapping }) => {
+					state.nodeFormFieldMappings =
+						state.nodeFormFieldMappings.map(
+							existingNodeFormFieldMapping => {
+								if (
+									nodeFormFieldMappingIsUpdate(
+										existingNodeFormFieldMapping,
+										updatedNodeFormFieldMapping,
+									)
+								) {
+									return updatedNodeFormFieldMapping;
+								}
+
+								return existingNodeFormFieldMapping;
+							},
+						);
+				},
+			);
 	},
 });
 

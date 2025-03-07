@@ -16,6 +16,7 @@ import {
 import {
 	selectPrefillingNodeByActiveNode,
 	selectPrefillingPropertyKeyByActiveNode,
+	selectSavedNodeFormFieldMappingByActiveNode,
 } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import {
 	selectActiveNode,
@@ -32,7 +33,7 @@ import useTypedSelector from '@/hooks/useTypedSelector';
 // !- Fix updating preloaded actions (changing from what is saved, toggling) [45m]
 // // 4. Wire up 'search' bar
 // // 5. Wire up 'cancel' button per FormFieldRow. [10m]
-// 6. Wire up 'prefill' toggle [1hr]
+// // 6. Wire up 'prefill' toggle [1hr]
 // 7. Create and implement tests (jest + property based tests?) [2h]
 // 8. Handle global data sources [1hr]
 // 9. Handle new data sources [1hr]
@@ -96,6 +97,12 @@ function PrefillMappingChildListItemBase({
 	const prefillingPropertyKeyByActiveNode = useTypedSelector(
 		selectPrefillingPropertyKeyByActiveNode,
 	);
+	const savedNodeFormFieldMappingByActiveNode = useTypedSelector(
+		selectSavedNodeFormFieldMappingByActiveNode,
+	);
+
+	const activeMappingMatchesSavedMapping =
+		savedNodeFormFieldMappingByActiveNode;
 
 	const handleLIOnClick = useCallback(
 		(_e: MouseEvent<HTMLLIElement, globalThis.MouseEvent>): void => {
@@ -135,7 +142,7 @@ function PrefillMappingChildListItemBase({
 		],
 	);
 
-	const getNodeFormFieldIsClicked = useCallback((): boolean => {
+	const getNodeFormFieldIsMapped = useCallback((): boolean => {
 		if (
 			activeNode !== undefined &&
 			prefillingNodeByActiveNode !== undefined &&
@@ -159,8 +166,8 @@ function PrefillMappingChildListItemBase({
 		prerequisiteNode,
 	]);
 	const nodeFormFieldIsClicked = useMemo(
-		() => getNodeFormFieldIsClicked(),
-		[getNodeFormFieldIsClicked],
+		() => getNodeFormFieldIsMapped(),
+		[getNodeFormFieldIsMapped],
 	);
 
 	return (
