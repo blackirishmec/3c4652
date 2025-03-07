@@ -11,10 +11,7 @@ import {
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	selectNodeFormFieldMappings,
 } from '@/redux/features/ui/flow/selectors';
-import {
-	nodeFormFieldMappingIsUpdate,
-	nodeFormFieldMappingsAreEqual,
-} from '@/redux/features/ui/flow/utils';
+import { nodeFormFieldMappingsAreEqual } from '@/redux/features/ui/flow/utils';
 import {
 	selectActiveNode,
 	selectActivePrefillingNode,
