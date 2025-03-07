@@ -14,6 +14,7 @@ import FormFieldRow from '@/components/form/button/FormFieldRow';
 
 const classes = {
 	disabled: `
+		pointer-events-none
 		cursor-not-allowed!
 		opacity-50
 		line-through
