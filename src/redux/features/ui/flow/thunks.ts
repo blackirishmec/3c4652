@@ -21,6 +21,7 @@ import {
 	nodeFormFieldMappingsAreEqual,
 } from '@/redux/features/ui/flow/utils';
 import {
+	selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
 	selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
 	selectVirtualActiveNodeFormFieldMapping,
 } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
@@ -75,8 +76,14 @@ export const saveSelectedPrefillMapping = createAsyncThunk<
 >('flow/fetchFlow', (_, { dispatch, getState }) => {
 	const state = getState() as RootState;
 
+	// ***
 	const savedNodeFormFieldMappingByActiveNode =
 		selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey(state);
+	const savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier =
+		selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier(
+			state,
+		);
+	// ***
 
 	const virtualActiveNodeFormFieldMapping =
 		selectVirtualActiveNodeFormFieldMapping(state);
@@ -85,13 +92,16 @@ export const saveSelectedPrefillMapping = createAsyncThunk<
 		return;
 	}
 
-	if (savedNodeFormFieldMappingByActiveNode === undefined) {
+	if (
+		savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier ===
+		undefined
+	) {
 		dispatch(
 			newNodeFormFieldMappingCreated(virtualActiveNodeFormFieldMapping),
 		);
 	} else if (
 		nodeFormFieldMappingIsUpdate(
-			savedNodeFormFieldMappingByActiveNode,
+			savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
 			virtualActiveNodeFormFieldMapping,
 		)
 	) {
@@ -102,7 +112,7 @@ export const saveSelectedPrefillMapping = createAsyncThunk<
 		);
 	} else if (
 		!nodeFormFieldMappingsAreEqual(
-			savedNodeFormFieldMappingByActiveNode,
+			savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
 			virtualActiveNodeFormFieldMapping,
 		)
 	) {

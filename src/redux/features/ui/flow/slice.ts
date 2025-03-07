@@ -152,16 +152,10 @@ const flowSlice = createSlice({
 			{ payload: prefillingChildIdentifier }: PayloadAction<string>,
 		) => {
 			state.activePrefillingChildIdentifier = prefillingChildIdentifier;
-
-			state.activePrefillingChildIdentifier =
-				initialState.activePrefillingChildIdentifier;
 		},
 		resetPrefillingActiveChildIdentifier: state => {
 			state.activePrefillingChildIdentifier =
 				initialState.activePrefillingGlobalDataSubsetId;
-
-			state.activePrefillingChildIdentifier =
-				initialState.activePrefillingChildIdentifier;
 		},
 
 		setActivePrefillingGlobalDataSubsetDataKey: (

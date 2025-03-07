@@ -9,8 +9,8 @@ import type { HTMLAttributes, MouseEvent } from 'react';
 import {
 	removeNodeFormFieldMapping,
 	selectActivePrefillingChildIdentifier,
-	setActivePrefillingNodeFormFieldMappedPropertyKey,
-	setActivePrefillingNodeId,
+	setActivePrefillingChildIdentifier,
+	setActivePrefillingParent,
 } from '@/redux/features/ui/flow';
 import {
 	selectActivePrefillingParentModelByActiveNode,
@@ -100,12 +100,15 @@ function ChildListItemBase({
 				activePrefillingChildModelIdentifier !==
 				prefillingNodeFormFieldSchemaPropertyKey
 			) {
-				// ***
-				dispatch(setActivePrefillingNodeId(prefillingNode.id));
-				// ***
+				dispatch(
+					setActivePrefillingParent({
+						identifier: prefillingNode.id,
+						prefillingModelType: 'Node',
+					}),
+				);
 
 				dispatch(
-					setActivePrefillingNodeFormFieldMappedPropertyKey(
+					setActivePrefillingChildIdentifier(
 						prefillingNodeFormFieldSchemaPropertyKey,
 					),
 				);

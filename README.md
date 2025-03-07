@@ -36,7 +36,7 @@
 ### Takeaways:
 
 - With more time (I'm at the 4 day mark) I'd:
-    - Assassinate these heinously long variable/function names. Needed them explicit to build fast, dying to refactor them.
+    - Assassinate these heinously long variable/function names. Needed them explicit to build fast, dying to refactor them. I am crying over how bad they are - I hope you at least get a chuckle out of them!
     - Add tests (integration + property based testing)
     - Flush out Type Guards
 
