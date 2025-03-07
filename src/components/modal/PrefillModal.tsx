@@ -7,7 +7,7 @@ import type { ModalProps } from '@/components/modal/Modal';
 import {
 	resetActiveNodeFormFieldPropertyKey,
 	resetActiveNodeId,
-	selectSelectedClickedNodeFormFieldSchemaPropertyKey,
+	selectActiveNodeFormFieldPropertyKey,
 } from '@/redux/features/ui/flow';
 import { selectClickedFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
@@ -33,7 +33,7 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 	);
 
 	const activeNodeFormFieldPropertyKey = useTypedSelector(
-		selectSelectedClickedNodeFormFieldSchemaPropertyKey,
+		selectActiveNodeFormFieldPropertyKey,
 	);
 
 	const handleClosePrefillMappingModal = useCallback(() => {

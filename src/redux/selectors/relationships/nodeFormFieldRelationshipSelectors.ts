@@ -7,8 +7,8 @@ import type { AvantosFieldSchemaPropertiesArrayValue } from '@/types/AvantosType
 
 import { selectNodeById } from '@/redux/features/model/nodes';
 import {
-	selectNodeFormFields,
-	selectSelectedClickedNodeFormField,
+	selectActiveNodeFormFieldMappedPropertyKey,
+	selectNodeFormFieldMappings,
 } from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
@@ -16,7 +16,7 @@ export const createSelectNodeFormFields = (nodeId: Node['id']) => {
 	const selectNode = (state: RootState) => selectNodeById(state, nodeId);
 
 	return createSelector(
-		[selectNode, selectNodeFormFields],
+		[selectNode, selectNodeFormFieldMappings],
 		(node, nodeFormFieldMappings): NodeFormFieldMapping[] => {
 			if (node === undefined) return [];
 
@@ -28,7 +28,7 @@ export const createSelectNodeFormFields = (nodeId: Node['id']) => {
 };
 
 export const selectClickedNodeFormFields = createSelector(
-	[selectClickedNode, selectNodeFormFields],
+	[selectClickedNode, selectNodeFormFieldMappings],
 	(clickedNode, nodeFormFieldMappings): NodeFormFieldMapping[] => {
 		if (clickedNode === undefined) return [];
 
@@ -45,7 +45,7 @@ export const createSelectNodeFormField = (
 	const selectNode = (state: RootState) => selectNodeById(state, nodeId);
 
 	return createSelector(
-		[selectNode, selectNodeFormFields],
+		[selectNode, selectNodeFormFieldMappings],
 		(node, nodeFormFieldMappings): NodeFormFieldMapping | undefined => {
 			if (node === undefined) return undefined;
 
@@ -64,7 +64,7 @@ export const createSelectClickedNodeFormField = (
 	nodeFormFieldSchemaPropertyKey: AvantosFieldSchemaPropertiesArrayValue['key'],
 ) => {
 	return createSelector(
-		[selectClickedNode, selectNodeFormFields],
+		[selectClickedNode, selectNodeFormFieldMappings],
 		(
 			clickedNode,
 			nodeFormFieldMappings,
@@ -86,7 +86,7 @@ export const createSelectClickedNodeFormField = (
 export const selectSelectedClickedNodeFormFieldPrefillingNode = createSelector(
 	[
 		selectClickedNodeFormFields,
-		selectSelectedClickedNodeFormField,
+		selectActiveNodeFormFieldMappedPropertyKey,
 		(state: RootState) => state.nodes.entities,
 	],
 	(

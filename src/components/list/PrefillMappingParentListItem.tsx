@@ -8,7 +8,7 @@ import type { RootState } from '@/redux/store';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
-import { selectSelectedClickedNodeFormField } from '@/redux/features/ui/flow';
+import { selectActiveNodeFormFieldMappedPropertyKey } from '@/redux/features/ui/flow';
 import { createSelectNodeFormFieldSchemaPropertiesArray } from '@/redux/selectors/relationships/formRelationshipSelectors';
 
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -64,7 +64,7 @@ function PrefillMappingParentListItemBase({
 		selectNodeFormFieldSchemaPropertiesArray,
 	);
 	const clickedNodeFormField = useTypedSelector(
-		selectSelectedClickedNodeFormField,
+		selectActiveNodeFormFieldMappedPropertyKey,
 	);
 
 	const clickedParentNode = useTypedSelector((state: RootState) =>

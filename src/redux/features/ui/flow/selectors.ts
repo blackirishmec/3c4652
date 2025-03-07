@@ -31,18 +31,17 @@ export const selectActiveNodeId = createSelector(
 	flow => flow.activeNodeId,
 );
 
-export const selectNodeFormFields = createSelector(
+export const selectNodeFormFieldMappings = createSelector(
 	[selectFlowState],
 	flow => flow.nodeFormFieldMappings,
 );
 
-export const selectSelectedClickedNodeFormField = createSelector(
+export const selectActiveNodeFormFieldMappedPropertyKey = createSelector(
 	[selectFlowState],
 	flow => flow.activeNodeFormFieldMappedPropertyKey,
 );
 
-export const selectSelectedClickedNodeFormFieldSchemaPropertyKey =
-	createSelector(
-		[selectFlowState],
-		flow => flow.activeNodeFormFieldPropertyKey,
-	);
+export const selectActiveNodeFormFieldPropertyKey = createSelector(
+	[selectFlowState],
+	flow => flow.activeNodeFormFieldPropertyKey,
+);

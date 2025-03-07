@@ -9,8 +9,8 @@ import type { HTMLAttributes, MouseEvent } from 'react';
 
 import {
 	resetActiveNodeFormFieldMappedPropertyKey,
-	selectSelectedClickedNodeFormField,
-	selectSelectedClickedNodeFormFieldSchemaPropertyKey,
+	selectActiveNodeFormFieldMappedPropertyKey,
+	selectActiveNodeFormFieldPropertyKey,
 	setActiveNodeFormFieldMappedPropertyKey,
 } from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
@@ -75,10 +75,10 @@ function PrefillMappingChildListItemBase({
 
 	const clickedNode = useTypedSelector(selectClickedNode);
 	const clickedNodeFormField = useTypedSelector(
-		selectSelectedClickedNodeFormField,
+		selectActiveNodeFormFieldMappedPropertyKey,
 	);
 	const clickedNodeFormFieldSchemaPropertyKey = useTypedSelector(
-		selectSelectedClickedNodeFormFieldSchemaPropertyKey,
+		selectActiveNodeFormFieldPropertyKey,
 	);
 
 	const handleLIOnClick = useCallback(

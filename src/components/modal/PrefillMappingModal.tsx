@@ -9,8 +9,8 @@ import { selectNodeById } from '@/redux/features/model/nodes';
 import {
 	addNodeFormFieldMapping,
 	resetActiveNodeFormFieldMappedPropertyKey,
-	selectSelectedClickedNodeFormField,
-	selectSelectedClickedNodeFormFieldSchemaPropertyKey,
+	selectActiveNodeFormFieldMappedPropertyKey,
+	selectActiveNodeFormFieldPropertyKey,
 } from '@/redux/features/ui/flow';
 import { selectClickedNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
@@ -30,10 +30,10 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 
 	const clickedNode = useTypedSelector(selectClickedNode);
 	const activeNodeFormFieldPropertyKey = useTypedSelector(
-		selectSelectedClickedNodeFormFieldSchemaPropertyKey,
+		selectActiveNodeFormFieldPropertyKey,
 	);
 	const activeNodeFormFieldMappedPropertyKey = useTypedSelector(
-		selectSelectedClickedNodeFormField,
+		selectActiveNodeFormFieldMappedPropertyKey,
 	);
 	const prefillingNode = useTypedSelector((state: RootState) =>
 		selectNodeById(
