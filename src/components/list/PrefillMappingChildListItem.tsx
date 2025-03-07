@@ -2,21 +2,21 @@ import { memo, useCallback, useMemo } from 'react';
 
 import clsx from 'clsx';
 
-import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
 import {
 	resetActivePrefillingNodeFormFieldMappedPropertyKey,
-	selectActiveNodeFormFieldPropertyKey,
+	resetActivePrefillingNodeId,
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	setActivePrefillingNodeFormFieldMappedPropertyKey,
 	setActivePrefillingNodeId,
 } from '@/redux/features/ui/flow';
-import { createSelectNodeFormFieldMapping } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
-import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
-import nodeFormFieldsAreEqual from '@/redux/utilities/nodeFormFieldsAreEqual';
+import {
+	selectActiveNode,
+	selectActivePrefillingNode,
+} from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -76,33 +76,11 @@ function PrefillMappingChildListItemBase({
 	const dispatch = useAppDispatch();
 
 	const activeNode = useTypedSelector(selectActiveNode);
-	const activeNodeFormFieldPropertyKey = useTypedSelector(
-		selectActiveNodeFormFieldPropertyKey,
+	const activeNodePrefillingNode = useTypedSelector(
+		selectActivePrefillingNode,
 	);
 	const activePrefillingNodeFormFieldSchemaPropertyKey = useTypedSelector(
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
-	);
-
-	const selectNodeFormFieldMappingByActiveNode = useMemo(
-		() =>
-			createSelectNodeFormFieldMapping({
-				nodeId: activeNode?.id ?? '',
-				nodeFormFieldPropertyKey: activeNodeFormFieldPropertyKey ?? '',
-				prerequisiteNodeId:
-					activePrefillingNodeFormFieldSchemaPropertyKey ?? '',
-				prerequisiteNodeFormFieldPropertyKey:
-					formFieldSchemaPropertiesArrayValueByPrerequisiteNode?.key ??
-					'',
-			}),
-		[
-			activeNode?.id,
-			activePrefillingNodeFormFieldSchemaPropertyKey,
-			activeNodeFormFieldPropertyKey,
-			formFieldSchemaPropertiesArrayValueByPrerequisiteNode?.key,
-		],
-	);
-	const nodeFormFieldMappingByActiveNode = useTypedSelector(
-		selectNodeFormFieldMappingByActiveNode,
 	);
 
 	const handleLIOnClick = useCallback(
@@ -114,16 +92,29 @@ function PrefillMappingChildListItemBase({
 			)
 				return;
 
-			dispatch(setActivePrefillingNodeId(prerequisiteNode.id));
-			dispatch(
-				setActivePrefillingNodeFormFieldMappedPropertyKey(
-					formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key,
-				),
-			);
+			if (
+				activeNodePrefillingNode !== undefined &&
+				activePrefillingNodeFormFieldSchemaPropertyKey !== undefined &&
+				activeNodePrefillingNode.id === prerequisiteNode.id &&
+				activePrefillingNodeFormFieldSchemaPropertyKey ===
+					formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
+			) {
+				dispatch(resetActivePrefillingNodeId());
+				dispatch(resetActivePrefillingNodeFormFieldMappedPropertyKey());
+			} else {
+				dispatch(setActivePrefillingNodeId(prerequisiteNode.id));
+				dispatch(
+					setActivePrefillingNodeFormFieldMappedPropertyKey(
+						formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key,
+					),
+				);
+			}
 
 			_e.stopPropagation();
 		},
 		[
+			activeNodePrefillingNode,
+			activePrefillingNodeFormFieldSchemaPropertyKey,
 			dispatch,
 			formFieldSchemaPropertiesArrayValueByPrerequisiteNode,
 			prerequisiteNode,
@@ -133,17 +124,14 @@ function PrefillMappingChildListItemBase({
 	const getNodeFormFieldIsClicked = useCallback((): boolean => {
 		if (
 			activeNode !== undefined &&
-			nodeFormFieldMappingByActiveNode !== undefined &&
+			activeNodePrefillingNode !== undefined &&
+			activePrefillingNodeFormFieldSchemaPropertyKey !== undefined &&
 			prerequisiteNode !== undefined &&
 			formFieldSchemaPropertiesArrayValueByPrerequisiteNode !== undefined
 		) {
 			return (
-				nodeFormFieldMappingByActiveNode.nodeFormFieldSchemaPropertyKey ===
-					activeNodeFormFieldPropertyKey &&
-				nodeFormFieldMappingByActiveNode.prefillingNodeId ===
-					prerequisiteNode.id &&
-				nodeFormFieldMappingByActiveNode.nodeId === activeNode.id &&
-				nodeFormFieldMappingByActiveNode.prefillingNodeFormFieldSchemaPropertyKey ===
+				activeNodePrefillingNode.id === prerequisiteNode.id &&
+				activePrefillingNodeFormFieldSchemaPropertyKey ===
 					formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
 			);
 		}
@@ -151,9 +139,9 @@ function PrefillMappingChildListItemBase({
 		return false;
 	}, [
 		activeNode,
-		activeNodeFormFieldPropertyKey,
+		activeNodePrefillingNode,
+		activePrefillingNodeFormFieldSchemaPropertyKey,
 		formFieldSchemaPropertiesArrayValueByPrerequisiteNode,
-		nodeFormFieldMappingByActiveNode,
 		prerequisiteNode,
 	]);
 	const nodeFormFieldIsClicked = useMemo(
