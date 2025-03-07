@@ -31,7 +31,7 @@ export const createSelectNodeFormFieldMappingByNode = (nodeId: Node['id']) => {
 	);
 };
 
-export const selectNodeFormFieldMappingsByActiveNode = createSelector(
+export const selectSavedNodeFormFieldMappingsByActiveNode = createSelector(
 	[selectActiveNode, selectNodeFormFieldMappings],
 	(activeNode, nodeFormFieldMappings): NodeFormFieldMapping[] => {
 		if (activeNode === undefined) return [];
@@ -42,11 +42,11 @@ export const selectNodeFormFieldMappingsByActiveNode = createSelector(
 	},
 );
 
-export const createSelectNodeFormFieldMappingByActiveNode = (
+export const createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey = (
 	formFieldSchemaPropertyKey: FormFieldSchemaPropertiesArrayValue['key'],
 ) => {
 	return createSelector(
-		[selectNodeFormFieldMappingsByActiveNode],
+		[selectSavedNodeFormFieldMappingsByActiveNode],
 		(
 			nodeFormFieldMappingsByActiveNode,
 		): NodeFormFieldMapping | undefined => {
@@ -115,30 +115,30 @@ export const createSelectSavedNodeFormFieldMappingByNodeAndPropertyKey = ({
 	);
 };
 
-export const createSelectSavedNodeFormFieldMappingByActiveNodeAndPropertyKey =
-	({
-		nodeFormFieldPropertyKey,
-	}: {
-		nodeFormFieldPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
-	}) => {
-		return createSelector(
-			[selectActiveNode, selectNodeFormFieldMappings],
-			(
-				activeNode,
-				nodeFormFieldMappings,
-			): NodeFormFieldMapping | undefined => {
-				if (activeNode === undefined) return undefined;
+// export const createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey =
+// 	({
+// 		nodeFormFieldPropertyKey,
+// 	}: {
+// 		nodeFormFieldPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
+// 	}) => {
+// 		return createSelector(
+// 			[selectActiveNode, selectNodeFormFieldMappings],
+// 			(
+// 				activeNode,
+// 				nodeFormFieldMappings,
+// 			): NodeFormFieldMapping | undefined => {
+// 				if (activeNode === undefined) return undefined;
 
-				return nodeFormFieldMappings.find(nodeFormFieldMapping => {
-					return (
-						activeNode.id === nodeFormFieldMapping.nodeId &&
-						nodeFormFieldPropertyKey ===
-							nodeFormFieldMapping.nodeFormFieldSchemaPropertyKey
-					);
-				});
-			},
-		);
-	};
+// 				return nodeFormFieldMappings.find(nodeFormFieldMapping => {
+// 					return (
+// 						activeNode.id === nodeFormFieldMapping.nodeId &&
+// 						nodeFormFieldPropertyKey ===
+// 							nodeFormFieldMapping.nodeFormFieldSchemaPropertyKey
+// 					);
+// 				});
+// 			},
+// 		);
+// 	};
 
 export const selectSavedNodeFormFieldMappingByActiveNode = createSelector(
 	[
@@ -216,9 +216,9 @@ export const createSelectPrefillingNodeLabelByActiveNodeAndPropertyKey = ({
 	nodeFormFieldPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
 }) => {
 	const selectSavedNodeFormFieldMappingByActiveNodeAndPropertyKey =
-		createSelectSavedNodeFormFieldMappingByActiveNodeAndPropertyKey({
+		createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey(
 			nodeFormFieldPropertyKey,
-		});
+		);
 
 	return createSelector(
 		[
@@ -305,9 +305,9 @@ export const createSelectPrefillingPropertyKeyLabelByActiveNodeAndPropertyKey =
 		nodeFormFieldPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
 	}) => {
 		const selectSavedNodeFormFieldMappingByActiveNodeAndPropertyKey =
-			createSelectSavedNodeFormFieldMappingByActiveNodeAndPropertyKey({
+			createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey(
 				nodeFormFieldPropertyKey,
-			});
+			);
 
 		return createSelector(
 			[
@@ -359,7 +359,7 @@ export const selectPrefillingPropertyKeyByActiveNode = createSelector(
 
 export const selectNodeFormFieldMappingByActiveNode = createSelector(
 	[
-		selectNodeFormFieldMappingsByActiveNode,
+		selectSavedNodeFormFieldMappingsByActiveNode,
 		selectActiveNodeFormFieldPropertyKey,
 		selectActivePrefillingNode,
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,

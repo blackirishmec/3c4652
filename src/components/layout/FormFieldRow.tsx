@@ -5,10 +5,14 @@ import { PiDatabase, PiXCircleFill } from 'react-icons/pi';
 
 import type { RootState } from '@/redux/store';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { MouseEvent } from 'react';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
-import { setActiveNodeFormFieldPropertyKey } from '@/redux/features/ui/flow';
-import { createSelectNodeFormFieldMappingByActiveNode } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import {
+	removeNodeFormFieldMapping,
+	setActiveNodeFormFieldPropertyKey,
+} from '@/redux/features/ui/flow';
+import { createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -52,26 +56,70 @@ export interface FormFieldRowProps {
 function FormFieldRowBase({ property }: FormFieldRowProps) {
 	const dispatch = useAppDispatch();
 
-	const selectNodeFormFieldMappingByActiveNode = useMemo(
-		() => createSelectNodeFormFieldMappingByActiveNode(property.key),
+	const selectSavedNodeFormFieldMappingForActiveNodeByPropertyKey = useMemo(
+		() =>
+			createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey(
+				property.key,
+			),
 		[property.key],
 	);
-	const nodeFormFieldMappingByActiveNode = useTypedSelector(
-		selectNodeFormFieldMappingByActiveNode,
-	);
+	const savedNodeFormFieldMappingForActiveNodeByPropertyKey =
+		useTypedSelector(
+			selectSavedNodeFormFieldMappingForActiveNodeByPropertyKey,
+		);
 
 	const prefillingNode = useTypedSelector((state: RootState) =>
 		selectNodeById(
 			state,
-			nodeFormFieldMappingByActiveNode?.prefillingNodeId ?? '',
+			savedNodeFormFieldMappingForActiveNodeByPropertyKey?.prefillingNodeId ??
+				'',
 		),
 	);
 
-	const handleOnClick = useCallback(() => {
+	const handleRowOnClick = useCallback(() => {
 		dispatch(setActiveNodeFormFieldPropertyKey(property.key));
 	}, [dispatch, property.key]);
 
-	const prefilled = nodeFormFieldMappingByActiveNode !== undefined;
+	const handleRemoveMappingOnClick = useCallback(
+		(e: MouseEvent<HTMLDivElement>) => {
+			if (
+				savedNodeFormFieldMappingForActiveNodeByPropertyKey ===
+				undefined
+			) {
+				return;
+			}
+
+			dispatch(
+				removeNodeFormFieldMapping(
+					savedNodeFormFieldMappingForActiveNodeByPropertyKey,
+				),
+			);
+
+			e.stopPropagation();
+		},
+		[dispatch, savedNodeFormFieldMappingForActiveNodeByPropertyKey],
+	);
+
+	const prefilled = useMemo(
+		() => savedNodeFormFieldMappingForActiveNodeByPropertyKey !== undefined,
+		[savedNodeFormFieldMappingForActiveNodeByPropertyKey],
+	);
+
+	const rowLabel = useMemo(
+		() =>
+			`${property.key}${
+				prefillingNode !== undefined &&
+				savedNodeFormFieldMappingForActiveNodeByPropertyKey !==
+					undefined
+					? `: ${prefillingNode.data.name}.${savedNodeFormFieldMappingForActiveNodeByPropertyKey.prefillingNodeFormFieldSchemaPropertyKey}`
+					: ''
+			}`,
+		[
+			prefillingNode,
+			property.key,
+			savedNodeFormFieldMappingForActiveNodeByPropertyKey,
+		],
+	);
 
 	return (
 		<Row
@@ -79,7 +127,7 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 				classes.containerRow,
 				prefilled && classes.prefilledContainerRow,
 			)}
-			onClick={handleOnClick}
+			onClick={handleRowOnClick}
 		>
 			{!prefilled && (
 				<Col childrenVerticalPosition="center">
@@ -92,15 +140,13 @@ function FormFieldRowBase({ property }: FormFieldRowProps) {
 					prefilled && classes.prefilledLabel,
 				)}
 			>
-				{`${property.key}${
-					prefillingNode !== undefined &&
-					nodeFormFieldMappingByActiveNode !== undefined
-						? `: ${prefillingNode.data.name}.${nodeFormFieldMappingByActiveNode.prefillingNodeFormFieldSchemaPropertyKey}`
-						: ''
-				}`}
+				{rowLabel}
 			</Col>
 			{prefilled && (
-				<Col childrenVerticalPosition="center">
+				<Col
+					onClick={handleRemoveMappingOnClick}
+					childrenVerticalPosition="center"
+				>
 					<PiXCircleFill color="gray" />
 				</Col>
 			)}

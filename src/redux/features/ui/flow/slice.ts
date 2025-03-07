@@ -52,7 +52,7 @@ const flowSlice = createSlice({
 			}: PayloadAction<NodeFormFieldMapping>,
 		) => {
 			state.nodeFormFieldMappings = state.nodeFormFieldMappings.filter(
-				field => field !== nodeFormFieldToRemove,
+				field => !nodeFormFieldsAreEqual(field, nodeFormFieldToRemove),
 			);
 		},
 
