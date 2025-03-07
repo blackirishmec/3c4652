@@ -1,6 +1,6 @@
 import { memo, useCallback, useMemo } from 'react';
 
-import { PiXFill } from 'react-icons/pi';
+import { PiToggleLeft, PiToggleRightFill, PiXFill } from 'react-icons/pi';
 
 import type { ModalProps } from '@/components/modal/Modal';
 
@@ -87,7 +87,10 @@ function PrefillModalBase({ ...props }: PrefillModalProps) {
 					<Row className="font-semibold">Prefill</Row>
 					<Row>Prefill fields for this form</Row>
 				</Col>
-				<Col childrenVerticalPosition="center">I/O</Col>
+				<Col childrenVerticalPosition="center">
+					<PiToggleLeft size={40} />
+					<PiToggleRightFill size={40} />
+				</Col>
 			</Row>
 			<Row className="pt-8 px-4">
 				<Col className="flex-1 space-y-4">{Rows}</Col>

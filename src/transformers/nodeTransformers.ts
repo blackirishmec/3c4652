@@ -15,12 +15,13 @@ export function transformNodeResource({
 	edgeResources,
 }: TransformNodeResourceProps): TransformNodeResourceResult {
 	const tempData = nodeResource.data;
-	tempData.edgeTo = edgeResources.some(
+	tempData.edge_to = edgeResources.some(
 		edgeResource => edgeResource.target === nodeResource.id,
 	);
-	tempData.edgeFrom = edgeResources.some(
+	tempData.edge_from = edgeResources.some(
 		edgeResource => edgeResource.source === nodeResource.id,
 	);
+	tempData.prefill_enabled = true;
 
 	return {
 		node: {

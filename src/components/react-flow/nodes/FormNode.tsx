@@ -32,7 +32,7 @@ export function FormNode({ data, selected, dragging }: NodeProps<Node>) {
 				dragging === true ? 'bg-[#fafafa]' : 'bg-[#fff]',
 			)}
 		>
-			{data.edgeTo === true && (
+			{data.edge_to === true && (
 				<Handle
 					type="target"
 					position={Position.Left}
@@ -59,7 +59,7 @@ export function FormNode({ data, selected, dragging }: NodeProps<Node>) {
 				<Row className="text-gray-500 text-sm">Form</Row>
 				<Row className="font-semibold">{data.name}</Row>
 			</Col>
-			{data.edgeFrom === true && (
+			{data.edge_from === true && (
 				<Handle
 					type="source"
 					position={Position.Right}

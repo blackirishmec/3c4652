@@ -29,8 +29,9 @@ export interface NodeData extends Record<string, unknown> {
 		number: number;
 		unit: 'minutes' | 'hours' | 'days';
 	};
-	edgeTo: boolean;
-	edgeFrom: boolean;
+	edge_to: boolean;
+	edge_from: boolean;
+	prefill_enabled: boolean;
 }
 
 export interface FormUiSchema {
