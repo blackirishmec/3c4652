@@ -4,7 +4,7 @@ import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import { globalDataSubsetFetched, globalDataSubsetsFetched } from './actions';
-import { globalDataSubsetsAdapter } from './globalDataSubsetsAdapter';
+import globalDataSubsetsAdapter from './globalDataSubsetsAdapter';
 import initialState from './initialState';
 
 const globalDataSubsetsSlice = createSlice({

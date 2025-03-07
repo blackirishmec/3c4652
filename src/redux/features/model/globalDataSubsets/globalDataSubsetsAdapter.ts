@@ -2,7 +2,7 @@ import { createEntityAdapter } from '@reduxjs/toolkit';
 
 import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
 
-export const globalDataSubsetsAdapter = createEntityAdapter<
+const globalDataSubsetsAdapter = createEntityAdapter<
 	GlobalDataSubset,
 	GlobalDataSubset['key']
 >({

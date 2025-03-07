@@ -1,7 +1,7 @@
 import type { GlobalDataSubsetsState } from './types';
 import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
 
-import { globalDataSubsetsAdapter } from '@/redux/features/model/globalDataSubsets/globalDataSubsetsAdapter';
+import globalDataSubsetsAdapter from '@/redux/features/model/globalDataSubsets/globalDataSubsetsAdapter';
 
 const seededEntities: GlobalDataSubset[] = [
 	{
