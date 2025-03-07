@@ -7,6 +7,7 @@ import type {
 import type { Edge } from '@/interfaces/models/edgeModels';
 import type { Form } from '@/interfaces/models/formModels';
 import type { Node } from '@/interfaces/models/nodeModels';
+import type { PrefillingModelType } from '@/redux/features/ui/flow';
 
 export interface AvantosApiResponse {
 	nodes: Node[];
@@ -74,6 +75,7 @@ export interface FormUISchemaElement {
 export interface NodeFormFieldMapping {
 	nodeId: Node['id'];
 	nodeFormFieldSchemaPropertyKey: FormFieldSchemaPropertiesArrayValue['key'];
+	prefillingModelType: PrefillingModelType;
 	prefillingParentIdentifier?: string;
 	prefillingChildIdentifier: string;
 }

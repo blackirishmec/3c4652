@@ -13,14 +13,20 @@ export interface FlowState {
 	fetchFlowDataStatus: StatusState;
 	lastFetchFlowData: string | null;
 	nodeFormFieldMappings: NodeFormFieldMapping[];
+
 	activeNodeId?: Node['id'];
 	activeNodeFormFieldPropertyKey?: FormFieldSchemaPropertiesArrayValue['key'];
+
 	availableDataSearchTerm?: string;
+
 	activePrefillingNodeId?: Node['id'];
 	activePrefillingNodeFormFieldSchemaPropertyKey?: FormFieldSchemaPropertiesArrayValue['key'];
+
 	activePrefillingGlobalDataSubsetId?: GlobalDataSubset['id'];
 	activePrefillingGlobalDataSubsetDataKey?: GlobalDataSubsetData['id'];
+
 	activePrefillingParentIdentifier?: string;
 	activePrefillingChildIdentifier?: string;
+
 	activePrefillingModelType?: PrefillingModelType;
 }

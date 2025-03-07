@@ -9,6 +9,7 @@ import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import { selectNodeById } from '@/redux/features/model/nodes';
 import {
 	selectActiveNodeFormFieldPropertyKey,
+	selectActivePrefillingChildIdentifier,
 	selectActivePrefillingModelType,
 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	selectActivePrefillingParentIdentifier,
@@ -393,11 +394,13 @@ export const selectPrefillingParentModelByActiveNode = createSelector(
 	[
 		selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
 		(state: RootState) => state.nodes.entities,
+		(state: RootState) => state.globalDataSubsets.entities,
 		selectActivePrefillingParentModelByActiveNode,
 	],
 	(
 		savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
 		nodeEntities,
+		globalDataSubsetEntities,
 		activePrefillingParentModelByActiveNode,
 	): Node | GlobalDataSubset | undefined => {
 		if (activePrefillingParentModelByActiveNode !== undefined) {
@@ -411,21 +414,62 @@ export const selectPrefillingParentModelByActiveNode = createSelector(
 			return undefined;
 		}
 
-		const prefillingNode =
-			nodeEntities[
-				savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier?.prefillingParentIdentifier ??
-					''
-			];
+		if (
+			savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier.prefillingModelType ===
+			'Node'
+		) {
+			const prefillingNode =
+				nodeEntities[
+					savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier?.prefillingParentIdentifier ??
+						''
+				];
 
-		if (prefillingNode === undefined) {
-			return undefined;
+			if (prefillingNode === undefined) {
+				return undefined;
+			}
+
+			return prefillingNode;
 		}
 
-		return prefillingNode;
+		if (
+			savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier.prefillingModelType ===
+			'GlobalDataSubset'
+		) {
+			const prefillingGlobalDataSubset =
+				globalDataSubsetEntities[
+					savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier?.prefillingParentIdentifier ??
+						''
+				];
+
+			if (prefillingGlobalDataSubset === undefined) {
+				return undefined;
+			}
+
+			return prefillingGlobalDataSubset;
+		}
+
+		return undefined;
 	},
 );
 
-export const selectPrefillingParentLabelByActiveNode = createSelector(
+export const selectPrefillingParentModelLabelByActiveNode = createSelector(
+	[selectPrefillingParentModelByActiveNode],
+	(prefillingParentModelByActiveNode): string | undefined => {
+		if (prefillingParentModelByActiveNode === undefined) return undefined;
+
+		if (isNode(prefillingParentModelByActiveNode)) {
+			return prefillingParentModelByActiveNode.data.name;
+		}
+
+		if (isGlobalDataSubset(prefillingParentModelByActiveNode)) {
+			return prefillingParentModelByActiveNode.id;
+		}
+
+		return undefined;
+	},
+);
+
+export const selectActivePrefillingParentLabelByActiveNode = createSelector(
 	[selectActivePrefillingParentModelByActiveNode],
 	(activePrefillingParentModelByActiveNode): string | undefined => {
 		if (activePrefillingParentModelByActiveNode === undefined)
@@ -505,24 +549,51 @@ export const selectPrefillingPropertyKeyByActiveNode = createSelector(
 	},
 );
 
+export const selectPrefillingChildIdentifierByActiveNode = createSelector(
+	[
+		selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
+		selectActivePrefillingChildIdentifier,
+	],
+	(
+		savedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
+		activePrefillingChildIdentifier,
+	): string | undefined => {
+		if (activePrefillingChildIdentifier !== undefined) {
+			return activePrefillingChildIdentifier;
+		}
+
+		if (
+			savedNodeFormFieldMappingByActiveNodeAndActivePropertyKey ===
+			undefined
+		) {
+			return undefined;
+		}
+
+		return savedNodeFormFieldMappingByActiveNodeAndActivePropertyKey?.prefillingChildIdentifier;
+	},
+);
+
 export const selectVirtualActiveNodeFormFieldMapping = createSelector(
 	[
 		selectActiveNode,
 		selectActiveNodeFormFieldPropertyKey,
 		selectActivePrefillingNode,
 		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+		selectActivePrefillingModelType,
 	],
 	(
 		activeNode,
 		activeNodeFormFieldPropertyKey,
 		activePrefillingNode,
 		activePrefillingNodeFormFieldSchemaPropertyKey,
+		activePrefillingModelType,
 	): NodeFormFieldMapping | undefined => {
 		if (
 			activeNode === undefined ||
 			activeNodeFormFieldPropertyKey === undefined ||
 			activePrefillingNode === undefined ||
-			activePrefillingNodeFormFieldSchemaPropertyKey === undefined
+			activePrefillingNodeFormFieldSchemaPropertyKey === undefined ||
+			activePrefillingModelType === undefined
 		)
 			return undefined;
 
@@ -532,6 +603,7 @@ export const selectVirtualActiveNodeFormFieldMapping = createSelector(
 			prefillingParentIdentifier: activePrefillingNode.id,
 			prefillingChildIdentifier:
 				activePrefillingNodeFormFieldSchemaPropertyKey,
+			prefillingModelType: activePrefillingModelType,
 		};
 	},
 );

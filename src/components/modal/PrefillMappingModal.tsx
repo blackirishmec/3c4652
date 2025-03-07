@@ -6,15 +6,12 @@ import type { ModalProps } from '@/components/modal/Modal';
 
 import {
 	selectActiveNodeFormFieldPropertyKey,
-	selectActivePrefillingModelType,
-	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
 	selectActivePrefillingParentIdentifier,
 } from '@/redux/features/ui/flow';
 import { saveSelectedPrefillMapping } from '@/redux/features/ui/flow/thunks';
 import {
-	selectPrefillingNodeLabelByActiveNode,
-	selectPrefillingParentLabelByActiveNode,
-	selectPrefillingPropertyKeyByActiveNode,
+	selectPrefillingChildIdentifierByActiveNode,
+	selectPrefillingParentModelLabelByActiveNode,
 } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import { selectActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
@@ -40,23 +37,13 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 	const activePrefillingParentIdentifier = useTypedSelector(
 		selectActivePrefillingParentIdentifier,
 	);
-	const activePrefillingModelType = useTypedSelector(
-		selectActivePrefillingModelType,
-	);
 
-	// const activePrefillingNodeFormFieldSchemaPropertyKey = useTypedSelector(
-	// 	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
-	// );
-
-	const prefillingNodeLabelByActiveNode = useTypedSelector(
-		selectPrefillingNodeLabelByActiveNode,
-	);
 	const prefillingParentLabelByActiveNode = useTypedSelector(
-		selectPrefillingParentLabelByActiveNode,
+		selectPrefillingParentModelLabelByActiveNode,
 	);
 
-	const prefillingPropertyKeyLabelByActiveNode = useTypedSelector(
-		selectPrefillingPropertyKeyByActiveNode,
+	const prefillingChildIdentifierByActiveNode = useTypedSelector(
+		selectPrefillingChildIdentifierByActiveNode,
 	);
 
 	const handleCloseModal = useCallback(() => {
@@ -73,7 +60,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 
 	if (activeNode === undefined) return null;
 
-	const clickedNodeName = activeNode.data.name;
+	const activeNodeName = activeNode.data.name;
 
 	return (
 		<Modal
@@ -82,7 +69,7 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 			bodyClassName="w-155 h-175"
 		>
 			<Row className="py-3 px-4 border-b">
-				<Col className="flex-1">{`${clickedNodeName}.${activeNodeFormFieldPropertyKey}`}</Col>
+				<Col className="flex-1">{`${activeNodeName}.${activeNodeFormFieldPropertyKey}`}</Col>
 				<Col>
 					<Button
 						className="hover:bg-red-100"
@@ -97,16 +84,16 @@ function PrefillMappingModalBase({ ...props }: PrefillMappingModalProps) {
 			</Row>
 			<Row className="py-3 px-4 border-b border-gray-300 font-medium">
 				<Col className="flex-1">Select data element to map</Col>
-				{prefillingNodeLabelByActiveNode !== undefined && (
+				{prefillingParentLabelByActiveNode !== undefined && (
 					<Col>
 						<Row className="flex-1">
 							<Col className="bg-blue-100">
-								{prefillingNodeLabelByActiveNode}
+								{prefillingParentLabelByActiveNode}
 							</Col>
-							{prefillingPropertyKeyLabelByActiveNode !==
+							{prefillingChildIdentifierByActiveNode !==
 								undefined && (
 								<Col className="bg-green-100">
-									{`.${prefillingPropertyKeyLabelByActiveNode}`}
+									{`.${prefillingChildIdentifierByActiveNode}`}
 								</Col>
 							)}
 						</Row>

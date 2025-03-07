@@ -33,7 +33,14 @@
 
 ## Notes:
 
+### Takeaways:
+
 - With more time (I'm at the 4 day mark) I'd:
     - Assassinate these heinously long variable/function names. Needed them explicit to build fast, dying to refactor them.
     - Build out tests (add property based testing)
     - Integrate Type Guards for Parent Model Type
+
+### Patterns to Pay Attention To:
+
+- Any data sources will work with this project so long as they have an identifier of type `string`
+- Transformers/resources would be created for said data types to sanitize them as they come in from the server
