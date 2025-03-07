@@ -3,6 +3,7 @@ import { memo, useCallback, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { PiCaretDownBold, PiCaretRightBold } from 'react-icons/pi';
 
+import type { GlobalDataSubsetData } from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { HTMLAttributes, MouseEvent } from 'react';
 
@@ -34,20 +35,20 @@ const classes = {
 
 export interface PrefillMappingParentListItemProps
 	extends Omit<HTMLAttributes<HTMLLIElement>, 'children'> {
-	childrenListItemData?: unknown[];
+	childrenListItemData?: GlobalDataSubsetData[];
 	label?: string;
-	prerequisiteNode?: Node;
+	prefilledNode?: Node;
 }
 
 function PrefillMappingParentListItemBase({
 	childrenListItemData,
 	label: prop_label = 'Parent Label',
-	prerequisiteNode,
+	prefilledNode,
 	...props
 }: PrefillMappingParentListItemProps) {
 	const label = useMemo(
-		() => (prerequisiteNode ? prerequisiteNode.data.name : prop_label),
-		[prerequisiteNode, prop_label],
+		() => (prefilledNode ? prefilledNode.data.name : prop_label),
+		[prefilledNode, prop_label],
 	);
 
 	const prefillingNodeByActiveNode = useTypedSelector(
@@ -57,8 +58,8 @@ function PrefillMappingParentListItemBase({
 	const prefillingNodeIsActive = useMemo(
 		() =>
 			prefillingNodeByActiveNode !== undefined &&
-			prefillingNodeByActiveNode.id === prerequisiteNode?.id,
-		[prefillingNodeByActiveNode, prerequisiteNode?.id],
+			prefillingNodeByActiveNode.id === prefilledNode?.id,
+		[prefillingNodeByActiveNode, prefilledNode?.id],
 	);
 
 	const [childrenListExpanded, setChildrenListExpanded] = useState(
@@ -95,7 +96,8 @@ function PrefillMappingParentListItemBase({
 				{childrenListExpanded && (
 					<Row className="bg-[#F6F6F6]">
 						<PrefillMappingChildrenListCol
-							prerequisiteNode={prerequisiteNode}
+							childrenListItemData={childrenListItemData}
+							prefilledNode={prefilledNode}
 						/>
 					</Row>
 				)}

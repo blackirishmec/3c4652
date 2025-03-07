@@ -1,5 +1,6 @@
 import { memo, useMemo } from 'react';
 
+import type { GlobalDataSubsetData } from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 
@@ -12,20 +13,22 @@ import { Col } from '@/components/layout/FlexComponents';
 import PrefillMappingChildListItem from '@/components/list/PrefillMappingChildListItem';
 
 export interface PrefillMappingChildrenListColProps {
-	prerequisiteNode?: Node;
+	childrenListItemData?: GlobalDataSubsetData[];
+	prefilledNode?: Node;
 }
 
 function PrefillMappingChildrenListColBase({
-	prerequisiteNode,
+	childrenListItemData,
+	prefilledNode,
 }: PrefillMappingChildrenListColProps) {
 	const selectFormFieldSchemaPropertiesArrayByPrerequisiteNode = useMemo(
 		() =>
 			createSelectFormFieldSchemaPropertiesArrayByNode(
-				prerequisiteNode ? prerequisiteNode.id : '',
+				prefilledNode ? prefilledNode.id : '',
 			),
-		[prerequisiteNode],
+		[prefilledNode],
 	);
-	const formFieldSchemaPropertiesArrayByPrerequisiteNode = useTypedSelector(
+	const formFieldSchemaPropertiesArrayByPrefilledNode = useTypedSelector(
 		selectFormFieldSchemaPropertiesArrayByPrerequisiteNode,
 	);
 
@@ -36,10 +39,9 @@ function PrefillMappingChildrenListColBase({
 	return (
 		<Col className="flex-1">
 			<ul className="w-full">
-				{formFieldSchemaPropertiesArrayByPrerequisiteNode !==
-					undefined &&
-					prerequisiteNode !== undefined &&
-					formFieldSchemaPropertiesArrayByPrerequisiteNode
+				{formFieldSchemaPropertiesArrayByPrefilledNode !== undefined &&
+					prefilledNode !== undefined &&
+					formFieldSchemaPropertiesArrayByPrefilledNode
 						.filter(
 							(
 								formFieldSchemaPropertiesArrayValueByPrerequisiteNode: FormFieldSchemaPropertiesArrayValue,
@@ -63,7 +65,7 @@ function PrefillMappingChildrenListColBase({
 									prefillingNodeFormFieldSchemaPropertyKey={
 										formFieldSchemaPropertiesArrayValueByPrerequisiteNode.key
 									}
-									prefillingNode={prerequisiteNode}
+									prefillingNode={prefilledNode}
 								/>
 							),
 						)}

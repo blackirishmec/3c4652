@@ -19,8 +19,8 @@ const exploreNodePrerequisites = (
 				return prerequisites;
 			}
 
-			const prerequisiteNode = nodeEntities[prerequisiteId];
-			if (prerequisiteNode == null) {
+			const prefilledNode = nodeEntities[prerequisiteId];
+			if (prefilledNode == null) {
 				return prerequisites;
 			}
 
@@ -28,9 +28,9 @@ const exploreNodePrerequisites = (
 
 			return [
 				...prerequisites,
-				prerequisiteNode,
+				prefilledNode,
 				...exploreNodePrerequisites(
-					{ node: prerequisiteNode, nodeEntities },
+					{ node: prefilledNode, nodeEntities },
 					visitedNodeIds,
 				),
 			];
