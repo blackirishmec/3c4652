@@ -37,8 +37,8 @@
 
 - With more time (I'm at the 4 day mark) I'd:
     - Assassinate these heinously long variable/function names. Needed them explicit to build fast, dying to refactor them.
-    - Build out tests (add property based testing)
-    - Integrate Type Guards for Parent Model Type
+    - Add tests (integration + property based testing)
+    - Flush out Type Guards
 
 ### Patterns to Pay Attention To:
 

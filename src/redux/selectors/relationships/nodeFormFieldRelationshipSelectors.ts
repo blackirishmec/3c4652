@@ -332,6 +332,63 @@ export const selectSavedPrefillingNodeByActiveNodeAndActivePropertyKey =
 		},
 	);
 
+export const selectSavedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier =
+	createSelector(
+		[
+			selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
+			(state: RootState) => state.nodes.entities,
+			(state: RootState) => state.globalDataSubsets.entities,
+		],
+		(
+			savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
+			nodeEntities,
+			globalDataSubsetEntities,
+		): Node | GlobalDataSubset | undefined => {
+			if (
+				savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier ===
+				undefined
+			) {
+				return undefined;
+			}
+
+			if (
+				savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier.prefillingModelType ===
+				'Node'
+			) {
+				const prefillingNode =
+					nodeEntities[
+						savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier.prefillingParentIdentifier ??
+							''
+					];
+
+				if (prefillingNode === undefined) {
+					return undefined;
+				}
+
+				return prefillingNode;
+			}
+
+			if (
+				savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier.prefillingModelType ===
+				'GlobalDataSubset'
+			) {
+				const prefillingGlobalDataSubset =
+					globalDataSubsetEntities[
+						savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier.prefillingParentIdentifier ??
+							''
+					];
+
+				if (prefillingGlobalDataSubset === undefined) {
+					return undefined;
+				}
+
+				return prefillingGlobalDataSubset;
+			}
+
+			return undefined;
+		},
+	);
+
 export const selectSavedPrefillingNodeFormFieldSchemaPropertyKeyByActiveNodeAndActivePropertyKey =
 	createSelector(
 		[selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey],
@@ -346,6 +403,25 @@ export const selectSavedPrefillingNodeFormFieldSchemaPropertyKeyByActiveNodeAndA
 			}
 
 			return savedNodeFormFieldMappingByActiveNodeAndActivePropertyKey.prefillingChildIdentifier;
+		},
+	);
+
+export const selectSavedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier =
+	createSelector(
+		[
+			selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
+		],
+		(
+			savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
+		): FormFieldSchemaPropertiesArrayValue['key'] | undefined => {
+			if (
+				savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier ===
+				undefined
+			) {
+				return undefined;
+			}
+
+			return savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier.prefillingChildIdentifier;
 		},
 	);
 

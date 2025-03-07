@@ -8,19 +8,17 @@ import type { HTMLAttributes, MouseEvent } from 'react';
 
 import {
 	removeNodeFormFieldMapping,
-	selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+	selectActivePrefillingChildIdentifier,
 	setActivePrefillingNodeFormFieldMappedPropertyKey,
 	setActivePrefillingNodeId,
 } from '@/redux/features/ui/flow';
 import {
+	selectActivePrefillingParentModelByActiveNode,
 	selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
-	selectSavedPrefillingNodeByActiveNodeAndActivePropertyKey,
-	selectSavedPrefillingNodeFormFieldSchemaPropertyKeyByActiveNodeAndActivePropertyKey,
+	selectSavedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier,
+	selectSavedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier,
 } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
-import {
-	selectActivePrefillingNode,
-	selectPrefillingEnabledByActiveNode,
-} from '@/redux/selectors/relationships/nodeRelationshipSelectors';
+import { selectPrefillingEnabledByActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
@@ -38,7 +36,7 @@ import classes from '@/styles/childListItemClasses';
 // // 5. Wire up 'cancel' button per FormFieldRow. [10m]
 // // 6. Wire up 'prefill' toggle [1hr]
 // 7. Handle global data sources [1hr]
-// 8. Create and implement tests (jest + property based tests?) [2h]
+// // 8. Create and implement tests (jest + property based tests?) [2h]
 // 9. Handle new data sources [1hr]
 // 10. // // Create documentation (ref M-H-A) [30m]
 // !- Test
@@ -60,25 +58,29 @@ function ChildListItemBase({
 	prefillingNodeFormFieldSchemaPropertyKey,
 	prefillingNode,
 }: ChildListItemProps) {
+	const dispatch = useAppDispatch();
+
 	const label = useMemo(
 		() => prefillingNodeFormFieldSchemaPropertyKey ?? prop_label,
 		[prefillingNodeFormFieldSchemaPropertyKey, prop_label],
 	);
 
-	const dispatch = useAppDispatch();
-
-	const activePrefillingNode = useTypedSelector(selectActivePrefillingNode);
-	const activePrefillingNodeFormFieldSchemaPropertyKey = useTypedSelector(
-		selectActivePrefillingNodeFormFieldSchemaPropertyKey,
+	const activePrefillingParentModelByActiveNode = useTypedSelector(
+		selectActivePrefillingParentModelByActiveNode,
 	);
-	const savedPrefillingNodeByActiveNodeAndActivePropertyKey =
+
+	const activePrefillingChildModelIdentifier = useTypedSelector(
+		selectActivePrefillingChildIdentifier,
+	);
+
+	const savedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier =
 		useTypedSelector(
-			selectSavedPrefillingNodeByActiveNodeAndActivePropertyKey,
+			selectSavedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier,
 		);
 
-	const savedPrefillingNodeFormFieldSchemaPropertyKeyByActiveNodeAndActivePropertyKey =
+	const savedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier =
 		useTypedSelector(
-			selectSavedPrefillingNodeFormFieldSchemaPropertyKeyByActiveNodeAndActivePropertyKey,
+			selectSavedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier,
 		);
 
 	const savedNodeFormFieldMappingByActiveNodeAndActivePropertyKey =
@@ -95,10 +97,13 @@ function ChildListItemBase({
 			if (prefillingNodeFormFieldSchemaPropertyKey === undefined) return;
 
 			if (
-				activePrefillingNodeFormFieldSchemaPropertyKey !==
+				activePrefillingChildModelIdentifier !==
 				prefillingNodeFormFieldSchemaPropertyKey
 			) {
+				// ***
 				dispatch(setActivePrefillingNodeId(prefillingNode.id));
+				// ***
+
 				dispatch(
 					setActivePrefillingNodeFormFieldMappedPropertyKey(
 						prefillingNodeFormFieldSchemaPropertyKey,
@@ -109,7 +114,7 @@ function ChildListItemBase({
 			_e.stopPropagation();
 		},
 		[
-			activePrefillingNodeFormFieldSchemaPropertyKey,
+			activePrefillingChildModelIdentifier,
 			dispatch,
 			prefillingNodeFormFieldSchemaPropertyKey,
 			prefillingNode,
@@ -118,12 +123,12 @@ function ChildListItemBase({
 
 	const listItemHasActiveMapping = useMemo(
 		() =>
-			activePrefillingNode?.id === prefillingNode.id &&
-			activePrefillingNodeFormFieldSchemaPropertyKey ===
+			activePrefillingParentModelByActiveNode?.id === prefillingNode.id &&
+			activePrefillingChildModelIdentifier ===
 				prefillingNodeFormFieldSchemaPropertyKey,
 		[
-			activePrefillingNode?.id,
-			activePrefillingNodeFormFieldSchemaPropertyKey,
+			activePrefillingParentModelByActiveNode?.id,
+			activePrefillingChildModelIdentifier,
 			prefillingNode.id,
 			prefillingNodeFormFieldSchemaPropertyKey,
 		],
@@ -131,25 +136,25 @@ function ChildListItemBase({
 
 	const listItemHasSavedMapping = useMemo(
 		() =>
-			savedPrefillingNodeByActiveNodeAndActivePropertyKey?.id ===
+			savedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier?.id ===
 				prefillingNode.id &&
-			savedPrefillingNodeFormFieldSchemaPropertyKeyByActiveNodeAndActivePropertyKey ===
+			savedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier ===
 				prefillingNodeFormFieldSchemaPropertyKey,
 		[
 			prefillingNode.id,
 			prefillingNodeFormFieldSchemaPropertyKey,
-			savedPrefillingNodeByActiveNodeAndActivePropertyKey,
-			savedPrefillingNodeFormFieldSchemaPropertyKeyByActiveNodeAndActivePropertyKey,
+			savedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier,
+			savedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier,
 		],
 	);
 
 	const listItemHasUpdatedSavedMapping = useMemo(
 		() =>
 			listItemHasSavedMapping &&
-			activePrefillingNodeFormFieldSchemaPropertyKey !== undefined &&
+			activePrefillingChildModelIdentifier !== undefined &&
 			!listItemHasActiveMapping,
 		[
-			activePrefillingNodeFormFieldSchemaPropertyKey,
+			activePrefillingChildModelIdentifier,
 			listItemHasActiveMapping,
 			listItemHasSavedMapping,
 		],
@@ -198,8 +203,7 @@ function ChildListItemBase({
 			<Row className="flex-1">
 				<Col className="flex-1">{label}</Col>
 				{((listItemHasSavedMapping &&
-					activePrefillingNodeFormFieldSchemaPropertyKey ===
-						undefined) ||
+					activePrefillingChildModelIdentifier === undefined) ||
 					listItemHasActiveAndSavedMapping) && (
 					<Col
 						className="pr-1"
