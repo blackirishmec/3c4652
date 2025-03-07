@@ -38,7 +38,8 @@ import { Col, Row } from '@/components/layout/FlexComponents';
 // 7. Handle global data sources [1hr]
 // 8. Create and implement tests (jest + property based tests?) [2h]
 // 9. Handle new data sources [1hr]
-// 10. Create documentation (ref M-H-A) [30m]
+// 10. // // Create documentation (ref M-H-A) [30m]
+// !- Test
 // 11. Clean up code
 //	- Extract from components into thunks
 // ***
