@@ -169,30 +169,6 @@ export const selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey =
 		},
 	);
 
-export const selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier =
-	createSelector(
-		[
-			selectActiveNode,
-			selectActivePrefillingParentIdentifier,
-			selectNodeFormFieldMappings,
-		],
-		(
-			activeNode,
-			activePrefillingParentIdentifier,
-			savedNodeFormFieldMappings,
-		): NodeFormFieldMapping | undefined => {
-			if (activeNode === undefined) return undefined;
-
-			return savedNodeFormFieldMappings.find(nodeFormFieldMapping => {
-				return (
-					activeNode.id === nodeFormFieldMapping.nodeId &&
-					activePrefillingParentIdentifier ===
-						nodeFormFieldMapping.nodeFormFieldSchemaPropertyKey
-				);
-			});
-		},
-	);
-
 export const createSelectPrefillingNodeLabelByNodeAndPropertyKey = ({
 	nodeId,
 	nodeFormFieldPropertyKey,
@@ -357,7 +333,7 @@ export const selectSavedPrefillingNodeByActiveNodeAndActivePropertyKey =
 export const selectSavedPrefillingModelByActiveNodeAndActivePrefillingParentModelIdentifier =
 	createSelector(
 		[
-			selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
+			selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
 			(state: RootState) => state.nodes.entities,
 			(state: RootState) => state.globalDataSubsets.entities,
 		],
@@ -430,9 +406,7 @@ export const selectSavedPrefillingNodeFormFieldSchemaPropertyKeyByActiveNodeAndA
 
 export const selectSavedPrefillingChildIdentifierByActiveNodeAndActivePrefillingParentModelIdentifier =
 	createSelector(
-		[
-			selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
-		],
+		[selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey],
 		(
 			savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
 		): FormFieldSchemaPropertiesArrayValue['key'] | undefined => {
@@ -490,7 +464,7 @@ export const selectActivePrefillingParentModelByActiveNode = createSelector(
 
 export const selectPrefillingParentModelByActiveNode = createSelector(
 	[
-		selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
+		selectSavedNodeFormFieldMappingByActiveNodeAndActivePropertyKey,
 		(state: RootState) => state.nodes.entities,
 		(state: RootState) => state.globalDataSubsets.entities,
 		selectActivePrefillingParentModelByActiveNode,
