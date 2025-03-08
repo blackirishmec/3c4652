@@ -71,19 +71,28 @@ export const fetchFlowData = createAsyncThunk<
 export const saveSelectedPrefillMapping = createAsyncThunk<
 	void,
 	void,
-	{ dispatch: AppDispatch }
->('flow/fetchFlow', (_, { dispatch, getState }) => {
-	const state = getState() as RootState;
+	{ dispatch: AppDispatch; state: RootState }
+>('flow/saveSelectedPrefillMapping', (_, { dispatch, getState }) => {
+	const state = getState();
+
+	const { activeNodeId } = state.flow;
+	const activeNode = state.nodes.entities[activeNodeId ?? ''];
+	const { activeNodeFormFieldPropertyKey } = state.flow;
+	const { nodeFormFieldMappings } = state.flow;
 
 	const savedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier =
-		selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier(
-			state,
-		);
+		activeNode !== undefined
+			? nodeFormFieldMappings.find(nodeFormFieldMapping => {
+					return (
+						activeNode.id === nodeFormFieldMapping.nodeId &&
+						activeNodeFormFieldPropertyKey ===
+							nodeFormFieldMapping.nodeFormFieldSchemaPropertyKey
+					);
+				})
+			: undefined;
 
-	// ***
 	const virtualActiveNodeFormFieldMapping =
 		selectVirtualActiveNodeFormFieldMapping(state);
-	// ***
 
 	if (virtualActiveNodeFormFieldMapping === undefined) {
 		return;
