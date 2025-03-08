@@ -75,31 +75,6 @@ jest.mock('../src/utilities/Logger', () => ({
 }));
 
 describe('App Component', () => {
-	const mockNodes = [
-		{
-			id: 'node1',
-			type: 'form' as const,
-			position: { x: 0, y: 0 },
-			data: {
-				approval_required: false,
-				approval_roles: [],
-				component_id: 'test-component',
-				component_key: 'test-key',
-				component_type: 'form',
-				id: 'node1',
-				input_mapping: {},
-				name: 'Test Node',
-				permitted_roles: null,
-				prerequisites: null,
-				edge_to: false,
-				edge_from: false,
-				prefill_enabled: true,
-			},
-		},
-	] as Node[];
-
-	const mockEdges = [{ id: 'edge1', source: 'node1', target: 'node2' }];
-
 	const mockActiveNode = {
 		id: 'node1',
 		type: 'form' as const,
@@ -119,7 +94,12 @@ describe('App Component', () => {
 			edge_from: false,
 			prefill_enabled: true,
 		},
+		discriminant: 'Node',
 	} as Node;
+
+	const mockNodes = [mockActiveNode] as Node[];
+
+	const mockEdges = [{ id: 'edge1', source: 'node1', target: 'node2' }];
 
 	const createMockStore = () => {
 		return configureStore({

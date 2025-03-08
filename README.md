@@ -69,7 +69,7 @@
 
 - React hooks
 - Modern ECMAScript features
-- Testing-ready setup with specific patterns for test files
+- Testing-ready with specific patterns for test files (testing via Jest)
 - Factory/Resource patterns
 
 ## Takeaways:
