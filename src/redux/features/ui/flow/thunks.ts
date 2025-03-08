@@ -20,10 +20,7 @@ import {
 	nodeFormFieldMappingIsUpdate,
 	nodeFormFieldMappingsAreEqual,
 } from '@/redux/features/ui/flow/utils';
-import {
-	selectSavedNodeFormFieldMappingByActiveNodeAndActivePrefillingParentModelIdentifier,
-	selectVirtualActiveNodeFormFieldMapping,
-} from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import { selectVirtualActiveNodeFormFieldMapping } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 
 import { transformEdgeResources } from '@/transformers/edgeTransformers';
 import { transformFlowResource } from '@/transformers/flowTransformers';
