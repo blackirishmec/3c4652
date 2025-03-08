@@ -16,16 +16,11 @@ import {
 	removeNodeFormFieldMapping,
 	setActiveNodeFormFieldPropertyKey,
 } from '@/redux/features/ui/flow';
-import {
-	createSelectSavedNodeFormFieldMappingForActiveNodeByChildIdentifier,
-	createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey,
-} from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import { createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import { selectPrefillingEnabledByActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
-
-import isNode from '@/utilities/type_guards/NodeTypeGuards';
 
 import { Col, Row } from '../../layout/FlexComponents';
 
