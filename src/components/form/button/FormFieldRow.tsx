@@ -7,7 +7,7 @@ import type { RowProps } from '../../layout/FlexComponents';
 import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
-import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { FormFieldSchemaPropertiesArrayValue } from '@/types/FormFieldSchemaTypes';
 import type { MouseEvent } from 'react';
 
 import { selectGlobalDataSubsetById } from '@/redux/features/model/globalDataSubsets/selectors';

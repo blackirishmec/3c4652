@@ -1,13 +1,12 @@
-import type {
-	FormFieldSchemaProperties,
-	FormFieldSchemaPropertiesArrayValue,
-	NodeType,
-	PayloadField,
-} from '../types/AvantosTypes';
+import type { NodeType, PayloadField } from '../types/AvantosTypes';
 import type { Edge } from '@/interfaces/models/edgeModels';
 import type { Form } from '@/interfaces/models/formModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { PrefillingModelType } from '@/redux/features/ui/flow';
+import type {
+	FormFieldSchemaProperties,
+	FormFieldSchemaPropertiesArrayValue,
+} from '@/types/FormFieldSchemaTypes';
 
 export interface AvantosApiResponse {
 	nodes: Node[];

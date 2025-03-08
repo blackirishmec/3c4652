@@ -4,7 +4,7 @@ import type { NodeFormFieldMapping } from '@/interfaces/AvantosInterfaces';
 import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
-import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { FormFieldSchemaPropertiesArrayValue } from '@/types/FormFieldSchemaTypes';
 
 import {
 	selectActiveNodeFormFieldPropertyKey,

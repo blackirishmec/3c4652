@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 
 import type { Node } from '@/interfaces/models/nodeModels';
-import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { FormFieldSchemaPropertiesArrayValue } from '@/types/FormFieldSchemaTypes';
 
 import { selectAvailableDataSearchTerm } from '@/redux/features/ui/flow';
 import { createSelectFormFieldSchemaPropertiesArrayByNode } from '@/redux/selectors/relationships/formRelationshipSelectors';

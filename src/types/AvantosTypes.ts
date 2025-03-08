@@ -1,4 +1,3 @@
-import type { FormFieldSchemaProperty } from '@/interfaces/AvantosInterfaces';
 import type { EdgeTypes, NodeTypes } from '@xyflow/react';
 
 import { FormNode } from '@/components/react-flow/nodes/FormNode';
@@ -15,12 +14,3 @@ export const nodeTypes = {
 } satisfies NodeTypes;
 
 export const edgeTypes = {} satisfies EdgeTypes;
-
-export type FormFieldSchemaProperties = Record<string, FormFieldSchemaProperty>;
-
-export type FormFieldSchemaPropertiesArrayValue = FormFieldSchemaProperty & {
-	key: string;
-};
-
-export type FormFieldSchemaPropertiesArray =
-	FormFieldSchemaPropertiesArrayValue[];

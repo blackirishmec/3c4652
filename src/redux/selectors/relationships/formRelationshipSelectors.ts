@@ -7,7 +7,7 @@ import type { RootState } from '@/redux/store';
 import type {
 	FormFieldSchemaProperties,
 	FormFieldSchemaPropertiesArray,
-} from '@/types/AvantosTypes';
+} from '@/types/FormFieldSchemaTypes';
 
 import { selectNodeById } from '@/redux/features/model/nodes';
 import { selectActiveNodeId } from '@/redux/features/ui/flow';

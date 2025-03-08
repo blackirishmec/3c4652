@@ -3,7 +3,7 @@ import type {
 	GlobalDataSubset,
 	GlobalDataSubsetData,
 } from '@/interfaces/models/globalDataModels';
-import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { FormFieldSchemaPropertiesArrayValue } from '@/types/FormFieldSchemaTypes';
 import type { StatusState } from '@/types/StatusTypes';
 import type { Node } from '@xyflow/react';
 

@@ -7,7 +7,7 @@ import type {
 } from '@/interfaces/models/globalDataModels';
 import type { Node } from '@/interfaces/models/nodeModels';
 import type { PrefillingModelType } from '@/redux/features/ui/flow/types';
-import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
+import type { FormFieldSchemaPropertiesArrayValue } from '@/types/FormFieldSchemaTypes';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import {
