@@ -73,6 +73,28 @@ export const createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey = (
 	);
 };
 
+export const createSelectSavedNodeFormFieldMappingForActiveNodeByChildIdentifier =
+	(childIdentifier: FormFieldSchemaPropertiesArrayValue['key']) => {
+		return createSelector(
+			[selectSavedNodeFormFieldMappingsByActiveNode],
+			(
+				savedNodeFormFieldMappingsByActiveNode,
+			): NodeFormFieldMapping | undefined => {
+				if (savedNodeFormFieldMappingsByActiveNode.length === 0)
+					return undefined;
+
+				return savedNodeFormFieldMappingsByActiveNode.find(
+					savedNodeFormFieldMappingByActiveNode => {
+						return (
+							savedNodeFormFieldMappingByActiveNode.prefillingChildIdentifier ===
+							childIdentifier
+						);
+					},
+				);
+			},
+		);
+	};
+
 export const createSelectNodeFormFieldMapping = ({
 	nodeId,
 	nodeFormFieldPropertyKey,

@@ -29,6 +29,7 @@ export function transformNodeResource({
 			data: tempData,
 			position: nodeResource.position,
 			type: nodeResource.type,
+			discriminant: 'Node',
 		},
 	};
 }

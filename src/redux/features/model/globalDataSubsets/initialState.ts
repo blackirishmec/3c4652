@@ -26,6 +26,7 @@ const seededEntities: GlobalDataSubset[] = [
 				},
 			},
 		],
+		discriminant: 'GlobalDataSubset',
 	},
 	{
 		id: 'Organization',
@@ -43,6 +44,7 @@ const seededEntities: GlobalDataSubset[] = [
 				},
 			},
 		],
+		discriminant: 'GlobalDataSubset',
 	},
 ];
 

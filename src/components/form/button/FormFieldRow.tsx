@@ -4,20 +4,28 @@ import clsx from 'clsx';
 import { PiDatabase, PiXCircleFill } from 'react-icons/pi';
 
 import type { RowProps } from '../../layout/FlexComponents';
+import type { GlobalDataSubset } from '@/interfaces/models/globalDataModels';
+import type { Node } from '@/interfaces/models/nodeModels';
 import type { RootState } from '@/redux/store';
 import type { FormFieldSchemaPropertiesArrayValue } from '@/types/AvantosTypes';
 import type { MouseEvent } from 'react';
 
+import { selectGlobalDataSubsetById } from '@/redux/features/model/globalDataSubsets/selectors';
 import { selectNodeById } from '@/redux/features/model/nodes';
 import {
 	removeNodeFormFieldMapping,
 	setActiveNodeFormFieldPropertyKey,
 } from '@/redux/features/ui/flow';
-import { createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey } from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
+import {
+	createSelectSavedNodeFormFieldMappingForActiveNodeByChildIdentifier,
+	createSelectSavedNodeFormFieldMappingForActiveNodeByPropertyKey,
+} from '@/redux/selectors/relationships/nodeFormFieldRelationshipSelectors';
 import { selectPrefillingEnabledByActiveNode } from '@/redux/selectors/relationships/nodeRelationshipSelectors';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useTypedSelector from '@/hooks/useTypedSelector';
+
+import isNode from '@/utilities/type_guards/NodeTypeGuards';
 
 import { Col, Row } from '../../layout/FlexComponents';
 
@@ -71,13 +79,30 @@ function FormFieldRowBase({ property, className }: FormFieldRowProps) {
 			selectSavedNodeFormFieldMappingForActiveNodeByPropertyKey,
 		);
 
-	const prefillingNode = useTypedSelector((state: RootState) =>
-		selectNodeById(
+	// ***
+	const prefillingNode: Node = useTypedSelector((state: RootState) => {
+		return selectNodeById(
 			state,
 			savedNodeFormFieldMappingForActiveNodeByPropertyKey?.prefillingParentIdentifier ??
 				'',
-		),
+		);
+	});
+	const prefillingGlobalDataSubset: GlobalDataSubset = useTypedSelector(
+		(state: RootState) =>
+			selectGlobalDataSubsetById(
+				state,
+				savedNodeFormFieldMappingForActiveNodeByPropertyKey?.prefillingParentIdentifier ??
+					'',
+			),
 	);
+	const prefillingParentModel =
+		savedNodeFormFieldMappingForActiveNodeByPropertyKey?.prefillingModelType ===
+		'Node'
+			? prefillingNode
+			: prefillingGlobalDataSubset;
+
+	// ***
+
 	const prefillingEnabledByActiveNode = useTypedSelector(
 		selectPrefillingEnabledByActiveNode,
 	);
@@ -111,21 +136,23 @@ function FormFieldRowBase({ property, className }: FormFieldRowProps) {
 		[savedNodeFormFieldMappingForActiveNodeByPropertyKey],
 	);
 
-	const rowLabel = useMemo(
-		() =>
-			`${property.key}${
-				prefillingNode !== undefined &&
-				savedNodeFormFieldMappingForActiveNodeByPropertyKey !==
-					undefined
-					? `: ${prefillingNode.data.name}.${savedNodeFormFieldMappingForActiveNodeByPropertyKey.prefillingChildIdentifier}`
-					: ''
-			}`,
-		[
-			prefillingNode,
-			property.key,
-			savedNodeFormFieldMappingForActiveNodeByPropertyKey,
-		],
-	);
+	const rowLabel = useMemo(() => {
+		const prefillingParentModelName =
+			prefillingParentModel?.discriminant === 'Node'
+				? prefillingParentModel.data.name
+				: (prefillingParentModel?.id ?? '');
+
+		return `${property.key}${
+			prefillingParentModel !== undefined &&
+			savedNodeFormFieldMappingForActiveNodeByPropertyKey !== undefined
+				? `: ${prefillingParentModelName}.${savedNodeFormFieldMappingForActiveNodeByPropertyKey.prefillingChildIdentifier}`
+				: ''
+		}`;
+	}, [
+		prefillingParentModel,
+		property.key,
+		savedNodeFormFieldMappingForActiveNodeByPropertyKey,
+	]);
 
 	return (
 		<Row
