@@ -89,18 +89,36 @@ const flowSlice = createSlice({
 
 			state.activeNodeFormFieldPropertyKey =
 				initialState.activeNodeFormFieldPropertyKey;
+
 			state.activePrefillingNodeId = initialState.activePrefillingNodeId;
 			state.activePrefillingNodeFormFieldSchemaPropertyKey =
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+
+			state.activePrefillingModelType =
+				initialState.activePrefillingModelType;
+
+			state.activePrefillingParentIdentifier =
+				initialState.activePrefillingParentIdentifier;
+			state.activePrefillingChildIdentifier =
+				initialState.activePrefillingChildIdentifier;
 		},
 		resetActiveNodeId: state => {
 			state.activeNodeId = initialState.activeNodeId;
 
 			state.activeNodeFormFieldPropertyKey =
 				initialState.activeNodeFormFieldPropertyKey;
+
 			state.activePrefillingNodeId = initialState.activePrefillingNodeId;
 			state.activePrefillingNodeFormFieldSchemaPropertyKey =
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+
+			state.activePrefillingModelType =
+				initialState.activePrefillingModelType;
+
+			state.activePrefillingParentIdentifier =
+				initialState.activePrefillingParentIdentifier;
+			state.activePrefillingChildIdentifier =
+				initialState.activePrefillingChildIdentifier;
 		},
 
 		setActivePrefillingGlobalDataSubsetKey: (
@@ -188,6 +206,14 @@ const flowSlice = createSlice({
 			state.activePrefillingNodeId = initialState.activePrefillingNodeId;
 			state.activePrefillingNodeFormFieldSchemaPropertyKey =
 				initialState.activePrefillingNodeFormFieldSchemaPropertyKey;
+
+			state.activePrefillingModelType =
+				initialState.activePrefillingModelType;
+
+			state.activePrefillingParentIdentifier =
+				initialState.activePrefillingParentIdentifier;
+			state.activePrefillingChildIdentifier =
+				initialState.activePrefillingChildIdentifier;
 		},
 
 		setActivePrefillingNodeId: (

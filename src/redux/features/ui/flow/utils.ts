@@ -24,8 +24,6 @@ export const nodeFormFieldMappingIsUpdate = (
 	return (
 		nodeFormFieldA.nodeId === nodeFormFieldB?.nodeId &&
 		nodeFormFieldA.nodeFormFieldSchemaPropertyKey ===
-			nodeFormFieldB?.nodeFormFieldSchemaPropertyKey &&
-		nodeFormFieldA.prefillingModelType ===
-			nodeFormFieldB?.prefillingModelType
+			nodeFormFieldB?.nodeFormFieldSchemaPropertyKey
 	);
 };
