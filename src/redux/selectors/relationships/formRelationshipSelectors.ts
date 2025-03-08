@@ -54,24 +54,6 @@ export const selectFormByActiveNode = createSelector(
 	},
 );
 
-export const selectFormUISchemaByActiveNode = createSelector(
-	[selectFormByActiveNode],
-	(formByActiveNode): FormUiSchema | undefined => {
-		if (formByActiveNode === undefined) return undefined;
-
-		return formByActiveNode.ui_schema;
-	},
-);
-
-export const selectFormUISchemaElementsByActiveNode = createSelector(
-	[selectFormUISchemaByActiveNode],
-	(formUISchemaByActiveNode): FormUISchemaElement[] => {
-		if (formUISchemaByActiveNode === undefined) return [];
-
-		return formUISchemaByActiveNode.elements;
-	},
-);
-
 export const selectFormFieldSchemaByActiveNode = createSelector(
 	[selectFormByActiveNode],
 	(formByActiveNode): FormFieldSchema | undefined => {
