@@ -74,7 +74,6 @@ function FormFieldRowBase({ property, className }: FormFieldRowProps) {
 			selectSavedNodeFormFieldMappingForActiveNodeByPropertyKey,
 		);
 
-	// ***
 	const prefillingNode: Node = useTypedSelector((state: RootState) => {
 		return selectNodeById(
 			state,
@@ -95,8 +94,6 @@ function FormFieldRowBase({ property, className }: FormFieldRowProps) {
 		'Node'
 			? prefillingNode
 			: prefillingGlobalDataSubset;
-
-	// ***
 
 	const prefillingEnabledByActiveNode = useTypedSelector(
 		selectPrefillingEnabledByActiveNode,

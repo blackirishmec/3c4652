@@ -1,1 +1,1 @@
-import '@testing-library/jest-dom'; // for extended DOM matchers
+import '@testing-library/jest-dom';

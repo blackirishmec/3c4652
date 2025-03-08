@@ -1,7 +1,6 @@
 const path = require('path');
 
 module.exports = {
-	// root: true,
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaFeatures: { jsx: true },
@@ -17,8 +16,8 @@ module.exports = {
 	},
 	extends: [
 		'eslint:recommended',
-		'airbnb', // Airbnb base JS + React rules
-		'airbnb/hooks', // Airbnb React Hooks rules (enforces Hooks best practices)
+		'airbnb',
+		'airbnb/hooks',
 		'airbnb-typescript',
 		'plugin:@typescript-eslint/recommended',
 		'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -66,14 +65,13 @@ module.exports = {
 				'plugin:jest-dom/recommended',
 			],
 			env: { jest: true },
-			// optional loosening of rules for tests
 			rules: {
 				'testing-library/no-render-in-lifecycle': 'error',
 				'testing-library/prefer-explicit-assert': 'error',
 				'testing-library/prefer-presence-queries': 'error',
 				'testing-library/prefer-screen-queries': 'error',
-				'@typescript-eslint/no-explicit-any': 'off', // TODO: Remove this later (need to kill mixins first?)
-				'import/no-extraneous-dependencies': 'off', // Allow importing dev dependencies in test files
+				'@typescript-eslint/no-explicit-any': 'off',
+				'import/no-extraneous-dependencies': 'off',
 			},
 		},
 	],
@@ -122,7 +120,6 @@ module.exports = {
 		'@typescript-eslint/ban-ts-comment': 'warn',
 		'@typescript-eslint/ban-types': 'off',
 
-		// 'import/no-cycle': ['error', { maxDepth: 3 }],
 		'import/no-unresolved': 'error',
 		'import/order': [
 			'error',

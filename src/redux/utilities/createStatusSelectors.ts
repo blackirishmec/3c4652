@@ -9,7 +9,6 @@ import type {
 
 import nameSelectors from '@/redux/utilities/nameSelectors';
 
-// Define the valid keys of selectors
 type StatusSelectors = {
 	error: (state: RootState) => ErrorState;
 	loading: (state: RootState) => LoadingState;
@@ -19,7 +18,6 @@ type StatusSelectors = {
 	loadingIsIdle: (state: RootState) => boolean;
 };
 
-// Main function to create status selectors
 const createStatusSelectors = <Prefix extends string>(
 	prefix: Prefix,
 	statusSelector: (state: RootState) => StatusState,

@@ -1,1 +1,1 @@
-// Fetch global data here
+// *** Fetch global data here

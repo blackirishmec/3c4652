@@ -14,9 +14,7 @@ export const nodeTypes = {
 	form: FormNode,
 } satisfies NodeTypes;
 
-export const edgeTypes = {
-	// Add your custom edge types here!
-} satisfies EdgeTypes;
+export const edgeTypes = {} satisfies EdgeTypes;
 
 export type FormFieldSchemaProperties = Record<string, FormFieldSchemaProperty>;
 

@@ -7,7 +7,6 @@ import type {
 	PayloadAction,
 } from '@reduxjs/toolkit';
 
-// Define a utility type to extract keys where S[K] extends StatusState
 type KeysWithStatusState<S> = {
 	[K in keyof S]: S[K] extends StatusState ? K : never;
 }[keyof S];

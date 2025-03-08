@@ -1,9 +1,7 @@
-// Generate the final type-safe selector keys based on the prefix and selector names
 type PrefixedSelectors<SelectorsType extends {}, Prefix extends string> = {
 	[Key in keyof SelectorsType as `select${Capitalize<Prefix>}${Capitalize<string & Key>}`]: SelectorsType[Key];
 };
 
-// Utility to map and validate selectors with prefix
 const nameSelectors = <SelectorsType extends {}, Prefix extends string>(
 	prefix: Prefix,
 	selectors: SelectorsType,

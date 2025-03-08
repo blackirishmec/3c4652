@@ -6,7 +6,6 @@ const getStackTrace = (): string[] => {
 	return stackLines;
 };
 
-// TODO: {Mon, 07/22/24 @13:35} => Have to integrate source map handling i.e. "Sentry" to use the filePath and lineNumber effectively!
 interface ParseStackTrace {
 	functionName?: string;
 	filePath?: string;
@@ -162,7 +161,6 @@ const getStyledFormattedLogObjectMessage = ({
 
 	const styledObjectName = `${ansiLightSkyBlue}${objectName}${ansiDefault}`;
 
-	// let stringifiedObject = stringify(object, undefined, 4);
 	const stringifiedObject = JSON.stringify(object, null, 4);
 
 	return `${

@@ -1,5 +1,5 @@
 export * from './types';
-// export * from './selectors';
+export * from './selectors';
 export { default as globalDataSubsetAdapter } from './globalDataSubsetsAdapter';
 export {
 	removeAllGlobalDataSubsets,

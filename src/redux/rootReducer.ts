@@ -6,7 +6,6 @@ import { globalDataSubsetsReducer } from '@/redux/features/model/globalDataSubse
 import { nodesReducer } from '@/redux/features/model/nodes';
 import { flowReducer } from '@/redux/features/ui/flow';
 
-// Import other feature reducers as you create them
 const rootReducer = combineReducers({
 	forms: formsReducer,
 	nodes: nodesReducer,
