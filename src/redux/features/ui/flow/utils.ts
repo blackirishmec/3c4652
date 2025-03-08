@@ -11,7 +11,9 @@ export const nodeFormFieldMappingsAreEqual = (
 		nodeFormFieldA.prefillingParentIdentifier ===
 			nodeFormFieldB?.prefillingParentIdentifier &&
 		nodeFormFieldA.prefillingChildIdentifier ===
-			nodeFormFieldB?.prefillingChildIdentifier
+			nodeFormFieldB?.prefillingChildIdentifier &&
+		nodeFormFieldA.prefillingModelType ===
+			nodeFormFieldB?.prefillingModelType
 	);
 };
 
@@ -22,6 +24,8 @@ export const nodeFormFieldMappingIsUpdate = (
 	return (
 		nodeFormFieldA.nodeId === nodeFormFieldB?.nodeId &&
 		nodeFormFieldA.nodeFormFieldSchemaPropertyKey ===
-			nodeFormFieldB?.nodeFormFieldSchemaPropertyKey
+			nodeFormFieldB?.nodeFormFieldSchemaPropertyKey &&
+		nodeFormFieldA.prefillingModelType ===
+			nodeFormFieldB?.prefillingModelType
 	);
 };
