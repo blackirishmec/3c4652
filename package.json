@@ -24,7 +24,7 @@
 		"@tailwindcss/vite": "^4.0.9",
 		"@types/inquirer": "^9.0.7",
 		"@types/redux-mock-store": "^1.5.0",
-		"@xyflow/react": "^12.3.6",
+		"@xyflow/react": "^12.9.0",
 		"axios": "^1.8.1",
 		"clsx": "^2.1.1",
 		"inquirer": "^12.4.2",
